@@ -13,6 +13,10 @@ app.get('/', function(req, res){
     res.sendFile(__dirname + '/client.html');
 });
 
+app.get('/overview', function(req,res){
+    res.sendFile(__dirname + '/overview.html');
+});
+
 io.on('connection', function(socket){
     socket.on('chat message', function(msg){
     first +=1;

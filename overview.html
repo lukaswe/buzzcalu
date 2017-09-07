@@ -1,0 +1,45 @@
+<!--
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>BuzzCaLu Overview Screen</title>
+</head>
+<body>
+Name <br>
+<input type=text name2=pswd><br><br>
+<script language="javascript" type="text/javascript" src="gameserver.js"></script>
+<input type=button value="Buzzer" onClick="playerName('Caro')"><br>
+</body>
+</html>-->
+
+<!doctype html>
+<html>
+<head>
+    <title>BuzzCaLu Overview Screen</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font: 18px Helvetica, Arial; }
+        h1 {font: 32pt Serif; }
+    </style>
+</head>
+<script src="/socket.io/socket.io.js"></script>
+<script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+<script>
+    $(function () {
+        var socket = io();
+        $('form').submit(function(){
+            socket.emit('chat message', $('#m').val());
+            $('#m').val('');
+            return false;
+        });
+        socket.on('chat message', function(msg){
+            $('#messages').append($('<li>').text("erste msg: " + msg));
+            $('#heins').text(msg + " ist dran!");
+        });
+    });
+</script>
+<body>
+<h1 id="heins">Wer ist dran?</h1>
+</body>
+</html>
