@@ -1,0 +1,32 @@
+ 
+Message Labels for socket.io messages
+based on "notes/0_communication_process_v1_20170907.jpeg"
+
+"user application"  -   sent by client.html after name insertion
+                        CONTENT: Name-String
+
+"confirm user"      -   given by game_master.html after user confirmation
+                        Server broadcasts message
+                        --> user is added to players' list
+                        CONTENT: True/False
+
+-----------------------
+
+("game start"        -  given by game_master.html
+                        CONTENT: True/False         )
+                        
+... Question Delivery   NOT YET DEFINED
+
+"enable buzzer"     -   given by server after question is visible on overview
+
+"buzz"              -   Given by client.html after Player's input
+                        CONTENT: Name-String
+                        
+"buzz result"       -   broadcasted by server
+                        CONTENT: Name-Sting of fastest player
+                        
+"confirm answer"    -   given by game_master.html 
+                        after game master checked answer of player
+                        CONTENT: True/False
+                        
+-----------------------
