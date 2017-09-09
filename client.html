@@ -2,15 +2,35 @@
 <html>
 <head>
     <title>Socket.IO chat</title>
+    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
     <style>
-        
+        body {
+            background-color: white;
+            background-image: url("graphics/client.png");
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-position: right bottom;
+            background-size: 20% ;
+            color: white;
+        } h1 {
+            color: black;
+
+        }
+
     </style>
-    
+    <script>
+        var currColor;
+        function changeColor(colorName) {
+            document.body.style.backgroundColor = colorName;
+            currColor = colorName;
+    }
+    </script>
 <!--<script src="/jquery/dist/jquery.js" type="text/javascript"></script>-->
 </head>
 <script src="/socket.io/socket.io.js"></script>
-<script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+
 <script>
+
     $(function () {
         var socket = io();
         socket.on('chat message', function(msg){
@@ -21,6 +41,7 @@
         });
     });
     function send_buzz() {
+        changeColor('grey');
         var socket = io();
         socket.emit('chat message', $('#m').val());
             return false;
@@ -35,7 +56,10 @@
         $('#buzz-text').text("Sei bereit, " + $('#m').val() + "!");
         };
 </script>
+
 <body>
+
+
     <div id="name-div">
     <h1 id="name-header">Bitte Namen eingeben</h1>
     <input id="m" autocomplete="off" /><br>
@@ -46,6 +70,7 @@
     <h1 id="buzz-text">Be Ready ###</h1>
     <button type = "button"
             onclick="send_buzz()"
+
             id="buzzer">
             Buzz!
             </button><br>
