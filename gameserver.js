@@ -2,35 +2,66 @@
  * Created by Caro on 07.09.17.
  */
 
-var geht;
+
 var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
-var first=0;
-var safemsg;
+var x = 0;
+var erster;
 
-app.get('/', function(req, res){
+// Laden von Socket.io
+//(Gibt für die Demo nur Fehler/Warnungen auf der Konsole aus)
+//var io = require('socket.io').listen(app).set('log level', 1);
+
+
+//var socket = io();
+app.get('/', function (req, res) {
     res.sendFile(__dirname + '/client.html');
 });
 
-app.get('/overview', function(req,res){
+app.get('/overview', function (req, res) {
     res.sendFile(__dirname + '/overview.html');
 });
 
-io.on('connection', function(socket){
-    socket.on('chat message', function(msg){
-    first +=1;
+//var socket = io();
 
-        if (first == 1 ) {
-            safemsg = msg;
-            io.emit('chat message', msg);
-            console.log('message: ' + first);
-            console.log('message: ' + safemsg);
+io.on('connection', function (client) {
+    console.log('[socket.io] Ein neuer Client (Browser) hat sich verbunden.\n');
+
+    //socket.emit('welcome', "Hello world");
+
+    //Clients verbinden sich
+    client.on('set nickname', function (nickname) {
+
+        client.nickname = nickname;
+        console.log(nickname + " just connected!");
+        //io.emit(nickname);
+    });
+//});
+
+
+//io.on('send_buzz', function (client) {
+
+//schnellster Buzzer wird ermittelt und an die CLients geschickt
+    client.on('send_buzz', function (buzzer) {
+        console.log("test2 " + buzzer);
+        //var obj2 = ({ "name": $('#nameField').val(),  "pkte": 0});
+        console.log('message: ' + x);
+        x += 1;
+        console.log('message3: ' + x);
+        if (x == 1) {
+            erster = buzzer;
+            client.buzzer = buzzer;
+            io.emit('fastest player', buzzer);
+            console.log('message2: ' + x);
+
         }
+        // socket.emit("Neuer Spieler: " + obj2.name + "Punkte: " + obj2.pkte);
     });
 });
 
-http.listen(3000, function(){
+
+http.listen(3000, function () {
     console.log('listening on *:3000');
 });
 

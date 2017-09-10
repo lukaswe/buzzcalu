@@ -1,0 +1,70 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/*Caro ab*/
+body {
+    font: 13px Helvetica, Arial;
+
+    background: white url("graphics/client.png") no-repeat;
+    width: 460px;
+    height: 124px;
+    background-size: 20%;
+    color: white;
+}
+
+h1 {
+    color: red;
+    text-align: center;
+
+}
+
+form {
+    border: black;
+    border-style: solid;
+    border-width: 5px;
+    background: white;
+    padding: 3px;
+    position: fixed;
+    left: 30%;
+    bottom: 33%;
+    width: 30%;
+}
+
+form input {
+    border: black;
+    border-style: solid;
+    padding: 10px;
+    text-align: center;
+    width: 100%;
+    margin-right: .5%;
+}
+
+form button {
+    width: 33%;
+    background: rgb(130, 224, 255);
+    position: relative;
+    left: 33%;
+    border: none;
+    padding: 10px;
+}
+
+/*Caro bis*/
+
+#nameField {
+
+}
+
+#nameField li {
+
+}
+
+#nameField li:nth-child(odd) {
+    background: #eee;
+}
+
+#buzzer li:nth-child(odd) {
+    background: #eee;
+}
