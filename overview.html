@@ -1,38 +1,124 @@
-<!--
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>BuzzCaLu Overview Screen</title>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
 </head>
-<body>
-Name <br>
-<input type=text name2=pswd><br><br>
-<script language="javascript" type="text/javascript" src="gameserver.js"></script>
-<input type=button value="Buzzer" onClick="playerName('Caro')"><br>
-</body>
-</html>-->
 
-<!doctype html>
-<html>
-<head>
-    <title>BuzzCaLu Overview Screen</title>
-    <style>
-        
-    </style>
-</head>
-<script src="/socket.io/socket.io.js"></script>
-<script src="https://code.jquery.com/jquery-1.11.1.js"></script>
 <script>
-    $(function () {
-        var socket = io();
 
-        socket.on('chat message', function(msg){
-            $('#heins').text(msg + " ist dran!");
+    var socket = io.connect();
+    var playerArray = new Array;
+
+
+        //Clients verbinden sich
+        socket.on('playerList', function (nicknameObj) {
+            //Array mit Spielern füllen
+            playerArray.push(nicknameObj);
+            console.log(nicknameObj.nickname + " just connected!");
+            //Tabelle bauen
+            start();
         });
+  //  });
+    playerArray.forEach(function (player) {
+        console.log("player");
     });
+    //});
+
+
+    //Spieler in Tabelle eintragen
+    function start() {
+        var tbody = document.getElementById("ctbody");
+        console.log("in start");
+        renderRows(tbody);
+
+    }
+    function renderRows(tbody) {
+        tbody.innerHTML = '';
+        console.log("in render ROws");
+
+        //playerArray = JSON.parse(playerArray);
+        console.log("playerArray: " + playerArray);
+        playerArray.forEach(function (player) {
+            //neue Zelie
+            console.log("player: " + player);
+            var row = document.createElement("tr");
+
+            //neue Spalten
+            var playerNameTd = document.createElement("td"),
+                    playerPkteTd = document.createElement("td");
+                   // playerXoxoTd = document.createElement("button");
+
+            playerNameTd.appendChild(document.createTextNode(player.nickname));
+            playerPkteTd.appendChild(document.createTextNode(player.pkte));
+           // playerXoxoTd.appendChild(document.createTextNode("Eintrag entfernen"));
+
+            row.appendChild(playerNameTd);
+            row.appendChild(playerPkteTd);
+           // row.appendChild(playerXoxoTd);
+
+            //Eintrag entfernen
+         //   playerXoxoTd.onclick = function () {
+          //      row.parentElement.removeChild(row);
+                //entfernen(player);
+
+            //}
+
+            tbody.appendChild(row);
+
+
+        });
+    }
+
+    socket.on('fastest player', function (player) {
+        //document.getElementById("erster-text").innerHTML = player;
+        $('#erster-text').text(player);
+    });
+
 </script>
+
+
+
+
 <body>
+
+<div><h1 id="heins">Wer ist dabei?</h1></div>
+<div class="col-lg-5" style="margin-left: 50px">
+
+    <table id="playerTable" class="dataList table">
+        <thead>
+        <tr>
+            <th style="padding-right: 60px">Name</th>
+            <th style="padding-right: 80px">Punktzahl</th>
+          <!--  <th style="padding-right: 25px">xoxo</th>
+            <th style="padding-right: 25px"></th>-->
+
+        </tr>
+        </thead>
+        <tbody id="ctbody">
+        <tr>
+            <td style="padding-right: 60px"></td>
+            <td style="padding-right: 80px"></td>
+            <!--   <td style="padding-right: 25px"></td>
+               <td style="padding-right: 25px"></td>-->
+
+        </tr>
+
+
+        </tbody>
+
+        <!-- Placeholder -->
+    </table>
+
+</div>
+
 <div><h1 id="heins">Wer ist dran?</h1></div>
+
+
+<div id = "erster">
+    <h3 id="erster-text"> ... </h3>
+</div>
 </body>
 </html>

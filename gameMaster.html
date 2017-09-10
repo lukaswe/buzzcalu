@@ -1,0 +1,49 @@
+<!--
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>test</title>
+</head>
+<body>
+Name <br>
+<input type=text name2=pswd><br><br>
+<script language="javascript" type="text/javascript" src="gameserver.js"></script>
+<input type=button value="Buzzer" onClick="playerName('Caro')"><br>
+</body>
+</html>-->
+
+<!doctype html>
+<html>
+<head>
+    <title>Socket.IO chat</title>
+    <style>
+        
+    </style>
+</head> 
+<script src="/socket.io/socket.io.js"></script>
+<script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+<script>
+    $(function () {
+        var socket = io();
+        $('form').submit(function(){
+            socket.emit('chat message', $('#m').val());
+            $('#m').val('');
+            return false;
+        });
+    });
+</script>
+<script>
+    function save_name() {
+        document.getElementById("m").disabled = true;
+        document.getElementById("savename").disabled = true;
+        };
+</script>
+<body>
+<form action="">
+    <input id="m" autocomplete="off" /><br>
+    <button type = "button" id = "savename" onclick="save_name()">Save Name</button><br>
+    <button type = "submit">Buzz!</button>
+</form>
+</body>
+</html>

@@ -49,7 +49,7 @@
     }
     ;
 
-    var text = ('{"name"}')
+   // var text = ('{"name"}')
     function save_name() {
         document.getElementById("nameField").disabled = true;
         document.getElementById("savenameBtn").disabled = true;
@@ -58,7 +58,7 @@
 
         var obj = ({"nickname": $('#nameField').val(), "pkte": 0});
         console.log("Hallo " + obj.nickname);
-        socket.emit('set nickname', obj.nickname);
+        socket.emit('set nickname', obj);
         // var myJSON = JSON.stringify(obj);
         $('#buzz-text').text("Sei bereit, " + obj.nickname + "!");
     }

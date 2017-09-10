@@ -8,13 +8,14 @@ var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var x = 0;
 var erster;
+var playerArray = new Array;
+
 
 // Laden von Socket.io
 //(Gibt für die Demo nur Fehler/Warnungen auf der Konsole aus)
 //var io = require('socket.io').listen(app).set('log level', 1);
 
 
-//var socket = io();
 app.get('/', function (req, res) {
     res.sendFile(__dirname + '/client.html');
 });
@@ -27,15 +28,16 @@ app.get('/overview', function (req, res) {
 
 io.on('connection', function (client) {
     console.log('[socket.io] Ein neuer Client (Browser) hat sich verbunden.\n');
-
+    //playerArray.push(client);
     //socket.emit('welcome', "Hello world");
 
     //Clients verbinden sich
-    client.on('set nickname', function (nickname) {
+    client.on('set nickname', function (nicknameObj) {
 
-        client.nickname = nickname;
-        console.log(nickname + " just connected!");
-        //io.emit(nickname);
+        client.nicknameObj = nicknameObj;
+
+        console.log(nicknameObj.nickname + " just connected!");
+        io.emit('playerList', nicknameObj);
     });
 //});
 
@@ -64,5 +66,4 @@ io.on('connection', function (client) {
 http.listen(3000, function () {
     console.log('listening on *:3000');
 });
-
 
