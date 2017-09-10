@@ -1,49 +1,57 @@
-<!--
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>test</title>
-</head>
-<body>
-Name <br>
-<input type=text name2=pswd><br><br>
-<script language="javascript" type="text/javascript" src="gameserver.js"></script>
-<input type=button value="Buzzer" onClick="playerName('Caro')"><br>
-</body>
-</html>-->
-
 <!doctype html>
 <html>
 <head>
-    <title>Socket.IO chat</title>
-    <style>
-        
-    </style>
-</head> 
-<script src="/socket.io/socket.io.js"></script>
-<script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+    <meta charset="UTF-8">
+    <title>BuzzCaLu Overview Screen</title>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+</head>
+
+
 <script>
-    $(function () {
-        var socket = io();
-        $('form').submit(function(){
-            socket.emit('chat message', $('#m').val());
-            $('#m').val('');
-            return false;
-        });
+    var socket = io.connect();
+    var schnellster;
+    var playerArray = new Array;
+    /**Client-Server Komunikation**/
+    //Clients verbinden sich
+    socket.on('playerList', function (nicknameObj) {
+        //Array mit Spielern füllen
+        playerArray.push(nicknameObj);
+        console.log(nicknameObj.nickname + " just connected!");
+        //Tabelle bauen
+
     });
-</script>
-<script>
-    function save_name() {
-        document.getElementById("m").disabled = true;
-        document.getElementById("savename").disabled = true;
-        };
+
+    socket.on('fastest player', function (player) {
+        //document.getElementById("erster-text").innerHTML = player;
+        $('#schnellster-text').text(player.nickname);
+        schnellster = player;
+        //$('#erster-text').text(player);
+    });
+
+    /**Seitenspezifische Funktionalitäten**/
+    function trueAnswer(){
+        console.log("schnellster: " + schnellster.nickname);
+        schnellster.pkte += 100;
+        console.log("schnellster: " + schnellster.pkte);
+        //FUNZT NOCH NICHT!!!
+        socket.emit('punkteAktualisiert', schnellster);
+
+    }
+
+    function falseAnswer(){
+
+    }
+
 </script>
 <body>
 <form action="">
-    <input id="m" autocomplete="off" /><br>
-    <button type = "button" id = "savename" onclick="save_name()">Save Name</button><br>
-    <button type = "submit">Buzz!</button>
+    <!--<input id="m" autocomplete="off" /><br>-->
+    <button type = "button" id = "rightAnswer" onclick="trueAnswer()">Right</button><br>
+    <button type = "button" id = "wrongAnswer" onclick="falseAnswer()">Wrong</button><br>
+    <!--<button type = "submit">Buzz!</button>-->
 </form>
+<div id = "schnellster">
+    <h3 id="schnellster-text"> ... </h3>
 </body>
 </html>

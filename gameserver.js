@@ -24,6 +24,10 @@ app.get('/overview', function (req, res) {
     res.sendFile(__dirname + '/overview.html');
 });
 
+app.get('/gamemaster', function (req, res) {
+    res.sendFile(__dirname + '/gameMaster.html');
+});
+
 //var socket = io();
 
 io.on('connection', function (client) {
@@ -54,8 +58,10 @@ io.on('connection', function (client) {
         if (x == 1) {
             erster = buzzer;
             client.buzzer = buzzer;
+            console.log('message3: ' + buzzer);
+            console.log('message4: ' + buzzer.nickname);
             io.emit('fastest player', buzzer);
-            console.log('message2: ' + x);
+
 
         }
         // socket.emit("Neuer Spieler: " + obj2.name + "Punkte: " + obj2.pkte);
