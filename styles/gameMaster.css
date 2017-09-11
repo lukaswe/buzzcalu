@@ -1,3 +1,31 @@
 .answbtn-css{
     float: left;
+    cursor: pointer;
+}
+.questionContainer2-css{
+    position: fixed;
+    left: 45%;
+    right: 5%;
+    top: 100px;
+    /*  bottom: 100px;*/
+    height: 204px;
+    width: 50%;
+    border-top: 3px solid;
+    background: #E0E0E0;
+}
+
+.questionBoxes2-css{
+
+    border: 5px solid;
+    -webkit-border-radius: 12px;
+    border-radius: 5px;
+    font: normal 16px/1 Arial, Helvetica, sans-serif;
+    color: rgba(0, 0, 0, 1);
+    text-align: center;
+
+    background: #22a5d8;
+    -webkit-box-shadow: 1px 1px 1px 0 rgba(0, 0, 0, 0.3);
+    box-shadow: 1px 1px 1px 0 rgba(0, 0, 0, 0.3);
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
 }

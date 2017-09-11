@@ -24,12 +24,13 @@
     box-shadow: 1px 1px 1px 0 rgba(0, 0, 0, 0.3);
     text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
 }
-.playerNameBoxes-css:last-child{
+
+.playerNameBoxes-css:last-child {
 
 }
 
 /*Footer*/
-.playerNameContainer{
+.playerNameContainer {
     position: fixed;
     left: 0px;
     bottom: 0px;
@@ -39,3 +40,45 @@
     background: #E0E0E0;
 }
 
+.questionContainer-css {
+    position: fixed;
+    left: 10%;
+    right: 10%;
+    top: 100px;
+    /*  bottom: 100px;*/
+    height: 204px;
+    width: 80%;
+    border-top: 3px solid;
+    background: #E0E0E0;
+}
+
+.questionBoxes-css {
+
+
+    border: 5px solid;
+    -webkit-border-radius: 12px;
+    border-radius: 5px;
+    font: normal 16px/1 Arial, Helvetica, sans-serif;
+    color: rgba(0, 0, 0, 1);
+    text-align: center;
+
+    background: #22a5d8;
+    -webkit-box-shadow: 1px 1px 1px 0 rgba(0, 0, 0, 0.3);
+    box-shadow: 1px 1px 1px 0 rgba(0, 0, 0, 0.3);
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+.questionUeberschrift-css {
+
+    font: normal 16px/1 Arial, Helvetica, sans-serif;
+
+    text-align: left;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+}
+th {
+    border-right: 2px solid #000;
+}
+td{
+    width: 25%;
+    height: 30px;
+}

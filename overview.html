@@ -12,6 +12,7 @@
 
     var socket = io.connect();
     var playerArray = new Array;
+    var questionArray = new Array;
     var i = 1;
     //wert muss noch variabel werden
 
@@ -54,6 +55,11 @@
         $('#erster-text').text(player.nickname);
     });
 
+    socket.on('questionStart', function (questionArray) {
+        this.questionArray = questionArray;
+        questionStart2(questionArray);
+    });
+
 
     //Blaue Namensfelder werden befüllt
     function fillNameFields() {
@@ -69,6 +75,18 @@
     }
 
 
+    //Frage in Tabelle eintragen
+    function questionStart2(questionArray) {
+        var j = 0;
+        questionArray.forEach(function (question) {
+            console.log("question: " + question);
+            $('#question-text' + [j]).text(question);
+            document.getElementById("question-text" + [j]).style = "visibility:visible;";
+            j++;
+        });
+    }
+
+
 </script>
 
 
@@ -76,11 +94,67 @@
 
 
 <div><h1 id="heins">Wer ist dran?</h1></div>
-
-
 <div id="erster">
     <h3 id="erster-text"> ... </h3>
 </div>
+
+
+
+<!--Fragen Tabelle-->
+<div class="questionContainer-css">
+
+    <table id="playerTable" class="questionUeberschrift-css">
+        <thead>
+        <tr>
+            <th style="padding-left: 25px">Mainstockheim</th>
+            <th style="padding-left: 25px">Familie</th>
+            <th style="padding-left: 25px">Skuriles</th>
+            <th style="padding-left: 25px">Romantisch</th>
+
+        </tr>
+        </thead>
+        <tbody id="ctbody">
+        <tr>
+
+          <!--  <td class="questionBoxes-css" id="question-text0" style="visibility:hidden;">Question</td>-->
+            <td class="questionBoxes-css" id="question-text0">100</td>
+            <td class="questionBoxes-css" id="question-text1">100</td>
+            <td class="questionBoxes-css" id="question-text2">100</td>
+            <td class="questionBoxes-css" id="question-text3">100</td>
+        </tr>
+        <tr>
+            <td class="questionBoxes-css" id="question-text4" >200</td>
+            <td class="questionBoxes-css" id="question-text5" >200</td>
+            <td class="questionBoxes-css" id="question-text6" >200</td>
+            <td class="questionBoxes-css" id="question-text7" >200</td>
+        </tr>
+        <tr>
+            <td class="questionBoxes-css" id="question-text8" >300</td>
+            <td class="questionBoxes-css" id="question-text9" >300</td>
+            <td class="questionBoxes-css" id="question-text10" >300</td>
+            <td class="questionBoxes-css" id="question-text11" >300</td>
+
+
+        </tr>
+        <tr>
+            <td class="questionBoxes-css" id="question-text12" >400</td>
+            <td class="questionBoxes-css" id="question-text13" >400</td>
+            <td class="questionBoxes-css" id="question-text14" >400</td>
+            <td class="questionBoxes-css" id="question-text15" >400</td>
+
+
+        </tr>
+
+
+        </tbody>
+
+        <!-- Placeholder -->
+    </table>
+
+</div>
+
+
+<!-- beigetretene Spieler Anzeige -->
 <ul class="playerNameContainer">
     <ul class="playerNameBoxes-css" id="player1-name" style="visibility:hidden;">Enjoy</ul>
     <ul class="playerNameBoxes-css" id="player2-name" style="visibility:hidden;">Enjoy</ul>

@@ -61,8 +61,7 @@ io.on('connection', function (client) {
         io.emit('playerList', nicknameObj);
     });
 
-
-//schnellster Buzzer wird ermittelt und an die CLients geschickt
+    //schnellster Buzzer wird ermittelt und an die CLients geschickt
     client.on('send_buzz', function (buzzer) {
         console.log("test2 " + buzzer);
         //var obj2 = ({ "name": $('#nameField').val(),  "pkte": 0});
@@ -78,6 +77,11 @@ io.on('connection', function (client) {
 
 
         }
+    });
+
+    client.on('questionStart', function (questionArray) {
+        console.log("questionStart");
+        io.emit('questionStart',questionArray);
     });
 
     client.on('trueAnswer', function (schnellster) {

@@ -14,6 +14,13 @@
     var schnellster;
     var playerArray = new Array;
     var fragenPunkte = 100;
+    var questionArray = new Array
+    /* var questionObj = ({"question": "Hast du Eier?"});
+     var questionObj2 = ({"question": "Oder Gemuese?"});
+     questionArray =[questionObj,questionObj2];
+     */
+    questionArray = ["Hast du Eier?", "Oder Gemuese?", "Vielleicht Katzen?", "Haben Fliegen Flügel?", "Was zur Hölle?"];
+
     /**Client-Server Kommunikation**/
         //Clients verbinden sich
     socket.on('playerList', function (nicknameObj) {
@@ -33,52 +40,33 @@
 
     /**Seitenspezifische Funktionalitäten**/
     function trueAnswer() {
-        console.log("schnellster: " + this.schnellster.nickname);
-        console.log("schnellster: " + this.schnellster.pkte);
         schnellster.pkte += fragenPunkte;
-        console.log(schnellster.nickname + " kriegt leider keine Punkte!!");
         playerArray.forEach(function (player) {
             if (schnellster.nickname == player.nickname) {
-                console.log("player.pkte: " + player.pkte);
                 player.pkte = schnellster.pkte;
-                console.log(player.nickname + " kriegt Punkte!!");
                 socket.emit('trueAnswer', player);
-
             }
-
         });
 
     }
 
     function wrongAnswer() {
-        console.log("schnellster: " + schnellster.nickname);
-        console.log("schnellster: " + schnellster.pkte);
         schnellster.pkte -= fragenPunkte;
         playerArray.forEach(function (player) {
             if (schnellster.nickname == player.nickname) {
-                console.log("player.pkte: " + player.pkte);
                 player.pkte = schnellster.pkte;
-                console.log(player.nickname + " kriegt minus Punkte!!");
                 socket.emit('wrongAnswer', player);
             }
         });
     }
     ;
 
-    socket.on('aktPlaya', function (playa) {
-        this.schnellster = playa;
-    });
-
     socket.on('trueAnswer', function (playa) {
         this.schnellster = playa;
-        console.log(schnellster.nickname + " kriegt Punkte!!");
-        console.log(schnellster.pkte + "  Punkte!!  " + playa.pkte);
-
     });
+
     socket.on('wrongAnswer', function (playa) {
         this.schnellster = playa;
-        console.log(schnellster.nickname + " kriegt leider keine Punkte!!");
-
     });
 
 
@@ -129,10 +117,34 @@
         });
     }
 
+
+    function questionStart() {
+        socket.emit('questionStart', questionArray);
+        var j = 0;
+        questionArray.forEach(function (question) {
+            console.log("question: " + question);
+            $('#question-text' + [j]).text(question);
+            document.getElementById("question-text" + [j]).style = "visibility:visible;";
+            j++;
+        });
+    }
+
+    function showQuestion(){
+        console.log("btn funzt.");
+    }
+
+
 </script>
 <body>
 
-
+<button class="answbtn-css"
+        type="button"
+        id="questionStart"
+        onclick="questionStart()">questionStart
+</button>
+</br>
+</br>
+</br>
 <div><h1 id="heins">Wer ist dabei?</h1></div>
 <div class="col-lg-5" style="margin-left: 50px">
 
@@ -162,6 +174,60 @@
     </table>
 
 </div>
+<!--Fragen Tabelle-->
+<div class="questionContainer2-css">
+
+    <table id="questionTable" class="questionUeberschrift-css">
+        <thead>
+        <tr>
+            <th style="padding-left: 25px">Mainstockheim</th>
+            <th style="padding-left: 25px">Familie</th>
+            <th style="padding-left: 25px">Skuriles</th>
+            <th style="padding-left: 25px">Romantisch</th>
+
+        </tr>
+        </thead>
+        <tbody id="ctbody2">
+        <tr>
+
+            <!--  <td class="questionBoxes-css" id="question-text0" style="visibility:hidden;">Question</td>-->
+            <td type="button" class="questionBoxes2-css" onclick="showQuestion()" id="question-text0">100</td>
+            <td class="questionBoxes2-css" onclick="showQuestion()" id="question-text1">100</td>
+            <td class="questionBoxes2-css" onclick="showQuestion()" id="question-text2">100</td>
+            <td class="questionBoxes2-css" onclick="showQuestion()" id="question-text3">100</td>
+        </tr>
+        <tr>
+            <td class="questionBoxes2-css" onclick="showQuestion()" id="question-text4">200</td>
+            <td class="questionBoxes2-css" onclick="showQuestion()" id="question-text5">200</td>
+            <td class="questionBoxes2-css" onclick="showQuestion()" id="question-text6">200</td>
+            <td class="questionBoxes2-css" onclick="showQuestion()" id="question-text7">200</td>
+        </tr>
+        <tr>
+            <td class="questionBoxes2-css" onclick="showQuestion()" id="question-text8">300</td>
+            <td class="questionBoxes2-css" onclick="showQuestion()" id="question-text9">300</td>
+            <td class="questionBoxes2-css" onclick="showQuestion()" id="question-text10">300</td>
+            <td class="questionBoxes2-css" onclick="showQuestion()" id="question-text11">300</td>
+
+
+        </tr>
+        <tr>
+            <td class="questionBoxes2-css" id="question-text12">400</td>
+            <td class="questionBoxes2-css" id="question-text13">400</td>
+            <td class="questionBoxes2-css" id="question-text14">400</td>
+            <td class="questionBoxes2-css" id="question-text15">400</td>
+
+
+        </tr>
+
+
+        </tbody>
+
+        <!-- Placeholder -->
+    </table>
+
+</div>
+
+
 </br>
 </br>
 </br>
