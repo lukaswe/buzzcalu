@@ -11,7 +11,6 @@ var erster;
 var playerArray = new Array;
 
 
-// Laden von Socket.io
 //(Gibt für die Demo nur Fehler/Warnungen auf der Konsole aus)
 //var io = require('socket.io').listen(app).set('log level', 1);
 
@@ -39,25 +38,29 @@ app.get('/styles/gameMaster.css', function (req, res) {
     res.sendFile(__dirname + '/styles/gameMaster.css');
 });
 
+app.get('/js/client.js', function (req, res) {
+    res.sendFile(__dirname + '/js/client.js');
+});
+app.get('/js/gameMaster.js', function (req, res) {
+    res.sendFile(__dirname + '/js/gameMaster.js');
+});
+app.get('/js/overview.js', function (req, res) {
+    res.sendFile(__dirname + '/js/overview.js');
+});
 //var socket = io();
 
 io.on('connection', function (client) {
     console.log('[socket.io] Ein neuer Client (Browser) hat sich verbunden.\n');
-    //playerArray.push(client);
-    //socket.emit('welcome', "Hello world");
 
     //Clients verbinden sich
     client.on('set nickname', function (nicknameObj) {
 
         client.nicknameObj = nicknameObj;
-
+        //  playerArray.push(nicknameObj);
         console.log(nicknameObj.nickname + " just connected!");
         io.emit('playerList', nicknameObj);
     });
-//});
 
-
-//io.on('send_buzz', function (client) {
 
 //schnellster Buzzer wird ermittelt und an die CLients geschickt
     client.on('send_buzz', function (buzzer) {
@@ -75,8 +78,20 @@ io.on('connection', function (client) {
 
 
         }
-        // socket.emit("Neuer Spieler: " + obj2.name + "Punkte: " + obj2.pkte);
     });
+
+    client.on('trueAnswer', function (schnellster) {
+
+        console.log(schnellster.nickname + " kriegt Punkte!!");
+        io.emit('trueAnswer', schnellster);
+
+    });
+
+    client.on('wrongAnswer', function (schnellster) {
+        console.log("schnellster.pkte: " + schnellster.pkte);
+        io.emit('wrongAnswer', schnellster);
+    });
+
 });
 
 

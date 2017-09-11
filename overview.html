@@ -13,6 +13,7 @@
     var socket = io.connect();
     var playerArray = new Array;
     var i = 1;
+    //wert muss noch variabel werden
 
 
     //Clients verbinden sich
@@ -20,17 +21,32 @@
         //Array mit Spielern füllen
         playerArray.push(nicknameObj);
         console.log(nicknameObj.nickname + " just connected!");
-        //Tabelle bauen
-        start();
+
         fillNameFields();
     });
 
-    socket.on('punkteAktualisiert', function (schnellster) {
-        //Array mit Spielern füllen
-        playerArray.push(schnellster);
-        console.log(schnellster.nickname + " kriegt Punkte!!");
-        //Tabelle bauen
-        start();
+
+    socket.on('trueAnswer', function (schnellster) {
+        playerArray.forEach(function (player) {
+            if (schnellster.nickname == player.nickname) {
+                console.log("player.pkte: " + player.pkte);
+                player.pkte = schnellster.pkte;
+                fillNameFields();
+            }
+
+        });
+    });
+
+
+    socket.on('wrongAnswer', function (schnellster) {
+        playerArray.forEach(function (player) {
+            if (schnellster.nickname == player.nickname) {
+                console.log("player.pkte: " + player.pkte);
+                player.pkte = schnellster.pkte;
+                fillNameFields();
+            }
+
+        });
     });
 
     socket.on('fastest player', function (player) {
@@ -38,52 +54,6 @@
         $('#erster-text').text(player.nickname);
     });
 
-
-    //Spieler in Tabelle eintragen
-    function start() {
-        var tbody = document.getElementById("ctbody");
-        console.log("in start");
-        renderRows(tbody);
-
-    }
-    function renderRows(tbody) {
-        tbody.innerHTML = '';
-        console.log("in render ROws");
-
-        //playerArray = JSON.parse(playerArray);
-        console.log("playerArray: " + playerArray);
-        playerArray.forEach(function (player) {
-            //neue Zelie
-            console.log("player: " + player.pkte);
-            var row = document.createElement("tr");
-
-            //neue Spalten
-            var playerNameTd = document.createElement("td"),
-                    playerPkteTd = document.createElement("td");
-            // playerXoxoTd = document.createElement("button");
-
-            playerNameTd.appendChild(document.createTextNode(player.nickname));
-            playerPkteTd.appendChild(document.createTextNode(player.pkte));
-
-            //   playerPkteTd.appendChild(document.createTextNode(player.pkte));
-            // playerXoxoTd.appendChild(document.createTextNode("Eintrag entfernen"));
-
-            row.appendChild(playerNameTd);
-            row.appendChild(playerPkteTd);
-            // row.appendChild(playerXoxoTd);
-
-            //Eintrag entfernen
-            //   playerXoxoTd.onclick = function () {
-            //      row.parentElement.removeChild(row);
-            //entfernen(player);
-
-            //}
-
-            tbody.appendChild(row);
-
-
-        });
-    }
 
     //Blaue Namensfelder werden befüllt
     function fillNameFields() {
@@ -104,35 +74,6 @@
 
 <body>
 
-<div><h1 id="heins">Wer ist dabei?</h1></div>
-<div class="col-lg-5" style="margin-left: 50px">
-
-    <table id="playerTable" class="dataList table">
-        <thead>
-        <tr>
-            <th style="padding-right: 60px">Name</th>
-            <th style="padding-right: 80px">Punktzahl</th>
-            <!--  <th style="padding-right: 25px">xoxo</th>
-              <th style="padding-right: 25px"></th>-->
-
-        </tr>
-        </thead>
-        <tbody id="ctbody">
-        <tr>
-            <td style="padding-right: 60px"></td>
-            <td style="padding-right: 80px"></td>
-            <!--   <td style="padding-right: 25px"></td>
-               <td style="padding-right: 25px"></td>-->
-
-        </tr>
-
-
-        </tbody>
-
-        <!-- Placeholder -->
-    </table>
-
-</div>
 
 <div><h1 id="heins">Wer ist dran?</h1></div>
 

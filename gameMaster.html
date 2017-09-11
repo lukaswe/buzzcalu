@@ -13,13 +13,14 @@
     var socket = io.connect();
     var schnellster;
     var playerArray = new Array;
+    var fragenPunkte = 100;
     /**Client-Server Kommunikation**/
-    //Clients verbinden sich
+        //Clients verbinden sich
     socket.on('playerList', function (nicknameObj) {
         //Array mit Spielern füllen
         playerArray.push(nicknameObj);
         console.log(nicknameObj.nickname + " just connected!");
-        //Tabelle bauen
+        start();
 
     });
 
@@ -31,28 +32,164 @@
     });
 
     /**Seitenspezifische Funktionalitäten**/
-    function trueAnswer(){
-        console.log("schnellster: " + schnellster.nickname);
-        schnellster.pkte += 100;
-        console.log("schnellster: " + schnellster.pkte);
-        //FUNZT NOCH NICHT!!!
-        socket.emit('punkteAktualisiert', schnellster);
+    function trueAnswer() {
+        console.log("schnellster: " + this.schnellster.nickname);
+        console.log("schnellster: " + this.schnellster.pkte);
+        schnellster.pkte += fragenPunkte;
+        console.log(schnellster.nickname + " kriegt leider keine Punkte!!");
+        playerArray.forEach(function (player) {
+            if (schnellster.nickname == player.nickname) {
+                console.log("player.pkte: " + player.pkte);
+                player.pkte = schnellster.pkte;
+                console.log(player.nickname + " kriegt Punkte!!");
+                socket.emit('trueAnswer', player);
+
+            }
+
+        });
 
     }
 
-    function falseAnswer(){
+    function wrongAnswer() {
+        console.log("schnellster: " + schnellster.nickname);
+        console.log("schnellster: " + schnellster.pkte);
+        schnellster.pkte -= fragenPunkte;
+        playerArray.forEach(function (player) {
+            if (schnellster.nickname == player.nickname) {
+                console.log("player.pkte: " + player.pkte);
+                player.pkte = schnellster.pkte;
+                console.log(player.nickname + " kriegt minus Punkte!!");
+                socket.emit('wrongAnswer', player);
+            }
+        });
+    }
+    ;
 
+    socket.on('aktPlaya', function (playa) {
+        this.schnellster = playa;
+    });
+
+    socket.on('trueAnswer', function (playa) {
+        this.schnellster = playa;
+        console.log(schnellster.nickname + " kriegt Punkte!!");
+        console.log(schnellster.pkte + "  Punkte!!  " + playa.pkte);
+
+    });
+    socket.on('wrongAnswer', function (playa) {
+        this.schnellster = playa;
+        console.log(schnellster.nickname + " kriegt leider keine Punkte!!");
+
+    });
+
+
+    //Spieler in Tabelle eintragen
+    function start() {
+        var tbody = document.getElementById("ctbody");
+        console.log("in start");
+        renderRows(tbody);
+
+    }
+
+    function renderRows(tbody) {
+        tbody.innerHTML = '';
+        console.log("in render ROws");
+
+        //playerArray = JSON.parse(playerArray);
+        console.log("playerArray: " + playerArray);
+        playerArray.forEach(function (player) {
+            //neue Zelie
+            console.log("player: " + player.pkte);
+            var row = document.createElement("tr");
+
+            //neue Spalten
+            var playerNameTd = document.createElement("td"),
+                    playerPkteTd = document.createElement("td");
+            // playerXoxoTd = document.createElement("button");
+
+            playerNameTd.appendChild(document.createTextNode(player.nickname));
+            playerPkteTd.appendChild(document.createTextNode(player.pkte));
+
+            //   playerPkteTd.appendChild(document.createTextNode(player.pkte));
+            // playerXoxoTd.appendChild(document.createTextNode("Eintrag entfernen"));
+
+            row.appendChild(playerNameTd);
+            row.appendChild(playerPkteTd);
+            // row.appendChild(playerXoxoTd);
+
+            //Eintrag entfernen
+            //   playerXoxoTd.onclick = function () {
+            //      row.parentElement.removeChild(row);
+            //entfernen(player);
+
+            //}
+
+            tbody.appendChild(row);
+
+
+        });
     }
 
 </script>
 <body>
-<form action="">
-    <!--<input id="m" autocomplete="off" /><br>-->
-    <button type = "button" id = "rightAnswer" onclick="trueAnswer()">Right</button><br>
-    <button type = "button" id = "wrongAnswer" onclick="falseAnswer()">Wrong</button><br>
-    <!--<button type = "submit">Buzz!</button>-->
-</form>
-<div id = "schnellster">
+
+
+<div><h1 id="heins">Wer ist dabei?</h1></div>
+<div class="col-lg-5" style="margin-left: 50px">
+
+    <table id="playerTable" class="dataList table">
+        <thead>
+        <tr>
+            <th style="padding-right: 60px">Name</th>
+            <th style="padding-right: 80px">Punktzahl</th>
+            <!--  <th style="padding-right: 25px">xoxo</th>
+              <th style="padding-right: 25px"></th>-->
+
+        </tr>
+        </thead>
+        <tbody id="ctbody">
+        <tr>
+            <td style="padding-right: 60px"></td>
+            <td style="padding-right: 80px"></td>
+            <!--   <td style="padding-right: 25px"></td>
+               <td style="padding-right: 25px"></td>-->
+
+        </tr>
+
+
+        </tbody>
+
+        <!-- Placeholder -->
+    </table>
+
+</div>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+
+<div id="schnellster">
     <h3 id="schnellster-text"> ... </h3>
+</div>
+
+<!--<form action="">
+  <input id="m" autocomplete="off" /><br>-->
+<button class="answbtn-css"
+        type="button"
+        id="rightAnswer"
+        onclick="trueAnswer()">Right
+</button>
+<br>
+
+<button class="answbtn-css"
+        type="button"
+        id="wrongAnswer"
+        onclick="wrongAnswer()">Wrong
+</button>
+<br>
+<!--<button type = "submit">Buzz!</button>
+</form>-->
+
 </body>
 </html>
