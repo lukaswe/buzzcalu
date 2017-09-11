@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>BuzzCaLu GameMaster Screen</title>
     <script src="/socket.io/socket.io.js"></script>
-    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
     <link href="styles/gameMaster.css" type="text/css" rel="stylesheet">
 </head>
 
@@ -124,13 +124,15 @@
         questionArray.forEach(function (question) {
             console.log("question: " + question);
             $('#question-text' + [j]).text(question);
-            document.getElementById("question-text" + [j]).style = "visibility:visible;";
+            document.getElementById("question" + [j]).style = "visibility:visible;";
             j++;
         });
     }
 
-    function showQuestion(){
+    function showQuestion(tdId){
         console.log("btn funzt.");
+        console.log("this.questionArray"+this.questionArray[0]);
+        socket.emit('showQuestion',this.questionArray, tdId)
     }
 
 
@@ -191,16 +193,16 @@
         <tr>
 
             <!--  <td class="questionBoxes-css" id="question-text0" style="visibility:hidden;">Question</td>-->
-            <td type="button" class="questionBoxes2-css" onclick="showQuestion()" id="question-text0">100</td>
-            <td class="questionBoxes2-css" onclick="showQuestion()" id="question-text1">100</td>
-            <td class="questionBoxes2-css" onclick="showQuestion()" id="question-text2">100</td>
-            <td class="questionBoxes2-css" onclick="showQuestion()" id="question-text3">100</td>
+            <td type="button" class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question0">100</td>
+            <td class="questionBoxes2-css" onclick="showQuestion()" id="question1">100</td>
+            <td class="questionBoxes2-css" onclick="showQuestion()" id="question2">100</td>
+            <td class="questionBoxes2-css" onclick="showQuestion()" id="question3">100</td>
         </tr>
         <tr>
-            <td class="questionBoxes2-css" onclick="showQuestion()" id="question-text4">200</td>
-            <td class="questionBoxes2-css" onclick="showQuestion()" id="question-text5">200</td>
-            <td class="questionBoxes2-css" onclick="showQuestion()" id="question-text6">200</td>
-            <td class="questionBoxes2-css" onclick="showQuestion()" id="question-text7">200</td>
+            <td class="questionBoxes2-css" onclick="showQuestion()" id="question4">200</td>
+            <td class="questionBoxes2-css" onclick="showQuestion()" id="question5">200</td>
+            <td class="questionBoxes2-css" onclick="showQuestion()" id="question6">200</td>
+            <td class="questionBoxes2-css" onclick="showQuestion()" id="question7">200</td>
         </tr>
         <tr>
             <td class="questionBoxes2-css" onclick="showQuestion()" id="question-text8">300</td>

@@ -12,8 +12,9 @@
 
     var socket = io.connect();
     var playerArray = new Array;
-    var questionArray = new Array;
+    var questionArrayOv = new Array;
     var i = 1;
+    var j = 0;
     //wert muss noch variabel werden
 
 
@@ -55,11 +56,31 @@
         $('#erster-text').text(player.nickname);
     });
 
-    socket.on('questionStart', function (questionArray) {
-        this.questionArray = questionArray;
-        questionStart2(questionArray);
+    /*socket.on('questionStart', function (questionArray) {
+        this.questionArrayOv = questionArray;
+        console.log("questionArray: " + this.questionArrayOv[0]);
+        /!*questionStart2(questionArray);*!/
+    });*/
+
+    socket.on('showQuestion', function (questionArray, tdId) {
+        console.log("tdId : " + tdId);
+
+        questionStart2(questionArray, tdId);
+        this.j++;
     });
 
+
+
+    //Frage in Tabelle eintragen
+    function questionStart2(questionArray,tdId) {
+        console.log("j: " + this.j);
+        var question = questionArray[this.j];
+        console.log("question: " + question);
+        console.log("question2: " + questionArray[this.j]);
+        console.log("question3: " + questionArray[0]);
+        document.getElementById(tdId).innerHTML = question;
+
+    }
 
     //Blaue Namensfelder werden befüllt
     function fillNameFields() {
@@ -75,18 +96,6 @@
     }
 
 
-    //Frage in Tabelle eintragen
-    function questionStart2(questionArray) {
-        var j = 0;
-        questionArray.forEach(function (question) {
-            console.log("question: " + question);
-            $('#question-text' + [j]).text(question);
-            document.getElementById("question-text" + [j]).style = "visibility:visible;";
-            j++;
-        });
-    }
-
-
 </script>
 
 
@@ -97,7 +106,6 @@
 <div id="erster">
     <h3 id="erster-text"> ... </h3>
 </div>
-
 
 
 <!--Fragen Tabelle-->
@@ -116,31 +124,31 @@
         <tbody id="ctbody">
         <tr>
 
-          <!--  <td class="questionBoxes-css" id="question-text0" style="visibility:hidden;">Question</td>-->
-            <td class="questionBoxes-css" id="question-text0">100</td>
-            <td class="questionBoxes-css" id="question-text1">100</td>
-            <td class="questionBoxes-css" id="question-text2">100</td>
-            <td class="questionBoxes-css" id="question-text3">100</td>
+            <!--  <td class="questionBoxes-css" id="question-text0" style="visibility:hidden;">Question</td>-->
+            <td class="questionBoxes-css" id="question0">100</td>
+            <td class="questionBoxes-css" id="question1">100</td>
+            <td class="questionBoxes-css" id="question2">100</td>
+            <td class="questionBoxes-css" id="question3">100</td>
         </tr>
         <tr>
-            <td class="questionBoxes-css" id="question-text4" >200</td>
-            <td class="questionBoxes-css" id="question-text5" >200</td>
-            <td class="questionBoxes-css" id="question-text6" >200</td>
-            <td class="questionBoxes-css" id="question-text7" >200</td>
+            <td class="questionBoxes-css" id="question4">200</td>
+            <td class="questionBoxes-css" id="question5">200</td>
+            <td class="questionBoxes-css" id="question6">200</td>
+            <td class="questionBoxes-css" id="question7">200</td>
         </tr>
         <tr>
-            <td class="questionBoxes-css" id="question-text8" >300</td>
-            <td class="questionBoxes-css" id="question-text9" >300</td>
-            <td class="questionBoxes-css" id="question-text10" >300</td>
-            <td class="questionBoxes-css" id="question-text11" >300</td>
+            <td class="questionBoxes-css" id="question8">300</td>
+            <td class="questionBoxes-css" id="question9">300</td>
+            <td class="questionBoxes-css" id="question10">300</td>
+            <td class="questionBoxes-css" id="question11">300</td>
 
 
         </tr>
         <tr>
-            <td class="questionBoxes-css" id="question-text12" >400</td>
-            <td class="questionBoxes-css" id="question-text13" >400</td>
-            <td class="questionBoxes-css" id="question-text14" >400</td>
-            <td class="questionBoxes-css" id="question-text15" >400</td>
+            <td class="questionBoxes-css" id="question12">400</td>
+            <td class="questionBoxes-css" id="question13">400</td>
+            <td class="questionBoxes-css" id="question14">400</td>
+            <td class="questionBoxes-css" id="question15">400</td>
 
 
         </tr>

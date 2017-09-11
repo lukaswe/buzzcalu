@@ -19,6 +19,13 @@ app.get('/', function (req, res) {
     res.sendFile(__dirname + '/client.html');
 });
 
+app.get('/spass', function (req, res) {
+    res.sendFile(__dirname + '/spass.html');
+});
+
+
+
+
 app.get('/overview', function (req, res) {
     res.sendFile(__dirname + '/overview.html');
 });
@@ -79,11 +86,11 @@ io.on('connection', function (client) {
         }
     });
 
-    client.on('questionStart', function (questionArray) {
+    /*client.on('questionStart', function (questionArray) {
         console.log("questionStart");
         io.emit('questionStart',questionArray);
     });
-
+*/
     client.on('trueAnswer', function (schnellster) {
 
         console.log(schnellster.nickname + " kriegt Punkte!!");
@@ -95,6 +102,13 @@ io.on('connection', function (client) {
         console.log("schnellster.pkte: " + schnellster.pkte);
         io.emit('wrongAnswer', schnellster);
     });
+
+    client.on('showQuestion', function (questionArray, tdId) {
+        console.log("sowquestion funzt.pkte: ");
+        io.emit('showQuestion', questionArray, tdId);
+    });
+
+
 
 });
 
