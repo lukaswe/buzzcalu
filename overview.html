@@ -1,26 +1,29 @@
 <!doctype html>
-<html >
+<html>
 <head>
     <meta charset="UTF-8">
     <title>BuzzCaLu Overview Screen</title>
     <script src="/socket.io/socket.io.js"></script>
     <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+    <link href="styles/overview.css" type="text/css" rel="stylesheet">
 </head>
 
 <script>
 
     var socket = io.connect();
     var playerArray = new Array;
+    var i = 1;
 
 
-        //Clients verbinden sich
-        socket.on('playerList', function (nicknameObj) {
-            //Array mit Spielern füllen
-            playerArray.push(nicknameObj);
-            console.log(nicknameObj.nickname + " just connected!");
-            //Tabelle bauen
-            start();
-        });
+    //Clients verbinden sich
+    socket.on('playerList', function (nicknameObj) {
+        //Array mit Spielern füllen
+        playerArray.push(nicknameObj);
+        console.log(nicknameObj.nickname + " just connected!");
+        //Tabelle bauen
+        start();
+        fillNameFields();
+    });
 
     socket.on('punkteAktualisiert', function (schnellster) {
         //Array mit Spielern füllen
@@ -34,7 +37,6 @@
         //document.getElementById("erster-text").innerHTML = player;
         $('#erster-text').text(player.nickname);
     });
-
 
 
     //Spieler in Tabelle eintragen
@@ -58,20 +60,22 @@
             //neue Spalten
             var playerNameTd = document.createElement("td"),
                     playerPkteTd = document.createElement("td");
-                   // playerXoxoTd = document.createElement("button");
+            // playerXoxoTd = document.createElement("button");
 
             playerNameTd.appendChild(document.createTextNode(player.nickname));
             playerPkteTd.appendChild(document.createTextNode(player.pkte));
-           // playerXoxoTd.appendChild(document.createTextNode("Eintrag entfernen"));
+
+            //   playerPkteTd.appendChild(document.createTextNode(player.pkte));
+            // playerXoxoTd.appendChild(document.createTextNode("Eintrag entfernen"));
 
             row.appendChild(playerNameTd);
             row.appendChild(playerPkteTd);
-           // row.appendChild(playerXoxoTd);
+            // row.appendChild(playerXoxoTd);
 
             //Eintrag entfernen
-         //   playerXoxoTd.onclick = function () {
-          //      row.parentElement.removeChild(row);
-                //entfernen(player);
+            //   playerXoxoTd.onclick = function () {
+            //      row.parentElement.removeChild(row);
+            //entfernen(player);
 
             //}
 
@@ -81,11 +85,21 @@
         });
     }
 
+    //Blaue Namensfelder werden befüllt
+    function fillNameFields() {
+        i = 1;
+        playerArray.forEach(function (player) {
+            console.log("i: " + i + ", " + player.nickname);
+            $('#player' + i + '-name').text(player.nickname + '    ' + player.pkte);
+            console.log("i: " + i);
+            document.getElementById("player" + i + "-name").style = "visibility:visible;";
+
+            i += 1;
+        });
+    }
 
 
 </script>
-
-
 
 
 <body>
@@ -98,8 +112,8 @@
         <tr>
             <th style="padding-right: 60px">Name</th>
             <th style="padding-right: 80px">Punktzahl</th>
-          <!--  <th style="padding-right: 25px">xoxo</th>
-            <th style="padding-right: 25px"></th>-->
+            <!--  <th style="padding-right: 25px">xoxo</th>
+              <th style="padding-right: 25px"></th>-->
 
         </tr>
         </thead>
@@ -123,8 +137,15 @@
 <div><h1 id="heins">Wer ist dran?</h1></div>
 
 
-<div id = "erster">
+<div id="erster">
     <h3 id="erster-text"> ... </h3>
 </div>
+<ul class="playerNameContainer">
+    <ul class="playerNameBoxes-css" id="player1-name" style="visibility:hidden;">Enjoy</ul>
+    <ul class="playerNameBoxes-css" id="player2-name" style="visibility:hidden;">Enjoy</ul>
+    <ul class="playerNameBoxes-css" id="player3-name" style="visibility:hidden;">Enjoy</ul>
+    <ul class="playerNameBoxes-css" id="player4-name" style="visibility:hidden;">Enjoy</ul>
+    <ul class="playerNameBoxes-css" id="player5-name" style="visibility:hidden;">Enjoy</ul>
+</ul>
 </body>
 </html>

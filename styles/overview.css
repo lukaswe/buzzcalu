@@ -1,0 +1,41 @@
+.playerNameBoxes-css {
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+    float: left;
+
+    /*            left: 0px;
+                bottom: 0px;
+                height: 64px;*/
+    width: 12%;
+    margin: 20px;
+    padding: 20px;
+    /*  overflow: hidden;*/
+    border: 5px solid;
+    -webkit-border-radius: 12px;
+    border-radius: 5px;
+    font: normal 16px/1 Arial, Helvetica, sans-serif;
+    color: rgba(0, 0, 0, 1);
+    text-align: center;
+    -o-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+    background: #22a5d8;
+    -webkit-box-shadow: 1px 1px 1px 0 rgba(0, 0, 0, 0.3);
+    box-shadow: 1px 1px 1px 0 rgba(0, 0, 0, 0.3);
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+}
+.playerNameBoxes-css:last-child{
+
+}
+
+/*Footer*/
+.playerNameContainer{
+    position: fixed;
+    left: 0px;
+    bottom: 0px;
+    height: 104px;
+    width: 100%;
+    border-top: 3px solid;
+    background: #E0E0E0;
+}
+

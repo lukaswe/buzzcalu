@@ -28,6 +28,17 @@ app.get('/gamemaster', function (req, res) {
     res.sendFile(__dirname + '/gameMaster.html');
 });
 
+app.get('/styles/overview.css', function (req, res) {
+    res.sendFile(__dirname + '/styles/overview.css');
+});
+
+app.get('/styles/client.css', function (req, res) {
+    res.sendFile(__dirname + '/styles/client.css');
+});
+app.get('/styles/gameMaster.css', function (req, res) {
+    res.sendFile(__dirname + '/styles/gameMaster.css');
+});
+
 //var socket = io();
 
 io.on('connection', function (client) {

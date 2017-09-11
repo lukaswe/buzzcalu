@@ -2,9 +2,10 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>BuzzCaLu Overview Screen</title>
+    <title>BuzzCaLu GameMaster Screen</title>
     <script src="/socket.io/socket.io.js"></script>
     <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+    <link href="styles/gameMaster.css" type="text/css" rel="stylesheet">
 </head>
 
 
@@ -12,7 +13,7 @@
     var socket = io.connect();
     var schnellster;
     var playerArray = new Array;
-    /**Client-Server Komunikation**/
+    /**Client-Server Kommunikation**/
     //Clients verbinden sich
     socket.on('playerList', function (nicknameObj) {
         //Array mit Spielern füllen
