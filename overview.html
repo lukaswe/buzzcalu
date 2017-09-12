@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>BuzzCaLu Overview Screen</title>
     <script src="/socket.io/socket.io.js"></script>
-    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
     <link href="styles/overview.css" type="text/css" rel="stylesheet">
 </head>
 
@@ -18,13 +18,13 @@
     //wert muss noch variabel werden
 
 
-    //Clients verbinden sich
+    //Clients verbinden sich //Blaue Felder füllemn :)
     socket.on('playerList', function (nicknameObj) {
         //Array mit Spielern füllen
         playerArray.push(nicknameObj);
         console.log(nicknameObj.nickname + " just connected!");
 
-        fillNameFields();
+        fillNameFields(playerArray);
     });
 
 
@@ -54,45 +54,65 @@
     socket.on('fastest player', function (player) {
         //document.getElementById("erster-text").innerHTML = player;
         $('#erster-text').text(player.nickname);
+        playerArray.forEach(function (player2) {
+            console.log("player2.nickname" + player2.nickname);
+            if (player2.nickname != player.nickname) {
+                console.log(",player2.id:     player" + player2.id);
+                document.getElementById("player" + player2.id + "-name").style = "visibility: hidden;";
+            }
+        });
+        /*$("#player"+player.id+"-name").animate(
+                {
+                    opacity: 0.25,
+                    left: "+=50",
+                    height: "toggle"
+                }, 2000, function () {
+                    console.log("animation? ");
+                });*/
     });
 
-    /*socket.on('questionStart', function (questionArray) {
-        this.questionArrayOv = questionArray;
-        console.log("questionArray: " + this.questionArrayOv[0]);
-        /!*questionStart2(questionArray);*!/
-    });*/
 
-    socket.on('showQuestion', function (questionArray, tdId) {
+    socket.on('showQuestion', function (questionArray, tdId, indx) {
         console.log("tdId : " + tdId);
+        console.log("qA: " + questionArray[indx]);
 
-        questionStart2(questionArray, tdId);
-        this.j++;
+        questionStart2(questionArray, tdId, indx);
+        //this.j++;
     });
-
 
 
     //Frage in Tabelle eintragen
-    function questionStart2(questionArray,tdId) {
-        console.log("j: " + this.j);
-        var question = questionArray[this.j];
+    function questionStart2(questionArray, tdId, indx) {
+        //  console.log("j: " + this.j);
+        var question = questionArray[indx];
         console.log("question: " + question);
-        console.log("question2: " + questionArray[this.j]);
-        console.log("question3: " + questionArray[0]);
+        console.log("question2: " + questionArray[indx]);
+        console.log("tdId:: " + tdId);
         document.getElementById(tdId).innerHTML = question;
 
     }
 
     //Blaue Namensfelder werden befüllt
-    function fillNameFields() {
+    function fillNameFields(playerArray2) {
         i = 1;
-        playerArray.forEach(function (player) {
-            console.log("i: " + i + ", " + player.nickname);
+        playerArray2.forEach(function (player) {
+            //  console.log("i: " + i + ", " + player.nickname, player.color);
             $('#player' + i + '-name').text(player.nickname + '    ' + player.pkte);
-            console.log("i: " + i);
+            console.log("geht" + player.id);
+
             document.getElementById("player" + i + "-name").style = "visibility:visible;";
+            document.getElementById("player" + i + "-name").style.backgroundColor = player.color;
+            //$('.player' + player.id + '-name').css('visibility','visible').hide().fadeIn("slow");
+          //  $('.player' + player.id + '-name').fadeTo("slow", 1); // 100% visible
+
 
             i += 1;
         });
+       // $('#player' + i + '-name').fadeIn;
+       // console.log('#player' + player.id + '-name');
+       // $('#player' + i + '-name').fadeIn("slow");
+
+
     }
 
 
@@ -163,12 +183,12 @@
 
 
 <!-- beigetretene Spieler Anzeige -->
-<ul class="playerNameContainer">
-    <ul class="playerNameBoxes-css" id="player1-name" style="visibility:hidden;">Enjoy</ul>
-    <ul class="playerNameBoxes-css" id="player2-name" style="visibility:hidden;">Enjoy</ul>
-    <ul class="playerNameBoxes-css" id="player3-name" style="visibility:hidden;">Enjoy</ul>
-    <ul class="playerNameBoxes-css" id="player4-name" style="visibility:hidden;">Enjoy</ul>
-    <ul class="playerNameBoxes-css" id="player5-name" style="visibility:hidden;">Enjoy</ul>
-</ul>
+<div class="playerNameContainer" id=playerNameContainerId>
+    <div class="playerNameBoxes-css" id="player0-name" >Enjoy</div>
+    <div class="playerNameBoxes-css" id="player1-name" >Enjoy</div>
+    <div class="playerNameBoxes-css" id="player2-name" >Enjoy</div>
+    <div class="playerNameBoxes-css" id="player3-name" >Enjoy</div>
+    <div class="playerNameBoxes-css" id="player4-name" >Enjoy</div>
+</div>
 </body>
 </html>

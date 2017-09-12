@@ -3,6 +3,7 @@
     -moz-box-sizing: content-box;
     box-sizing: content-box;
     float: left;
+    visibility: hidden;
 
     /*            left: 0px;
                 bottom: 0px;

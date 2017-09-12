@@ -92,17 +92,17 @@
             //neue Spalten
             var playerNameTd = document.createElement("td"),
                     playerPkteTd = document.createElement("td");
-            // playerXoxoTd = document.createElement("button");
+             playerColorTd = document.createElement("td");
 
             playerNameTd.appendChild(document.createTextNode(player.nickname));
             playerPkteTd.appendChild(document.createTextNode(player.pkte));
 
             //   playerPkteTd.appendChild(document.createTextNode(player.pkte));
-            // playerXoxoTd.appendChild(document.createTextNode("Eintrag entfernen"));
+            playerColorTd.appendChild(document.createTextNode(player.color));
 
             row.appendChild(playerNameTd);
             row.appendChild(playerPkteTd);
-            // row.appendChild(playerXoxoTd);
+             row.appendChild(playerColorTd);
 
             //Eintrag entfernen
             //   playerXoxoTd.onclick = function () {
@@ -123,16 +123,17 @@
         var j = 0;
         questionArray.forEach(function (question) {
             console.log("question: " + question);
-            $('#question-text' + [j]).text(question);
+            $('#question' + [j]).text(question);
             document.getElementById("question" + [j]).style = "visibility:visible;";
             j++;
         });
     }
 
     function showQuestion(tdId){
-        console.log("btn funzt.");
-        console.log("this.questionArray"+this.questionArray[0]);
-        socket.emit('showQuestion',this.questionArray, tdId)
+        document.getElementById(tdId).innerHTML = "erledigt";
+        var indx= tdId.substring(tdId.length-1, tdId.length);
+        console.log("this.questionArray"+this.questionArray[indx] + "indx: " + indx);
+        socket.emit('showQuestion',this.questionArray, tdId, indx )
     }
 
 
@@ -147,14 +148,17 @@
 </br>
 </br>
 </br>
+
+<!--Teilnehmer Tabelle-->
 <div><h1 id="heins">Wer ist dabei?</h1></div>
-<div class="col-lg-5" style="margin-left: 50px">
+<div class="col-lg-5" style="margin-left: 10px">
 
     <table id="playerTable" class="dataList table">
         <thead>
         <tr>
-            <th style="padding-right: 60px">Name</th>
-            <th style="padding-right: 80px">Punktzahl</th>
+            <th style="padding-right: 40px">Name</th>
+            <th style="padding-right: 40px">Punktzahl</th>
+            <th style="padding-right: 40px">Farbe</th>
             <!--  <th style="padding-right: 25px">xoxo</th>
               <th style="padding-right: 25px"></th>-->
 
@@ -163,6 +167,7 @@
         <tbody id="ctbody">
         <tr>
             <td style="padding-right: 60px"></td>
+            <td style="padding-right: 80px"></td>
             <td style="padding-right: 80px"></td>
             <!--   <td style="padding-right: 25px"></td>
                <td style="padding-right: 25px"></td>-->
@@ -194,9 +199,9 @@
 
             <!--  <td class="questionBoxes-css" id="question-text0" style="visibility:hidden;">Question</td>-->
             <td type="button" class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question0">100</td>
-            <td class="questionBoxes2-css" onclick="showQuestion()" id="question1">100</td>
-            <td class="questionBoxes2-css" onclick="showQuestion()" id="question2">100</td>
-            <td class="questionBoxes2-css" onclick="showQuestion()" id="question3">100</td>
+            <td type="button" class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question1">100</td>
+            <td type="button" class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question2">100</td>
+            <td type="button" class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question3">100</td>
         </tr>
         <tr>
             <td class="questionBoxes2-css" onclick="showQuestion()" id="question4">200</td>
@@ -205,10 +210,10 @@
             <td class="questionBoxes2-css" onclick="showQuestion()" id="question7">200</td>
         </tr>
         <tr>
-            <td class="questionBoxes2-css" onclick="showQuestion()" id="question-text8">300</td>
-            <td class="questionBoxes2-css" onclick="showQuestion()" id="question-text9">300</td>
-            <td class="questionBoxes2-css" onclick="showQuestion()" id="question-text10">300</td>
-            <td class="questionBoxes2-css" onclick="showQuestion()" id="question-text11">300</td>
+            <td class="questionBoxes2-css" onclick="showQuestion()" id="question8">300</td>
+            <td class="questionBoxes2-css" onclick="showQuestion()" id="question9">300</td>
+            <td class="questionBoxes2-css" onclick="showQuestion()" id="question10">300</td>
+            <td class="questionBoxes2-css" onclick="showQuestion()" id="question11">300</td>
 
 
         </tr>

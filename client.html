@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>Client</title>
-    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
     <link href="styles/client.css" rel="stylesheet">
     <script language="javascript" type="text/javascript" src="js/client.js"></script>
     <script src="/socket.io/socket.io.js"></script>
@@ -22,7 +22,7 @@
         document.getElementById("buzz-div").style = "visibility:visible;";
         document.getElementById("name-div").style = "visibility:hidden;";
 
-        obj = ({"nickname": $('#nameField').val(), "pkte": 0});
+        obj = ({"id": 100, "nickname": $('#nameField').val(), "pkte": 0, "gameColor": "white"});
         console.log("Hallo " + obj.nickname);
         socket.emit('set nickname', obj);
         // var myJSON = JSON.stringify(obj);
