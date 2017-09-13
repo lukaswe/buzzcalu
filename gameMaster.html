@@ -15,11 +15,14 @@
     var playerArray = new Array;
     var fragenPunkte = 100;
     var questionArray = new Array
-    /* var questionObj = ({"question": "Hast du Eier?"});
-     var questionObj2 = ({"question": "Oder Gemuese?"});
-     questionArray =[questionObj,questionObj2];
-     */
-    questionArray = ["Hast du Eier?", "Oder Gemuese?", "Vielleicht Katzen?", "Haben Fliegen Flügel?", "Was zur Hölle?"];
+    var tdId = 100;
+    questionArray = [
+        {"text": "Hast du Eier?", "val": 0},
+        {"text": "Oder Gemuese?", "val": 0},
+        {"text": "Vielleicht Katzen?", "val": 0},
+        {"text": "Haben Fliegen Flügel?", "val": 0},
+        {"text": "Was zur Hölle?", "val": 0}];
+
 
     /**Client-Server Kommunikation**/
         //Clients verbinden sich
@@ -36,10 +39,9 @@
         $('#schnellster-text').text(player.nickname);
         // console.log("this.schnellster "+ this.schnellster.nickname);
         console.log("this.player " + player.nickname);
-        this.schnellster = player;
-        console.log("this.schnellster2 " + this.schnellster.nickname);
+        schnellster = player;
+        console.log("this.schnellster2 " + schnellster.nickname);
         console.log("this.player2 " + player.nickname);
-        //$('#erster-text').text(player);
     });
 
     /**Seitenspezifische Funktionalitäten**/
@@ -47,45 +49,45 @@
         var schnellster2 = $("#schnellster-text").html();
 
         //var  schnellster2 = document.getElementById("schnellster-text").innerText();
-        // console.log("schnes5:  " + document.getElementById("schnellster-text").innerText());
-        console.log("schnes:  " + schnellster2);
-        console.log("this.playerArray" + this.playerArray);
-        console.log("this.playerArray" + this.playerArray[0].nickname);
-        // console.log(" schnellster.pkte vorher: "+ this.schnellster.pkte);
-        //   schnellster.pkte += fragenPunkte;
-        //   console.log(" schnellster.pkte nachher: "+ schnellster.pkte);
-        this.playerArray.forEach(function (player) {
+        console.log("this.playerArray" + playerArray[0].nickname);
+        playerArray.forEach(function (player) {
             if (schnellster2 == player.nickname) {
-                //console.log(" in if player pkte  " + player.pkte);
                 player.pkte += fragenPunkte;
-                //console.log(" in if player  " + player.nickname);
-                //console.log(" in if player pkte  " + player.pkte);
-                console.log("this.playerArray" + this.playerArray[0].nickname);
+                console.log("this.playerArray" + playerArray[0].nickname);
                 socket.emit('trueAnswer', player, playerArray);
             }
-        });
 
+        });
+        $('#schnellster-text').text("...");
     }
 
     function wrongAnswer() {
-        console.log("this.playerArray" + this.playerArray);
-        schnellster.pkte -= fragenPunkte;
-        this.playerArray.forEach(function (player) {
+        console.log("in wrongAnswer, playerArray[0].nickname:  " + playerArray[0].nickname);
+        //schnellster.pkte -= fragenPunkte;
+        playerArray.forEach(function (player) {
             if (schnellster.nickname == player.nickname) {
-                player.pkte = schnellster.pkte;
+                console.log("in wrongAnswer, this.playerArray:  " + player.nickname);
+                console.log("in wrongAnswer, playerpkte:  " + player.pkte);
+                player.pkte -= fragenPunkte;
+                console.log("in wrongAnswer, playerpkte:  " + player.pkte);
                 socket.emit('wrongAnswer', player, playerArray);
             }
         });
+        $('#schnellster-text').text("...");
     }
     ;
 
-    socket.on('trueAnswer', function (playa) {
-        this.schnellster = playa;
+    socket.on('trueAnswer', function (playa, playerArray, questionArray) {
+        schnellster = playa;
     });
 
-    socket.on('wrongAnswer', function (playerArray9) {
+    socket.on('wrongAnswer', function (player, playerArray9) {
         // this.schnellster = playa;
         playerArray = playerArray9;
+        console.log("socket on wrongArray, playerArray9:  " + playerArray9[0].nickname);
+        console.log("socket on wrongArray, playerArray:  " + playerArray[0].nickname);
+        //Damit Frage wieder zum Buzzernn freigegeben wird.
+        //socket.emit('showQuestion', questionArray, tdId, indx);
     });
 
 
@@ -144,19 +146,29 @@
         // socket.emit('questionStart', questionArray);
         var j = 0;
         questionArray.forEach(function (question) {
-            console.log("question: " + question);
-            $('#question' + [j]).text(question);
+            console.log("question: " + question.text);
+            $('#question' + [j]).text(question.text);
             document.getElementById("question" + [j]).style = "visibility:visible;";
             j++;
         });
     }
 
-    function showQuestion(tdId) {
-        document.getElementById(tdId).innerHTML = "erledigt";
-        var indx = tdId.substring(tdId.length - 1, tdId.length);
-        console.log("this.questionArray" + this.questionArray[indx] + "indx: " + indx);
+    function showQuestion(tdId2) {
+        tdId = tdId2;
+        var indx = tdId2.substring(tdId2.length - 1, tdId2.length);
+        console.log("this.questionArray" + questionArray[indx].text + "indx: " + indx);
         //NICht nur show question sondern auch BuzzerEnablen
-        socket.emit('showQuestion', this.questionArray, tdId, indx)
+        console.log("this.questionArray.val" + questionArray[indx].val);
+
+        console.log("this.questionArray.val" + questionArray[indx].val);
+        if (questionArray[indx].val % 2 == 1) {
+            socket.emit('showNothing', questionArray, tdId2, indx);
+            document.getElementById(tdId).innerHTML = "erledigt";
+        } else {
+            socket.emit('showQuestion', questionArray, tdId2, indx);
+        }
+        questionArray[indx].val += 1;
+
     }
 
 

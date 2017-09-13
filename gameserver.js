@@ -9,7 +9,7 @@ var io = require('socket.io')(http);
 var x = 0;
 var erster;
 var playerArray = new Array;
-
+var answerArray = ["Wahr", "Falsch", "Schwimmen"];
 //(Gibt für die Demo nur Fehler/Warnungen auf der Konsole aus)
 //var io = require('socket.io').listen(app).set('log level', 1);
 
@@ -90,35 +90,35 @@ io.on('connection', function (client) {
     //Clients verbinden sich
     client.on('set nickname', function (nicknameObj) {
         playerArray.push(nicknameObj);
-        var x = 0;
+        var z = 0;
         console.log("playerArray.length:  " + playerArray.length);
-        while (x < playerArray.length) {
+        while (z < playerArray.length) {
             //console.log("playerArray[x].nickname: " + playerArray[x].nickname);
             console.log("nicknameObj.nickname: " + nicknameObj.nickname);
-            console.log("x: " + x);
+            console.log("y: " + z);
             //  console.log("playerArray.length x: " + playerArray.length[x]);
-            if (playerArray[x].nickname == nicknameObj.nickname) {
-                if (x == 0) {
+            if (playerArray[z].nickname == nicknameObj.nickname) {
+                if (z == 0) {
                     nicknameObj.color = "green";
-                    nicknameObj.id = x;
-                } else if (x == 1) {
+                    nicknameObj.id = z;
+                } else if (z == 1) {
                     nicknameObj.color = "red";
-                    nicknameObj.id = x;
-                } else if (x == 2) {
+                    nicknameObj.id = z;
+                } else if (z == 2) {
                     nicknameObj.color = "blue";
-                    nicknameObj.id = x;
-                } else if (x == 3) {
+                    nicknameObj.id = z;
+                } else if (z == 3) {
                     nicknameObj.color = "yellow";
-                    nicknameObj.id = x;
-                } else if (x == 4) {
+                    nicknameObj.id = z;
+                } else if (z == 4) {
                     nicknameObj.color = "purple";
-                    nicknameObj.id = x;
+                    nicknameObj.id = z;
                 } else {
                     console.log("Kritischer Fehler!")
                 }
-                console.log("nicknameobj: " + nicknameObj.color + "nicknameObj.id " + nicknameObj.id);
+                console.log("nicknameobj: " + nicknameObj.color + ",  nicknameObj.id: " + nicknameObj.id);
             }
-            x++
+            z++
         }
 
         client.nicknameObj = nicknameObj;
@@ -130,11 +130,10 @@ io.on('connection', function (client) {
 
 //schnellster Buzzer wird ermittelt und an die CLients geschickt
     client.on('send_buzz', function (buzzer) {
-        console.log("test2 " + buzzer);
+        console.log("test2 " + buzzer.nickname);
         //var obj2 = ({ "name": $('#nameField').val(),  "pkte": 0});
         console.log('message: ' + x);
         x += 1;
-        console.log('message3: ' + x);
         if (x == 1) {
             erster = buzzer;
             client.buzzer = buzzer;
@@ -146,6 +145,7 @@ io.on('connection', function (client) {
         }
     });
 
+
     /*client.on('questionStart', function (questionArray) {
      console.log("questionStart");
      io.emit('questionStart',questionArray);
@@ -154,33 +154,43 @@ io.on('connection', function (client) {
     client.on('trueAnswer', function (player, playerArr) {
         console.log("playerArr" + playerArr[0].nickname);
         playerArray = playerArr;
-        io.emit('trueAnswer', player, playerArr);
-
+        console.log("answerArray[0]" + answerArray[0]);
+        io.emit('trueAnswer', player, playerArr, answerArray);
+        x = 0;
     });
 
     client.on('wrongAnswer', function (player, playerArr) {
-        console.log("playerArr" + playerArr[0].nickname);
+        console.log("playerArr:  " + playerArr[0].nickname);
+        console.log("player:  " + player.nickname);
         playerArray = playerArr;
-        io.emit('wrongAnswer', playerArr);
+        io.emit('wrongAnswer', player, playerArr);
+        x = 0;
     });
 
     client.on('showQuestion', function (questionArray, tdId, indx) {
-        console.log("sowquestion funzt.pkte: " + questionArray[indx] + " , " + tdId);
+        console.log("sowquestion funzt.pkte: " + questionArray[indx].text + " , " + tdId);
         io.emit('showQuestion', questionArray, tdId, indx);
         x = 0;
     });
 
-   /* client.on('questionHtmlOnload', function () {
-        console.log("playdsd3:  " + playerArray[0].nickname);
-        io.emit('questionHtmlOnload', playerArray);
+
+    client.on('showNothing', function (questionArray, tdId, indx) {
+        console.log("showNothing funzt.pkte: " + questionArray[indx].val + " , " + tdId);
+        io.emit('showNothing', questionArray, tdId, indx);
+       // x = 0;
     });
 
-    client.on('overviewHtmlOnload', function () {
-        if (playerArray != 'undefined') {
-            console.log("playdsd: 5 " + playerArray[0].nickname);
-            io.emit('overviewHtmlOnload', playerArray);
-        }
-    });*/
+    /* client.on('questionHtmlOnload', function () {
+     console.log("playdsd3:  " + playerArray[0].nickname);
+     io.emit('questionHtmlOnload', playerArray);
+     });
+
+     client.on('overviewHtmlOnload', function () {
+     if (playerArray != 'undefined') {
+     console.log("playdsd: 5 " + playerArray[0].nickname);
+     io.emit('overviewHtmlOnload', playerArray);
+     }
+     });*/
 
     client.on('aktPkte', function (playerArray3) {
         console.log("und3:  " + playerArray3[0].nickname);

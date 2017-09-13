@@ -17,54 +17,51 @@
     var questionArrayOv = new Array;
     var i = 1;
     var j = 0;
-    var linkLocation
+    var linkLocation;
+    var tdId = 0;
+    var indx = 0;
     //wert muss noch variabel werden
 
-  /*  window.onload = function () {
-        socket.emit('overviewHtmlOnload');
-    }
-    */
+    /*  window.onload = function () {
+     socket.emit('overviewHtmlOnload');
+     }
+     */
 
     /*socket.on('overviewHtmlOnload', function (playerArray2) {
-        playerArray = playerArray2;
-       // console.log("erster"+ erster.nickname);
-        fillNameFields(playerArray);
-    });
-*/
+     playerArray = playerArray2;
+     // console.log("erster"+ erster.nickname);
+     fillNameFields(playerArray);
+     });
+     */
     //Clients verbinden sich //Blaue Felder füllemn :)
     socket.on('playerList', function (nicknameObj, playerArray7) {
         //Array mit Spielern füllen
-        playerArray=playerArray7;
+        playerArray = playerArray7;
         console.log(nicknameObj.nickname + " just connected!");
 
         fillNameFields(playerArray);
     });
 
 
-    socket.on('trueAnswer', function (playerArray5) {
-        playerArray= playerArray5;
-//        playerArray.forEach(function (player) {
-//            if (schnellster.nickname == player.nickname) {
-//                console.log("player.pkte: " + player.pkte);
-//                player.pkte = schnellster.pkte;
-//
-//            }
-//
-//        });
+    socket.on('trueAnswer', function (player, playerArray5, answerArray) {
+        playerArray = playerArray5;
+        console.log("[tdId]:   " + [tdId]);
+        console.log("answerArray[tdId]:   " + answerArray[tdId]);
+        answerStart(answerArray, tdId, indx);
         fillNameFields(playerArray);
     });
 
 
-    socket.on('wrongAnswer', function (playerArray9) {
-        playerArray= playerArray9;
+    socket.on('wrongAnswer', function (player, playerArray9) {
+        playerArray = playerArray9;
         //playerArray.forEach(function (player) {
-         //   if (schnellster.nickname == player.nickname) {
-         //       console.log("player.pkte: " + player.pkte);
-              //  player.pkte = schnellster.pkte;
-                fillNameFields(playerArray9);
+        //   if (schnellster.nickname == player.nickname) {
+        //       console.log("player.pkte: " + player.pkte);
+        //  player.pkte = schnellster.pkte;
+        fillNameFields(playerArray9);
         //    }
 
-       // });
+        // });
     });
 
     socket.on('fastest player', function (player) {
@@ -73,57 +70,76 @@
         playerArray.forEach(function (player2) {
             console.log("player2.nickname" + player2.nickname);
             if (player2.id == player.id) {
-                console.log("das geht jetzt mal " +player2.id+" = "+player.id);
-              //  document.getElementById("player" + player2.id + "-name").style = "visibility: hidden;";
+                console.log("das geht jetzt mal " + player2.id + " = " + player.id);
+                //  document.getElementById("player" + player2.id + "-name").style = "visibility: hidden;";
             }
         });
 
     });
 
 
-    socket.on('showQuestion', function (questionArray, tdId, indx) {
+    socket.on('showQuestion', function (questionArray, tdId2, indx2) {
+        tdId = tdId2;
+        indx = indx2;
         console.log("tdId : " + tdId);
-        console.log("qA: " + questionArray[indx]);
-
+        console.log("qA: " + questionArray[indx].text);
+        console.log("this.questionArray.val" + questionArray[indx].val);
         questionStart2(questionArray, tdId, indx);
-
-
-
-//Weiterleitung zur FragenSeite
-  /*      window.setTimeout(" animation()", 100);
-        linkLocation = "http://localhost:3000/question";
-        $("body").fadeOut(1500, redirectPage);
-        $("body").fadeOut(1500, redirectPage);
-*/
     });
 
-/*
 
-    function redirectPage() {
-        window.location = linkLocation;
+    socket.on('showNothing', function (questionArray, tdId, indx) {
+        // tdId = tdId2;
+        //  indx = indx2;
+        //  console.log("tdId : " + tdId);
+        console.log("qA: " + questionArray[indx].text + " , " + questionArray[indx].val);
+        console.log("this.questionArray.val" + questionArray[indx].val);
+        //  questionStart2(questionArray, tdId, indx);
+        document.getElementById(tdId).innerHTML = "";
+
+    });
+    //Weiterleitung zur FragenSeite
+    /*      window.setTimeout(" animation()", 100);
+     linkLocation = "http://localhost:3000/question";
+     $("body").fadeOut(1500, redirectPage);
+     $("body").fadeOut(1500, redirectPage);
+     */
+
+
+    /*
+
+     function redirectPage() {
+     window.location = linkLocation;
+     }
+     */
+
+    //Frage in Tabelle eintragen
+    function answerStart(answerArray, tdId, indx) {
+        document.getElementById(tdId).innerHTML = answerArray[indx];
     }
-*/
-
 
     //Frage in Tabelle eintragen
     function questionStart2(questionArray, tdId, indx) {
         //  console.log("j: " + this.j);
         var question = questionArray[indx];
-        console.log("question: " + question);
-        console.log("question2: " + questionArray[indx]);
+        console.log("question: " + question.text);
+        console.log("question2: " + questionArray[indx].text);
         console.log("tdId:: " + tdId);
-     //   $('.zoomTarget').text(question);
-        document.getElementById(tdId).innerHTML = question;
 
+        //  $('.zoomTarget').text(question);
+        document.getElementById(tdId).innerHTML = question.text;
+        /*$(document).ready(function() {
+         $(".zoomTarget").zoomTarget();
+         });*/
+        //document.querySelector(".questionBoxes-css").className = "questionBoxes-css.visi";
+        // document.querySelector("td").className = "questionBoxes-css.visi";
     }
 
     //Blaue Namensfelder werden befüllt
     function fillNameFields(playerArray2) {
         i = 1;
         playerArray2.forEach(function (player) {
-            //  console.log("i: " + i + ", " + player.nickname, player.color);
             $('#player' + i + '-name').text(player.nickname + '    ' + player.pkte);
-            console.log("geht" + player.id);
 
             document.getElementById("player" + i + "-name").style = "visibility:visible;";
             document.getElementById("player" + i + "-name").style.backgroundColor = player.color;
@@ -140,23 +156,20 @@
 
     }
 
-   /* $(document).ready(function() {
-        $(".zoomTarget").click(function(evt) {
-            $(this).zoomTo({targetsize:0.75, duration:600});
-            evt.stopPropagation();
-        });
-    });
-*/
+    /* $(document).ready(function() {
+     $(".zoomTarget").click(function(evt) {
+     $(this).zoomTo({targetsize:0.75, duration:600});
+     evt.stopPropagation();
+     });
+     });
+     */
 
-/*    $(document).ready(function() {
-        $(".zoomTarget").click(function(evt) {
-            $(this).zoomTo({targetsize:0.75, duration:600});
-            evt.stopPropagation();
-        });
-    });*/
-
-
-
+    /*    $(document).ready(function() {
+     $(".zoomTarget").click(function(evt) {
+     $(this).zoomTo({targetsize:0.75, duration:600});
+     evt.stopPropagation();
+     });
+     });*/
 
 
 </script>
@@ -177,8 +190,6 @@
 
     </div>
 </div>-->
-
-
 
 
 <div><h1 id="heins">Wer ist dran?</h1></div>
@@ -204,14 +215,14 @@
         <tbody id="ctbody">
         <tr>
 
-            <td class="zoomTarget" id="question0">100</td>
-            <td class="zoomTarget" id="question1">100</td>
-            <td class="zoomTarget" id="question2">100</td>
-            <td class="zoomTarget" id="question3">100</td>
-           <!-- <td class="questionBoxes-css" id="question0">100</td>
+            <!--   <td class="zoomTarget" id="question0">100</td>
+             <td class="zoomTarget" id="question1">100</td>
+             <td class="zoomTarget" id="question2">100</td>
+             <td class="zoomTarget" id="question3">100</td>-->
+            <td class="questionBoxes-css" id="question0">100</td>
             <td class="questionBoxes-css" id="question1">100</td>
             <td class="questionBoxes-css" id="question2">100</td>
-            <td class="questionBoxes-css" id="question3">100</td>-->
+            <td class="questionBoxes-css" id="question3">100</td>
         </tr>
         <tr>
             <td class="questionBoxes-css" id="question4">200</td>

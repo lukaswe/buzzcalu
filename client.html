@@ -52,21 +52,24 @@
         }
     });
 
-    /*   socket.on('trueAnswer', function (schnellster) {
-     console.log(schnellster.nickname + " kriegt Punkte!!");
-
+       socket.on('trueAnswer', function (druecker, drueckerArray, questionArray) {
+     console.log(druecker.nickname + " kriegt Punkte!!");
+           $('#buzzerBtn').prop('disabled', true);
+           changeColor('white');
      });
 
-     socket.on('wrongAnswer', function (schnellster) {
-     console.log(schnellster.nickname + " kriegt leider keine Punkte!!");
-
-     });*/
+     socket.on('wrongAnswer', function (druecker, drueckerArray) {
+     console.log(druecker.nickname + " kriegt leider keine Punkte!!");
+         $('#buzzerBtn').prop('disabled', false);
+         //Buzzer wieder disablen
+         changeColor('white');
+     });
 
     //Buzzer wieder enablen!
     socket.on('showQuestion', function (questionArray5, tdId5, indx5) {
         $('#buzzerBtn').prop('disabled', false);
         $('#buzz-text').text("Sei bereit, " + $('#username').val() + "!");
-        changeColor('white');
+
     });
 
 
@@ -105,7 +108,7 @@
     <br/>
 
 <div id="submit">
-    <button id="submit-btn" onclick="save_name()" type="button">
+    <button id="submit-btn" onclick="save_name()" type="button" >
         Save Name
     </button>
 </div>
@@ -113,7 +116,7 @@
     <h1 id="buzz-text">Be Ready ###</h1>
     <button id="buzzerBtn"
             onclick="send_buzz()"
-            type="button">
+            type="button" disabled>
 
         Buzz!
     </button>
