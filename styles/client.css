@@ -1,10 +1,11 @@
+/*
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-/*Caro ab*/
+!*Caro ab*!
 body {
     font: 13px Helvetica, Arial;
 
@@ -51,7 +52,7 @@ form button {
     padding: 10px;
 }
 
-/*Caro bis*/
+!*Caro bis*!
 
 #nameField {
 
@@ -67,4 +68,114 @@ form button {
 
 #buzzer li:nth-child(odd) {
     background: #eee;
+}
+*/
+
+#UserInterface {
+    color: #000000;
+    width: 100%;
+    height: 100%;
+   /* height: 715em;*/
+    margin: -1em -1em -1em -1em;
+    padding: 1em 1em 1em 1em;
+    z-index: 10;
+    background-color: #F0F0F0;
+}
+
+#logo_Jeopardy {
+    width: 90%;
+    margin: 1em 1em 1em 1em;
+}
+
+
+#subheading {
+    color: green;
+    margin: 0em 0em -1em 0em;
+    padding: 1em 1em 1.2em 1em;
+    font-size: 1.2em;
+    font-family: -apple-system, 'Raleway', '.SFNSText-Regular', 'Arimo', 'FreeSans', 'Oxygen', 'Nimbus Sans L', 'Liberation Sans', 'Helvetica Neue LT Std', 'Helvetica', 'Arial', 'ITCKorinnaW03-Kursiv', sans-serif;
+    font-weight: bold;
+    z-index: 10;
+}
+
+input[type=text] {
+    color: #000000;
+    width: 200px;
+    margin: 0.5em 1em 0.5em 1em;
+    -webkit-transition: all 0.30s ease-in-out;
+    -moz-transition: all 0.30s ease-in-out;
+    -ms-transition: all 0.30s ease-in-out;
+    -o-transition: all 0.30s ease-in-out;
+    border: 1px solid #DDDDDD;
+    outline: none;
+    font-family: -apple-system , 'Raleway', '.SFNSText-Regular','Arimo','FreeSans', 'Oxygen','Nimbus Sans L', 'Liberation Sans', 'Helvetica Neue LT Std', 'Helvetica', 'Arial','ITCKorinnaW03-Kursiv',sans-serif;
+}
+input[type=text]:focus {
+    box-shadow: 0 0 5px rgba(81, 203, 238, 1);
+    border: 1px solid rgba(81, 203, 238, 1);
+}
+
+textarea {
+    color: #000000;
+    width: 400px;
+    height: 100px;
+    margin: 0.5em 1em 0.5em 1em;
+    -webkit-transition: all 0.30s ease-in-out;
+    -moz-transition: all 0.30s ease-in-out;
+    -ms-transition: all 0.30s ease-in-out;
+    -o-transition: all 0.30s ease-in-out;
+    border: 1px solid #DDDDDD;
+    outline: none;
+    font-family: -apple-system, 'Raleway', '.SFNSText-Regular', 'Arimo', 'FreeSans', 'Oxygen', 'Nimbus Sans L', 'Liberation Sans', 'Helvetica Neue LT Std', 'Helvetica', 'Arial', 'ITCKorinnaW03-Kursiv', sans-serif;
+}
+
+textarea:focus {
+    box-shadow: 0 0 5px rgba(81, 203, 238, 1);
+    border: 1px solid rgba(81, 203, 238, 1);
+}
+
+button {
+    font-family: -apple-system, 'Raleway', '.SFNSText-Regular', 'Arimo', 'FreeSans', 'Oxygen', 'Nimbus Sans L', 'Liberation Sans', 'Helvetica Neue LT Std', 'Helvetica', 'Arial', 'ITCKorinnaW03-Kursiv', sans-serif;
+    margin: 1em 1em 1em 1em;
+}
+
+
+#submit {
+    /* position: absolute;*/
+    display: inline-block;
+}
+
+
+#submit button {
+    display: inline;
+    padding: 0.5em 1em;
+    font-size: 1.2em;
+    font-weight: bold;
+    text-align: left;
+    border-radius: 5px;
+    -webkit-transition: all 200ms ease-out;
+    -moz-transition: all 200ms ease-out;
+    -o-transition: all 200ms ease-out;
+    -ms-transition: all 200ms ease-out;
+    transition: all 200ms ease-out;
+    color: #4a4a4a;
+    border: 1px solid rgba(217, 217, 217, 0.7);
+    text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.7);
+    box-shadow: inset 0 1px 1px rgba(244, 244, 244, 0.7), inset 1px 0 0 rgba(222, 222, 222, 0.7), inset -1px 0 0 rgba(200, 200, 200, 0.7), 0 1px 0 rgba(180, 180, 180, 0.7);
+    background-color: rgba(200, 200, 200, 0.7);
+    background-image: -webkit-linear-gradient(top, rgba(241, 241, 241, 0.7), rgba(200, 200, 200, 0.7));
+    background-image: -moz-linear-gradient(top, rgba(241, 241, 241, 0.7), rgba(200, 200, 200, 0.7));
+    background-image: -ms-linear-gradient(top, rgba(241, 241, 241, 0.7), rgba(200, 200, 200, 0.7));
+    background-image: -o-linear-gradient(top, rgba(241, 241, 241, 0.7), rgba(200, 200, 200, 0.7));
+    background-image: linear-gradient(top, rgba(241, 241, 241, 0.7), rgba(200, 200, 200, 0.7));
+    letter-spacing: 0px;
+}
+
+#submit button:hover {
+    cursor: pointer;
+    color: #3c3c3c;
+    border-color: rgba(170, 170, 170, 0.7);
+    background-color: rgba(130, 130, 130, 0.7);
+    text-shadow: 1px 1px 0 #f4f4f4;
+    box-shadow: inset 0 1px 0 rgba(200, 200, 200, 0.7), inset 1px 0 0 rgba(200, 200, 200, 0.7), inset -1px 0 0 rgba(200, 200, 200, 0.7), 0 1px 0 rgba(140, 140, 140, 0.7);
 }

@@ -4,8 +4,10 @@
     <meta charset="UTF-8">
     <title>BuzzCaLu Overview Screen</title>
     <script src="/socket.io/socket.io.js"></script>
-    <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+    <script src="libraries/jquery-3.2.1.min.js"></script>
     <link href="styles/overview.css" type="text/css" rel="stylesheet">
+    <script src="libraries/zoomooz-master/jquery.zoomooz.js"></script>
+
 </head>
 
 <script>
@@ -18,16 +20,17 @@
     var linkLocation
     //wert muss noch variabel werden
 
-    window.onload = function () {
+  /*  window.onload = function () {
         socket.emit('overviewHtmlOnload');
     }
+    */
 
-    socket.on('overviewHtmlOnload', function (playerArray2) {
+    /*socket.on('overviewHtmlOnload', function (playerArray2) {
         playerArray = playerArray2;
        // console.log("erster"+ erster.nickname);
         fillNameFields(playerArray);
     });
-
+*/
     //Clients verbinden sich //Blaue Felder füllemn :)
     socket.on('playerList', function (nicknameObj, playerArray7) {
         //Array mit Spielern füllen
@@ -85,17 +88,21 @@
         questionStart2(questionArray, tdId, indx);
 
 
+
 //Weiterleitung zur FragenSeite
-        window.setTimeout(" animation()", 100);
+  /*      window.setTimeout(" animation()", 100);
         linkLocation = "http://localhost:3000/question";
         $("body").fadeOut(1500, redirectPage);
         $("body").fadeOut(1500, redirectPage);
-
+*/
     });
+
+/*
 
     function redirectPage() {
         window.location = linkLocation;
     }
+*/
 
 
     //Frage in Tabelle eintragen
@@ -105,6 +112,7 @@
         console.log("question: " + question);
         console.log("question2: " + questionArray[indx]);
         console.log("tdId:: " + tdId);
+     //   $('.zoomTarget').text(question);
         document.getElementById(tdId).innerHTML = question;
 
     }
@@ -132,11 +140,45 @@
 
     }
 
+   /* $(document).ready(function() {
+        $(".zoomTarget").click(function(evt) {
+            $(this).zoomTo({targetsize:0.75, duration:600});
+            evt.stopPropagation();
+        });
+    });
+*/
+
+/*    $(document).ready(function() {
+        $(".zoomTarget").click(function(evt) {
+            $(this).zoomTo({targetsize:0.75, duration:600});
+            evt.stopPropagation();
+        });
+    });*/
+
+
+
+
 
 </script>
 
 
 <body>
+<!--Zoom Classen-->
+<!--<div class="zoomViewport">
+    <div class="zoomContainer">
+        &lt;!&ndash;Über das Data-Attribut „data-targetsize“ kann ein kleinerer Vergrößerungsfaktor eingestellt werden:
+        Erlaubt sind Werte zwischen Null und Eins. Der Wert „0.5“ vergrößert ein Element auf die halbe Fenstergröße.
+        Es gibt weitere Data-Attribute zur Anpassung der Zoom-Elemente. Über „data-duration“ wird beispielsweise die
+        Animationslänge in Millisekunden eingestellt.&ndash;&gt;
+        <div class="zoomTarget"  data-targetsize="0.7" id="question0">100</div>
+        <div class="zoomTarget"  data-targetsize="0.7" id="question1">100</div>
+        <div class="zoomTarget"  data-targetsize="0.7" id="question2">100</div>
+        <div class="zoomTarget"  data-targetsize="0.7" id="question3">100</div>
+
+    </div>
+</div>-->
+
+
 
 
 <div><h1 id="heins">Wer ist dran?</h1></div>
@@ -146,6 +188,7 @@
 
 
 <!--Fragen Tabelle-->
+
 <div class="questionContainer-css">
 
     <table id="playerTable" class="questionUeberschrift-css">
@@ -161,11 +204,14 @@
         <tbody id="ctbody">
         <tr>
 
-            <!--  <td class="questionBoxes-css" id="question-text0" style="visibility:hidden;">Question</td>-->
-            <td class="questionBoxes-css" id="question0">100</td>
+            <td class="zoomTarget" id="question0">100</td>
+            <td class="zoomTarget" id="question1">100</td>
+            <td class="zoomTarget" id="question2">100</td>
+            <td class="zoomTarget" id="question3">100</td>
+           <!-- <td class="questionBoxes-css" id="question0">100</td>
             <td class="questionBoxes-css" id="question1">100</td>
             <td class="questionBoxes-css" id="question2">100</td>
-            <td class="questionBoxes-css" id="question3">100</td>
+            <td class="questionBoxes-css" id="question3">100</td>-->
         </tr>
         <tr>
             <td class="questionBoxes-css" id="question4">200</td>
@@ -193,10 +239,10 @@
 
         </tbody>
 
-        <!-- Placeholder -->
     </table>
 
 </div>
+
 
 
 <!-- beigetretene Spieler Anzeige -->
@@ -207,5 +253,7 @@
     <div class="playerNameBoxes-css" id="player3-name">Enjoy</div>
     <div class="playerNameBoxes-css" id="player4-name">Enjoy</div>
 </div>
+
+
 </body>
 </html>

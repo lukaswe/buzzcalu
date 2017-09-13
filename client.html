@@ -2,8 +2,9 @@
 <html>
 <head>
     <title>Client</title>
-    <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
-    <link href="styles/client.css" rel="stylesheet">
+    <script src="libraries/jquery-3.2.1.min.js"></script>
+<link href="styles/client.css" rel="stylesheet">
+    <!--    <link href="styles/overview.css" rel="stylesheet">-->
     <script language="javascript" type="text/javascript" src="js/client.js"></script>
     <script src="/socket.io/socket.io.js"></script>
 </head>
@@ -17,18 +18,19 @@
     //socket.on = connect listener
     // var text = ('{"name"}')
     function save_name() {
-        document.getElementById("nameField").disabled = true;
-        document.getElementById("savenameBtn").disabled = true;
-        document.getElementById("buzz-div").style = "visibility:visible;";
-        document.getElementById("name-header").style = "visibility:hidden;";
-        document.getElementById("savenameBtn").style = "visibility:hidden;";
+        document.getElementById("username").disabled = true;
+        document.getElementById("username").style = "visibility:hidden;";
+        document.getElementById("submit-btn").disabled = true;
+        document.getElementById("buzzerBtn").style = "visibility:visible;";
+     //   document.getElementById("subheading").style = "visibility:hidden;";
+        document.getElementById("submit-btn").style = "visibility:hidden;";
 
-        obj = ({"id": 100, "nickname": $('#nameField').val(), "pkte": 0, "gameColor": "white"});
+        obj = ({"id": 100, "nickname": $('#username').val(), "pkte": 0, "gameColor": "white"});
 
         console.log("Hallo " + obj.nickname);
         socket.emit('set nickname', obj);
         // var myJSON = JSON.stringify(obj);
-        $('#buzz-text').text("Sei bereit, " + obj.nickname + "!");
+        $('#subheading').text("Sei bereit, " + obj.nickname + "!");
     }
     ;
 
@@ -50,20 +52,20 @@
         }
     });
 
- /*   socket.on('trueAnswer', function (schnellster) {
-        console.log(schnellster.nickname + " kriegt Punkte!!");
+    /*   socket.on('trueAnswer', function (schnellster) {
+     console.log(schnellster.nickname + " kriegt Punkte!!");
 
-    });
+     });
 
-    socket.on('wrongAnswer', function (schnellster) {
-        console.log(schnellster.nickname + " kriegt leider keine Punkte!!");
+     socket.on('wrongAnswer', function (schnellster) {
+     console.log(schnellster.nickname + " kriegt leider keine Punkte!!");
 
-    });*/
+     });*/
 
     //Buzzer wieder enablen!
     socket.on('showQuestion', function (questionArray5, tdId5, indx5) {
         $('#buzzerBtn').prop('disabled', false);
-        $('#buzz-text').text("Sei bereit, "+ $('#nameField').val() +"!");
+        $('#buzz-text').text("Sei bereit, " + $('#username').val() + "!");
         changeColor('white');
     });
 
@@ -78,10 +80,9 @@
     function send_buzz() {
         var socket = io();
 
-        console.log("test4: " + $('#nameField').val());
-        console.log("test5: " +obj.nickname );
+        console.log("send_buzz Test: " + $('#username').val());
         // Eigenes Event vom Client an den Server schicken
-        //  socket.emit('send_buzz', $('#nameField').val());
+        //  socket.emit('send_buzz', $('#username').val());
         socket.emit('send_buzz', obj);
 
         //  return false;
@@ -93,15 +94,40 @@
 
 <body>
 
-<p id="demo"></p>
-<script>//document.getElementById("savename").innerHTML = obj.name;</script>
-<form action="">
-    <div id="name-div">
 
-        <h1 id="name-header">Bitte Namen eingeben</h1>
+<div id="UserInterface">
+    <img id="logo_Jeopardy" src="graphics/gold_buzzcalu.png">
+    <!--<img id="logo_Jeopardy" src="https://www.jeopardy.com/Assets/jeopardy/images/global/logo_jeopardy.png">-->
+    <p id="subheading">
+        Bitte Namen eingeben:
+    </p>
+    <input id="username" type="text" name="username" placeholder="Username">
+    <br/>
 
-        <input id="nameField" autocomplete="off"/>
-        <button type="button" id="savenameBtn" onclick="save_name()">Save Name</button>
+<div id="submit">
+    <button id="submit-btn" onclick="save_name()" type="button">
+        Save Name
+    </button>
+</div>
+<div id="submit" style="visibility:hidden;">
+    <h1 id="buzz-text">Be Ready ###</h1>
+    <button id="buzzerBtn"
+            onclick="send_buzz()"
+            type="button">
+
+        Buzz!
+    </button>
+
+</div>
+</div>
+
+<!--<form action="">
+    <div id="UserInterface">
+
+        <h1 id="subheading">Bitte Namen eingeben</h1>
+
+        <input id="username" autocomplete="off"/>
+        <button type="button" id="submit-btn" onclick="save_name()">Save Name</button>
     </div>
 
 
@@ -118,6 +144,6 @@
     <div>
 
     </div>
-</form>
+</form>-->
 </body>
 </html>

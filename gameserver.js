@@ -23,6 +23,7 @@ app.get('/spass', function (req, res) {
 });
 
 
+/**Html seiten einbinden**/
 app.get('/overview', function (req, res) {
     res.sendFile(__dirname + '/overview.html');
 });
@@ -35,6 +36,7 @@ app.get('/question', function (req, res) {
     res.sendFile(__dirname + '/question.html');
 });
 
+/**zu html seiten zugehörige .css Dateien einbinden**/
 app.get('/styles/overview.css', function (req, res) {
     res.sendFile(__dirname + '/styles/overview.css');
 });
@@ -47,6 +49,7 @@ app.get('/styles/gameMaster.css', function (req, res) {
     res.sendFile(__dirname + '/styles/gameMaster.css');
 });
 
+/**zu html seiten zugehörige .js Dateien einbinden**/
 app.get('/js/client.js', function (req, res) {
     res.sendFile(__dirname + '/js/client.js');
 });
@@ -56,6 +59,29 @@ app.get('/js/gameMaster.js', function (req, res) {
 app.get('/js/overview.js', function (req, res) {
     res.sendFile(__dirname + '/js/overview.js');
 });
+
+/**Libraries einbinden**/
+app.get('/libraries/zoomooz-master/jquery.zoomooz.js', function (req, res) {
+    res.sendFile(__dirname + '/libraries/zoomooz-master/jquery.zoomooz.js');
+});
+
+app.get('/libraries/jquery-3.2.1.min.js', function (req, res) {
+    res.sendFile(__dirname + '/libraries/jquery-3.2.1.min.js');
+});
+
+app.get('/libraries/greensock-js/src/uncompressed/TimelineMax.js', function (req, res) {
+    res.sendFile(__dirname + '/libraries/greensock-js/src/uncompressed/TimelineMax.js');
+});
+
+/** Graphiken einbinden **/
+app.get('/graphics/BuzzCalu.png', function (req, res) {
+    res.sendFile(__dirname + '/graphics/BuzzCalu.png');
+});
+
+app.get('/graphics/gold_buzzcalu.png', function (req, res) {
+    res.sendFile(__dirname + '/graphics/gold_buzzcalu.png');
+});
+
 //var socket = io();
 
 io.on('connection', function (client) {
@@ -144,7 +170,7 @@ io.on('connection', function (client) {
         x = 0;
     });
 
-    client.on('questionHtmlOnload', function () {
+   /* client.on('questionHtmlOnload', function () {
         console.log("playdsd3:  " + playerArray[0].nickname);
         io.emit('questionHtmlOnload', playerArray);
     });
@@ -154,7 +180,7 @@ io.on('connection', function (client) {
             console.log("playdsd: 5 " + playerArray[0].nickname);
             io.emit('overviewHtmlOnload', playerArray);
         }
-    });
+    });*/
 
     client.on('aktPkte', function (playerArray3) {
         console.log("und3:  " + playerArray3[0].nickname);
