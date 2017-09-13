@@ -1,3 +1,6 @@
+body{
+    background-color: white;
+}
 .playerNameBoxes-css {
     -webkit-box-sizing: content-box;
     -moz-box-sizing: content-box;
@@ -12,20 +15,53 @@
     margin: 20px;
     padding: 20px;
     /*  overflow: hidden;*/
-    border: 5px solid;
+ /*   border: 5px solid;*/
     -webkit-border-radius: 12px;
+    border: 5px solid #000000;
     border-radius: 5px;
     font: normal 16px/1 Arial, Helvetica, sans-serif;
     color: rgba(0, 0, 0, 1);
     text-align: center;
     -o-text-overflow: ellipsis;
     text-overflow: ellipsis;
-    background: #22a5d8;
+   /* background: #22a5d8;*/
     -webkit-box-shadow: 1px 1px 1px 0 rgba(0, 0, 0, 0.3);
     box-shadow: 1px 1px 1px 0 rgba(0, 0, 0, 0.3);
     text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+    background-color:white;
+        /*   background-color: #996600;
+           background: #000066;
+           !* For browsers that do not support gradients *!
+           background: -webkit-linear-gradient(left top, #CC9900, #996600);
+           !* For Safari 5.1 to 6.0 *!
+           background: -o-linear-gradient(bottom right, #CC9900, #996600);
+           !* For Opera 11.1 to 12.0 *!
+           background: -moz-linear-gradient(bottom right, #CC9900, #996600);
+           !* For Firefox 3.6 to 15 *!
+           background: linear-gradient(to bottom right, #CC9900, #996600);
+           !* Standard syntax *!
+           z-index: -47;*/
+
 }
 
+
+/*.playerNameBoxes-css {
+    color: black;
+    width: 100%;
+    border: 1px solid #000000;
+    background-color: #996600;
+    background: #000066;
+    !* For browsers that do not support gradients *!
+    background: -webkit-linear-gradient(left top, #CC9900, #996600);
+    !* For Safari 5.1 to 6.0 *!
+    background: -o-linear-gradient(bottom right, #CC9900, #996600);
+    !* For Opera 11.1 to 12.0 *!
+    background: -moz-linear-gradient(bottom right, #CC9900, #996600);
+    !* For Firefox 3.6 to 15 *!
+    background: linear-gradient(to bottom right, #CC9900, #996600);
+    !* Standard syntax *!
+    z-index: -47;
+}*/
 /*
 .zoomTarget{
    border: 5px solid;
@@ -49,21 +85,32 @@
     bottom: 0px;
     height: 104px;
     width: 100%;
-    border-top: 3px solid;
-    background: #E0E0E0;
-}
 
+    background-color: #996600;
+    background: #000066;
+    /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(left top, #CC9900, #996600);
+    /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(bottom right, #CC9900, #996600);
+    /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(bottom right, #CC9900, #996600);
+    /* For Firefox 3.6 to 15 */
+    background: linear-gradient(to bottom right, #CC9900, #996600);
+    /* Standard syntax */
+    z-index: -47;
+}
+/*
 .questionContainer-css {
     position: fixed;
     left: 10%;
     right: 10%;
     top: 100px;
-    /*  bottom: 100px;*/
-    height: 204px;
+    !*  bottom: 100px;*!
+    !*height: 204px;*!
     width: 80%;
     border-top: 3px solid;
     background: #E0E0E0;
-}
+}*/
 
 /*.questionBoxes-css {
 
@@ -81,20 +128,20 @@
     text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
 }*/
 
-.questionUeberschrift-css {
+/*.questionUeberschrift-css {
 
     font: normal 16px/1 Arial, Helvetica, sans-serif;
 
     text-align: left;
     text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
-}
-th {
+}*/
+/*th {
     border-right: 2px solid #000;
 }
 td{
     width: 25%;
     height: 30px;
-}
+}*/
 
 
 
@@ -283,7 +330,8 @@ button {
 }
 
 @import url(https://fonts.googleapis.com/css?family=Oxygen);
-/*#board {
+/*Das blau gelbe Board*/
+#board {
     margin: 2em, 2em, 2em, 2em;
     z-index: -47;
 }
