@@ -15,40 +15,53 @@
     var questionArrayOv = new Array;
     var i = 1;
     var j = 0;
+    var linkLocation
     //wert muss noch variabel werden
 
+    window.onload = function () {
+        socket.emit('overviewHtmlOnload');
+    }
+
+    socket.on('overviewHtmlOnload', function (playerArray2) {
+        playerArray = playerArray2;
+       // console.log("erster"+ erster.nickname);
+        fillNameFields(playerArray);
+    });
 
     //Clients verbinden sich //Blaue Felder füllemn :)
-    socket.on('playerList', function (nicknameObj) {
+    socket.on('playerList', function (nicknameObj, playerArray7) {
         //Array mit Spielern füllen
-        playerArray.push(nicknameObj);
+        playerArray=playerArray7;
         console.log(nicknameObj.nickname + " just connected!");
 
         fillNameFields(playerArray);
     });
 
 
-    socket.on('trueAnswer', function (schnellster) {
-        playerArray.forEach(function (player) {
-            if (schnellster.nickname == player.nickname) {
-                console.log("player.pkte: " + player.pkte);
-                player.pkte = schnellster.pkte;
-                fillNameFields();
-            }
-
-        });
+    socket.on('trueAnswer', function (playerArray5) {
+        playerArray= playerArray5;
+//        playerArray.forEach(function (player) {
+//            if (schnellster.nickname == player.nickname) {
+//                console.log("player.pkte: " + player.pkte);
+//                player.pkte = schnellster.pkte;
+//
+//            }
+//
+//        });
+        fillNameFields(playerArray);
     });
 
 
-    socket.on('wrongAnswer', function (schnellster) {
-        playerArray.forEach(function (player) {
-            if (schnellster.nickname == player.nickname) {
-                console.log("player.pkte: " + player.pkte);
-                player.pkte = schnellster.pkte;
-                fillNameFields();
-            }
+    socket.on('wrongAnswer', function (playerArray9) {
+        playerArray= playerArray9;
+        //playerArray.forEach(function (player) {
+         //   if (schnellster.nickname == player.nickname) {
+         //       console.log("player.pkte: " + player.pkte);
+              //  player.pkte = schnellster.pkte;
+                fillNameFields(playerArray9);
+        //    }
 
-        });
+       // });
     });
 
     socket.on('fastest player', function (player) {
@@ -56,19 +69,12 @@
         $('#erster-text').text(player.nickname);
         playerArray.forEach(function (player2) {
             console.log("player2.nickname" + player2.nickname);
-            if (player2.nickname != player.nickname) {
-                console.log(",player2.id:     player" + player2.id);
-                document.getElementById("player" + player2.id + "-name").style = "visibility: hidden;";
+            if (player2.id == player.id) {
+                console.log("das geht jetzt mal " +player2.id+" = "+player.id);
+              //  document.getElementById("player" + player2.id + "-name").style = "visibility: hidden;";
             }
         });
-        /*$("#player"+player.id+"-name").animate(
-                {
-                    opacity: 0.25,
-                    left: "+=50",
-                    height: "toggle"
-                }, 2000, function () {
-                    console.log("animation? ");
-                });*/
+
     });
 
 
@@ -77,8 +83,19 @@
         console.log("qA: " + questionArray[indx]);
 
         questionStart2(questionArray, tdId, indx);
-        //this.j++;
+
+
+//Weiterleitung zur FragenSeite
+        window.setTimeout(" animation()", 100);
+        linkLocation = "http://localhost:3000/question";
+        $("body").fadeOut(1500, redirectPage);
+        $("body").fadeOut(1500, redirectPage);
+
     });
+
+    function redirectPage() {
+        window.location = linkLocation;
+    }
 
 
     //Frage in Tabelle eintragen
@@ -103,14 +120,14 @@
             document.getElementById("player" + i + "-name").style = "visibility:visible;";
             document.getElementById("player" + i + "-name").style.backgroundColor = player.color;
             //$('.player' + player.id + '-name').css('visibility','visible').hide().fadeIn("slow");
-          //  $('.player' + player.id + '-name').fadeTo("slow", 1); // 100% visible
+            //  $('.player' + player.id + '-name').fadeTo("slow", 1); // 100% visible
 
 
             i += 1;
         });
-       // $('#player' + i + '-name').fadeIn;
-       // console.log('#player' + player.id + '-name');
-       // $('#player' + i + '-name').fadeIn("slow");
+        // $('#player' + i + '-name').fadeIn;
+        // console.log('#player' + player.id + '-name');
+        // $('#player' + i + '-name').fadeIn("slow");
 
 
     }
@@ -184,11 +201,11 @@
 
 <!-- beigetretene Spieler Anzeige -->
 <div class="playerNameContainer" id=playerNameContainerId>
-    <div class="playerNameBoxes-css" id="player0-name" >Enjoy</div>
-    <div class="playerNameBoxes-css" id="player1-name" >Enjoy</div>
-    <div class="playerNameBoxes-css" id="player2-name" >Enjoy</div>
-    <div class="playerNameBoxes-css" id="player3-name" >Enjoy</div>
-    <div class="playerNameBoxes-css" id="player4-name" >Enjoy</div>
+    <div class="playerNameBoxes-css" id="player0-name">Enjoy</div>
+    <div class="playerNameBoxes-css" id="player1-name">Enjoy</div>
+    <div class="playerNameBoxes-css" id="player2-name">Enjoy</div>
+    <div class="playerNameBoxes-css" id="player3-name">Enjoy</div>
+    <div class="playerNameBoxes-css" id="player4-name">Enjoy</div>
 </div>
 </body>
 </html>

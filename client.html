@@ -20,9 +20,11 @@
         document.getElementById("nameField").disabled = true;
         document.getElementById("savenameBtn").disabled = true;
         document.getElementById("buzz-div").style = "visibility:visible;";
-        document.getElementById("name-div").style = "visibility:hidden;";
+        document.getElementById("name-header").style = "visibility:hidden;";
+        document.getElementById("savenameBtn").style = "visibility:hidden;";
 
         obj = ({"id": 100, "nickname": $('#nameField').val(), "pkte": 0, "gameColor": "white"});
+
         console.log("Hallo " + obj.nickname);
         socket.emit('set nickname', obj);
         // var myJSON = JSON.stringify(obj);
@@ -48,15 +50,22 @@
         }
     });
 
-    socket.on('trueAnswer', function (schnellster) {
+ /*   socket.on('trueAnswer', function (schnellster) {
         console.log(schnellster.nickname + " kriegt Punkte!!");
 
     });
+
     socket.on('wrongAnswer', function (schnellster) {
         console.log(schnellster.nickname + " kriegt leider keine Punkte!!");
 
-    });
+    });*/
 
+    //Buzzer wieder enablen!
+    socket.on('showQuestion', function (questionArray5, tdId5, indx5) {
+        $('#buzzerBtn').prop('disabled', false);
+        $('#buzz-text').text("Sei bereit, "+ $('#nameField').val() +"!");
+        changeColor('white');
+    });
 
 
     var currColor;
@@ -104,6 +113,9 @@
 
             Buzz!
         </button>
+
+    </div>
+    <div>
 
     </div>
 </form>

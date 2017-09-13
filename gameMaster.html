@@ -23,9 +23,9 @@
 
     /**Client-Server Kommunikation**/
         //Clients verbinden sich
-    socket.on('playerList', function (nicknameObj) {
+    socket.on('playerList', function (nicknameObj, playerArray2) {
         //Array mit Spielern füllen
-        playerArray.push(nicknameObj);
+        playerArray = playerArray2;
         console.log(nicknameObj.nickname + " just connected!");
         start();
 
@@ -34,28 +34,46 @@
     socket.on('fastest player', function (player) {
         //document.getElementById("erster-text").innerHTML = player;
         $('#schnellster-text').text(player.nickname);
-        schnellster = player;
+        // console.log("this.schnellster "+ this.schnellster.nickname);
+        console.log("this.player " + player.nickname);
+        this.schnellster = player;
+        console.log("this.schnellster2 " + this.schnellster.nickname);
+        console.log("this.player2 " + player.nickname);
         //$('#erster-text').text(player);
     });
 
     /**Seitenspezifische Funktionalitäten**/
     function trueAnswer() {
-        schnellster.pkte += fragenPunkte;
-        playerArray.forEach(function (player) {
-            if (schnellster.nickname == player.nickname) {
-                player.pkte = schnellster.pkte;
-                socket.emit('trueAnswer', player);
+        var schnellster2 = $("#schnellster-text").html();
+
+        //var  schnellster2 = document.getElementById("schnellster-text").innerText();
+        // console.log("schnes5:  " + document.getElementById("schnellster-text").innerText());
+        console.log("schnes:  " + schnellster2);
+        console.log("this.playerArray" + this.playerArray);
+        console.log("this.playerArray" + this.playerArray[0].nickname);
+        // console.log(" schnellster.pkte vorher: "+ this.schnellster.pkte);
+        //   schnellster.pkte += fragenPunkte;
+        //   console.log(" schnellster.pkte nachher: "+ schnellster.pkte);
+        this.playerArray.forEach(function (player) {
+            if (schnellster2 == player.nickname) {
+                //console.log(" in if player pkte  " + player.pkte);
+                player.pkte += fragenPunkte;
+                //console.log(" in if player  " + player.nickname);
+                //console.log(" in if player pkte  " + player.pkte);
+                console.log("this.playerArray" + this.playerArray[0].nickname);
+                socket.emit('trueAnswer', player, playerArray);
             }
         });
 
     }
 
     function wrongAnswer() {
+        console.log("this.playerArray" + this.playerArray);
         schnellster.pkte -= fragenPunkte;
-        playerArray.forEach(function (player) {
+        this.playerArray.forEach(function (player) {
             if (schnellster.nickname == player.nickname) {
                 player.pkte = schnellster.pkte;
-                socket.emit('wrongAnswer', player);
+                socket.emit('wrongAnswer', player, playerArray);
             }
         });
     }
@@ -65,8 +83,9 @@
         this.schnellster = playa;
     });
 
-    socket.on('wrongAnswer', function (playa) {
-        this.schnellster = playa;
+    socket.on('wrongAnswer', function (playerArray9) {
+        // this.schnellster = playa;
+        playerArray = playerArray9;
     });
 
 
@@ -92,7 +111,7 @@
             //neue Spalten
             var playerNameTd = document.createElement("td"),
                     playerPkteTd = document.createElement("td");
-             playerColorTd = document.createElement("td");
+            playerColorTd = document.createElement("td");
 
             playerNameTd.appendChild(document.createTextNode(player.nickname));
             playerPkteTd.appendChild(document.createTextNode(player.pkte));
@@ -102,7 +121,7 @@
 
             row.appendChild(playerNameTd);
             row.appendChild(playerPkteTd);
-             row.appendChild(playerColorTd);
+            row.appendChild(playerColorTd);
 
             //Eintrag entfernen
             //   playerXoxoTd.onclick = function () {
@@ -117,9 +136,12 @@
         });
     }
 
-
+    window.onload = function () {
+        questionStart();
+        ;
+    }
     function questionStart() {
-        socket.emit('questionStart', questionArray);
+        // socket.emit('questionStart', questionArray);
         var j = 0;
         questionArray.forEach(function (question) {
             console.log("question: " + question);
@@ -129,22 +151,23 @@
         });
     }
 
-    function showQuestion(tdId){
+    function showQuestion(tdId) {
         document.getElementById(tdId).innerHTML = "erledigt";
-        var indx= tdId.substring(tdId.length-1, tdId.length);
-        console.log("this.questionArray"+this.questionArray[indx] + "indx: " + indx);
-        socket.emit('showQuestion',this.questionArray, tdId, indx )
+        var indx = tdId.substring(tdId.length - 1, tdId.length);
+        console.log("this.questionArray" + this.questionArray[indx] + "indx: " + indx);
+        //NICht nur show question sondern auch BuzzerEnablen
+        socket.emit('showQuestion', this.questionArray, tdId, indx)
     }
 
 
 </script>
 <body>
-
+<!--
 <button class="answbtn-css"
         type="button"
         id="questionStart"
         onclick="questionStart()">questionStart
-</button>
+</button>-->
 </br>
 </br>
 </br>

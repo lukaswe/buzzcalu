@@ -6,8 +6,171 @@
     <link href="styles/client.css" rel="stylesheet">
     <script language="javascript" type="text/javascript" src="js/client.js"></script>
     <script src="/socket.io/socket.io.js"></script>
+    <style>
+
+        .playerNameContainer {
+            position: fixed;
+            left: 0px;
+            bottom: 0px;
+            height: 104px;
+            width: 100%;
+            border-top: 3px solid;
+            background: #E0E0E0;
+        }
+
+        .playerNameBoxes-css {
+            -webkit-box-sizing: content-box;
+            -moz-box-sizing: content-box;
+            box-sizing: content-box;
+            float: left;
+            visibility: hidden;
+            width: 12%;
+            margin: 20px;
+            padding: 20px;
+            /*  overflow: hidden;*/
+            border: 5px solid;
+            -webkit-border-radius: 12px;
+            border-radius: 5px;
+            font: normal 16px/1 Arial, Helvetica, sans-serif;
+            color: rgba(0, 0, 0, 1);
+            text-align: center;
+            -o-text-overflow: ellipsis;
+            text-overflow: ellipsis;
+            background: #22a5d8;
+            -webkit-box-shadow: 1px 1px 1px 0 rgba(0, 0, 0, 0.3);
+            box-shadow: 1px 1px 1px 0 rgba(0, 0, 0, 0.3);
+            text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+        }
+
+    </style>
 </head>
+
+<script>
+    var socket = io.connect();
+    var linklocation;
+    var playerArray = new Array;
+
+    window.onload = function () {
+        socket.emit('questionHtmlOnload');
+    }
+
+    socket.on('questionHtmlOnload', function (playerArray2) {
+        playerArray = playerArray2;
+       //Frage Anzeigen
+
+    });
+
+    //Weiterleitung zur Overviewseite
+    /* window.setTimeout(" animation()", 12500);
+     linkLocation = "http://localhost:3000/question";
+     $("body").fadeOut(2500, redirectPage);
+
+     //this.j++;
+     });
+     function redirectPage() {
+     window.location = linkLocation;
+     }*/
+    //Clients verbinden sich //Blaue Felder füllemn :)
+    socket.on('playerList', function (nicknameObj, playerArray8) {
+        //Array mit Spielern füllen
+       playerArray=playerArray8;
+        console.log(nicknameObj.nickname + " just connected!");
+        fillNameFields(playerArray8);
+    });
+
+  socket.on('trueAnswer', function (schnellster, playerArray11) {
+      /*    playerArray.forEach(function (player) {
+            if (schnellster.nickname == player.nickname) {
+                console.log("player.pkte: " + player.pkte);
+                player.pkte = schnellster.pkte;
+                fillNameFields(playerArray);
+
+
+            }
+
+        });*/
+      console.log("playerArray11:  "+playerArray11[0].nickname);
+      $('#player-name').text(schnellster.nickname+" Punkte:  " + schnellster.pkte);
+      redirectToOv(playerArray11);
+    });
+
+
+    socket.on('wrongAnswer', function (schnellster, playerArray1) {
+        /*  playerArray.forEach(function (player) {
+            if (schnellster.nickname == player.nickname) {
+                console.log("player.pkte: " + player.pkte);
+                player.pkte = schnellster.pkte;
+                fillNameFields(playerArray);
+
+            }
+
+        });*/
+        $('#player-name').text(schnellster.nickname);
+        redirectToOv(playerArray1);
+    });
+
+    function redirectToOv(playerArray12){
+        socket.emit('aktPkte', playerArray12);
+        console.log("playerArray11:  "+playerArray12);
+        window.setTimeout(" animation()", 52500);
+        linkLocation = "http://localhost:3000/overview";
+        $("body").fadeOut(2500, redirectPage);
+    };
+    function redirectPage() {
+        window.location = linkLocation;
+    }
+    socket.on('fastest player', function (player) {
+        //document.getElementById("erster-text").innerHTML = player;
+        $('#player-name').text(player.nickname);
+        console.log("player2.nickname" + player.nickname);
+        fillNameFields(player);
+        /*$("#player"+player.id+"-name").animate(
+         {
+         opacity: 0.25,
+         left: "+=50",
+         height: "toggle"
+         }, 2000, function () {
+         console.log("animation? ");
+         });*/
+    });
+
+
+    socket.on('showQuestion', function (questionArray, tdId, indx) {
+        console.log("tdId : " + tdId);
+        console.log("qA: " + questionArray[indx]);
+
+        questionStart2(questionArray, tdId, indx);
+    });
+
+    //Blaue Namensfelder werden befüllt
+    function fillNameFields(player) {
+        i = 1;
+       // playerArray2.forEach(function (player) {
+            //  console.log("i: " + i + ", " + player.nickname, player.color);
+            $('#player-name').text(player.nickname + '    ' + player.pkte);
+            console.log("geht" + player.id);
+
+            document.getElementById("player-name").style = "visibility:visible;";
+            document.getElementById("player-name").style.backgroundColor = player.color;
+            //$('.player' + player.id + '-name').css('visibility','visible').hide().fadeIn("slow");
+            //  $('.player' + player.id + '-name').fadeTo("slow", 1); // 100% visible
+       // });
+        // $('#player' + i + '-name').fadeIn;
+        // console.log('#player' + player.id + '-name');
+        // $('#player' + i + '-name').fadeIn("slow");
+
+
+    }
+
+
+</script>
 <body>
+
+<div class="playerNameContainer" id=playerNameContainerId>
+    <div class="playerNameBoxes-css" id="player-name">Enjoy</div>
+
+</div>
+
 
 </body>
 </html>

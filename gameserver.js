@@ -31,6 +31,10 @@ app.get('/gamemaster', function (req, res) {
     res.sendFile(__dirname + '/gameMaster.html');
 });
 
+app.get('/question', function (req, res) {
+    res.sendFile(__dirname + '/question.html');
+});
+
 app.get('/styles/overview.css', function (req, res) {
     res.sendFile(__dirname + '/styles/overview.css');
 });
@@ -38,6 +42,7 @@ app.get('/styles/overview.css', function (req, res) {
 app.get('/styles/client.css', function (req, res) {
     res.sendFile(__dirname + '/styles/client.css');
 });
+
 app.get('/styles/gameMaster.css', function (req, res) {
     res.sendFile(__dirname + '/styles/gameMaster.css');
 });
@@ -59,13 +64,13 @@ io.on('connection', function (client) {
     //Clients verbinden sich
     client.on('set nickname', function (nicknameObj) {
         playerArray.push(nicknameObj);
-        var x = 0 ;
-        console.log("playerArray.length:  "+ playerArray.length);
-        while ( x  < playerArray.length ) {
+        var x = 0;
+        console.log("playerArray.length:  " + playerArray.length);
+        while (x < playerArray.length) {
             //console.log("playerArray[x].nickname: " + playerArray[x].nickname);
             console.log("nicknameObj.nickname: " + nicknameObj.nickname);
             console.log("x: " + x);
-          //  console.log("playerArray.length x: " + playerArray.length[x]);
+            //  console.log("playerArray.length x: " + playerArray.length[x]);
             if (playerArray[x].nickname == nicknameObj.nickname) {
                 if (x == 0) {
                     nicknameObj.color = "green";
@@ -85,7 +90,7 @@ io.on('connection', function (client) {
                 } else {
                     console.log("Kritischer Fehler!")
                 }
-                console.log("nicknameobj: " + nicknameObj.color + "nicknameObj.id " + nicknameObj.id );
+                console.log("nicknameobj: " + nicknameObj.color + "nicknameObj.id " + nicknameObj.id);
             }
             x++
         }
@@ -94,7 +99,7 @@ io.on('connection', function (client) {
         //  playerArray.push(nicknameObj);
         console.log(nicknameObj.nickname + " just connected!");
         //Blaue Felder im Overview füllen und gamemaster Spielerliste erstellen
-        io.emit('playerList', nicknameObj);
+        io.emit('playerList', nicknameObj, playerArray);
     });
 
 //schnellster Buzzer wird ermittelt und an die CLients geschickt
@@ -120,23 +125,44 @@ io.on('connection', function (client) {
      io.emit('questionStart',questionArray);
      });
      */
-    client.on('trueAnswer', function (schnellster) {
-
-        console.log(schnellster.nickname + " kriegt Punkte!!");
-        io.emit('trueAnswer', schnellster);
+    client.on('trueAnswer', function (player, playerArr) {
+        console.log("playerArr" + playerArr[0].nickname);
+        playerArray = playerArr;
+        io.emit('trueAnswer', player, playerArr);
 
     });
 
-    client.on('wrongAnswer', function (schnellster) {
-        console.log("schnellster.pkte: " + schnellster.pkte);
-        io.emit('wrongAnswer', schnellster);
+    client.on('wrongAnswer', function (player, playerArr) {
+        console.log("playerArr" + playerArr[0].nickname);
+        playerArray = playerArr;
+        io.emit('wrongAnswer', playerArr);
     });
 
     client.on('showQuestion', function (questionArray, tdId, indx) {
         console.log("sowquestion funzt.pkte: " + questionArray[indx] + " , " + tdId);
         io.emit('showQuestion', questionArray, tdId, indx);
+        x = 0;
     });
 
+    client.on('questionHtmlOnload', function () {
+        console.log("playdsd3:  " + playerArray[0].nickname);
+        io.emit('questionHtmlOnload', playerArray);
+    });
+
+    client.on('overviewHtmlOnload', function () {
+        if (playerArray != 'undefined') {
+            console.log("playdsd: 5 " + playerArray[0].nickname);
+            io.emit('overviewHtmlOnload', playerArray);
+        }
+    });
+
+    client.on('aktPkte', function (playerArray3) {
+        console.log("und3:  " + playerArray3[0].nickname);
+        //console.log("und4:  " + this.playerArray[0].nickname);
+        playerArray = playerArray3;
+        console.log("und5:  " + playerArray3[0].nickname);
+
+    });
 
 })
 ;
