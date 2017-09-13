@@ -49,6 +49,12 @@
         console.log("answerArray[tdId]:   " + answerArray[tdId]);
         answerStart(answerArray, tdId, indx);
         fillNameFields(playerArray);
+        for(y = 0; y < 15; y++){
+
+                document.getElementById("question"+y).style.height = 200+"px";
+                document.getElementById("question"+y).style.width = 150+"px";
+
+        }
     });
 
 
@@ -128,11 +134,21 @@
 
         //  $('.zoomTarget').text(question);
         document.getElementById(tdId).innerHTML = question.text;
-        /*$(document).ready(function() {
-         $(".zoomTarget").zoomTarget();
-         });*/
-        //document.querySelector(".questionBoxes-css").className = "questionBoxes-css.visi";
-        // document.querySelector("td").className = "questionBoxes-css.visi";
+
+        /**15 ist Anzahl der Fragen!! Hier ändern**/
+        for(y = 0; y < 15; y++){
+            if(indx != y){
+                document.getElementById("question"+y).style.height = 0+"px";
+                document.getElementById("question"+y).style.width = 0+"px";
+            }else{
+                //200
+                document.getElementById(tdId).style.height = 600+"px";
+                //150
+                document.getElementById(tdId).style.width = 4000+"px";
+
+            }
+        }
+
     }
 
     //Blaue Namensfelder werden befüllt
