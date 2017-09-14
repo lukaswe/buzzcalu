@@ -9,9 +9,9 @@ var io = require('socket.io')(http);
 var x = 0;
 var erster;
 var playerArray = new Array;
-var answerArray = ["Wahr", "Falsch", "Schwimmen"];
-//(Gibt für die Demo nur Fehler/Warnungen auf der Konsole aus)
-//var io = require('socket.io').listen(app).set('log level', 1);
+var answerArray = ["Glücksrad","Damit sie sich von den Kellnern unterscheiden",
+    "0","0", "Zwei", "Peter Lustig", "0","0","Flohzirkus", "0","0", "0","Bild",
+    "0", "1860 München","0" ];
 
 
 app.get('/', function (req, res) {
@@ -69,6 +69,10 @@ app.get('/libraries/jquery-3.2.1.min.js', function (req, res) {
     res.sendFile(__dirname + '/libraries/jquery-3.2.1.min.js');
 });
 
+app.get('/libraries/jquery.blink.js', function (req, res) {
+    res.sendFile(__dirname + '/libraries/jquery.blink.js');
+});
+
 app.get('/libraries/greensock-js/src/uncompressed/TimelineMax.js', function (req, res) {
     res.sendFile(__dirname + '/libraries/greensock-js/src/uncompressed/TimelineMax.js');
 });
@@ -80,6 +84,14 @@ app.get('/graphics/BuzzCalu.png', function (req, res) {
 
 app.get('/graphics/gold_buzzcalu.png', function (req, res) {
     res.sendFile(__dirname + '/graphics/gold_buzzcalu.png');
+});
+
+app.get('/bild1_klein.jpg', function (req, res) {
+    res.sendFile(__dirname + '/bild1_klein.jpg');
+});app.get('/bild1.jpg', function (req, res) {
+    res.sendFile(__dirname + '/bild1.jpg');
+});app.get('/graphics/400.png', function (req, res) {
+    res.sendFile(__dirname + '/graphics/400.png');
 });
 
 //var socket = io();
@@ -146,11 +158,6 @@ io.on('connection', function (client) {
     });
 
 
-    /*client.on('questionStart', function (questionArray) {
-     console.log("questionStart");
-     io.emit('questionStart',questionArray);
-     });
-     */
     client.on('trueAnswer', function (player, playerArr) {
         console.log("playerArr" + playerArr[0].nickname);
         playerArray = playerArr;
@@ -169,7 +176,11 @@ io.on('connection', function (client) {
 
     client.on('showQuestion', function (questionArray, tdId, indx) {
         console.log("sowquestion funzt.pkte: " + questionArray[indx].text + " , " + tdId);
-        io.emit('showQuestion', questionArray, tdId, indx);
+        if (questionArray[indx].superquestion == 1){
+            io.emit('showSuperQuestion', questionArray, tdId, indx);
+        }else {
+            io.emit('showQuestion', questionArray, tdId, indx);
+        }
         x = 0;
     });
 

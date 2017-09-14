@@ -16,12 +16,49 @@
     var fragenPunkte = 100;
     var questionArray = new Array
     var tdId = 100;
+    var currentQuestionObj;
+
+    //Für Bilder im .text Feld "Bild" eingeben. Auf Großschreibung achten!
     questionArray = [
-        {"text": "Hast du Eier?", "val": 0},
-        {"text": "Oder Gemuese?", "val": 0},
-        {"text": "Vielleicht Katzen?", "val": 0},
-        {"text": "Haben Fliegen Flügel?", "val": 0},
-        {"text": "Was zur Hölle?", "val": 0}];
+        {"text": "An welcher Gameshow nahm Angela Merkel einst teil?", "pkte": 100, "val": 0, "superquestion": 0},
+        {
+            "text": "Warum tragen die Herren auf dem Wiener Opernball weiße Fliegen?",
+            "pkte": 100,
+            "val": 0,
+            "superquestion": 0
+        },
+        {"text": "Haben Fliegen Flügel?", "pkte": 100, "val": 0, "superquestion": 0},
+        {"text": "Haben Fliegen Flügel?", "pkte": 100, "val": 0, "superquestion": 0},
+
+        {"text": "Wie viele Golfbälle liegen auf dem Mond?", "pkte": 200, "val": 0, "superquestion": 1},
+        {
+            "text": "Wer war als Tontechniker für die Ich bin ein Berliner-Rede von John F. Kennedy verantwortlich ?",
+            "pkte": 200,
+            "val": 0,
+            "superquestion": 0
+        },
+        {"text": "Haben Fliegen Flügel?", "pkte": 200, "val": 0, "superquestion": 0},
+        {"text": "Haben Fliegen Flügel?", "pkte": 200, "val": 0, "superquestion": 0},
+
+        {
+            "text": "Was hat das Münchener Oktoberfest im Gegensatz zu anderen Volksfesten zu bieten?",
+            "pkte": 300,
+            "val": 0,
+            "superquestion": 0
+        },
+        {"text": "Haben Fliegen Flügel?", "pkte": 300, "val": 0, "superquestion": 0},
+        {"text": "Haben Fliegen Flügel?", "pkte": 300, "val": 0, "superquestion": 0},
+        {"text": "Was zur Hölle?", "pkte": 300, "val": 0, "superquestion": 0},
+
+        {"text": "Bild", "pkte": 400, "val": 0, "superquestion": 0},
+        {"text": "Haben Fliegen Flügel?", "pkte": 400, "val": 0, "superquestion": 0},
+        {
+            "text": "Papst Franziskus ist Ehrenmitglied des Fußballvereins ...?",
+            "pkte": 400,
+            "val": 0,
+            "superquestion": 0
+        },
+        {"text": "Was zur Hölle?", "pkte": 400, "val": 0, "superquestion": 0}];
 
 
     /**Client-Server Kommunikation**/
@@ -52,7 +89,7 @@
         console.log("this.playerArray" + playerArray[0].nickname);
         playerArray.forEach(function (player) {
             if (schnellster2 == player.nickname) {
-                player.pkte += fragenPunkte;
+                player.pkte += currentQuestionObj.pkte;
                 console.log("this.playerArray" + playerArray[0].nickname);
                 socket.emit('trueAnswer', player, playerArray);
             }
@@ -69,7 +106,9 @@
             if (schnellster.nickname == player.nickname) {
                 console.log("in wrongAnswer, this.playerArray:  " + player.nickname);
                 console.log("in wrongAnswer, playerpkte:  " + player.pkte);
-                player.pkte -= fragenPunkte;
+                console.log("in wrongAnswer, currentQuestionObj.pkte:  " +currentQuestionObj.pkte);
+                console.log("in wrongAnswer, currentQuestionObj.text:  " +currentQuestionObj.text);
+                player.pkte -= currentQuestionObj.pkte;
                 console.log("in wrongAnswer, playerpkte:  " + player.pkte);
                 socket.emit('wrongAnswer', player, playerArray);
             }
@@ -84,12 +123,8 @@
     });
 
     socket.on('wrongAnswer', function (player, playerArray9) {
-        // this.schnellster = playa;
         playerArray = playerArray9;
         console.log("socket on wrongArray, playerArray9:  " + playerArray9[0].nickname);
-        console.log("socket on wrongArray, playerArray:  " + playerArray[0].nickname);
-        //Damit Frage wieder zum Buzzernn freigegeben wird.
-        //socket.emit('showQuestion', questionArray, tdId, indx);
     });
 
 
@@ -142,22 +177,31 @@
 
     window.onload = function () {
         questionStart();
-        ;
     }
+
     function questionStart() {
         // socket.emit('questionStart', questionArray);
         var j = 0;
         questionArray.forEach(function (question) {
             console.log("question: " + question.text);
+
             $('#question' + [j]).text(question.text);
-            document.getElementById("question" + [j]).style = "visibility:visible;";
+            //    document.getElementById("question" + [j]).style = "visibility:visible;";
             j++;
         });
     }
 
     function showQuestion(tdId2) {
         tdId = tdId2;
-        var indx = tdId2.substring(tdId2.length - 1, tdId2.length);
+        /**Hier anzahl der fragen anpassen**/
+        //for (var anzahlDerFragen = 0; anzahlDerFragen < 16; anzahlDerFragen ++) {
+        if (tdId.length < 10) {
+             indx = tdId2.substring(tdId2.length - 1, tdId2.length);
+        } else {
+             indx = tdId2.substring(tdId2.length - 2, tdId2.length);
+        }
+
+
         console.log("this.questionArray" + questionArray[indx].text + "indx: " + indx);
         //NICht nur show question sondern auch BuzzerEnablen
         console.log("this.questionArray.val" + questionArray[indx].val);
@@ -169,6 +213,7 @@
         } else {
             socket.emit('showQuestion', questionArray, tdId2, indx);
         }
+        currentQuestionObj=  questionArray[indx];
         questionArray[indx].val += 1;
 
     }
@@ -176,12 +221,8 @@
 
 </script>
 <body>
-<!--
-<button class="answbtn-css"
-        type="button"
-        id="questionStart"
-        onclick="questionStart()">questionStart
-</button>-->
+
+
 </br>
 </br>
 </br>
@@ -235,30 +276,30 @@
         <tr>
 
             <!--  <td class="questionBoxes-css" id="question-text0" style="visibility:hidden;">Question</td>-->
-            <td type="button" class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question0">100</td>
-            <td type="button" class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question1">100</td>
-            <td type="button" class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question2">100</td>
-            <td type="button" class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question3">100</td>
+            <td class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question0">100</td>
+            <td class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question1">100</td>
+            <td class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question2">100</td>
+            <td class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question3">100</td>
         </tr>
         <tr>
-            <td class="questionBoxes2-css" onclick="showQuestion()" id="question4">200</td>
-            <td class="questionBoxes2-css" onclick="showQuestion()" id="question5">200</td>
-            <td class="questionBoxes2-css" onclick="showQuestion()" id="question6">200</td>
-            <td class="questionBoxes2-css" onclick="showQuestion()" id="question7">200</td>
+            <td class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question4">200</td>
+            <td class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question5">200</td>
+            <td class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question6">200</td>
+            <td class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question7">200</td>
         </tr>
         <tr>
-            <td class="questionBoxes2-css" onclick="showQuestion()" id="question8">300</td>
-            <td class="questionBoxes2-css" onclick="showQuestion()" id="question9">300</td>
-            <td class="questionBoxes2-css" onclick="showQuestion()" id="question10">300</td>
-            <td class="questionBoxes2-css" onclick="showQuestion()" id="question11">300</td>
+            <td class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question8">300</td>
+            <td class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question9">300</td>
+            <td class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question10">300</td>
+            <td class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question11">300</td>
 
 
         </tr>
         <tr>
-            <td class="questionBoxes2-css" id="question-text12">400</td>
-            <td class="questionBoxes2-css" id="question-text13">400</td>
-            <td class="questionBoxes2-css" id="question-text14">400</td>
-            <td class="questionBoxes2-css" id="question-text15">400</td>
+            <td class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question12">400</td>
+            <td class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question13">400</td>
+            <td class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question14">400</td>
+            <td class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question15">400</td>
 
 
         </tr>

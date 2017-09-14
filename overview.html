@@ -5,6 +5,7 @@
     <title>BuzzCaLu Overview Screen</title>
     <script src="/socket.io/socket.io.js"></script>
     <script src="libraries/jquery-3.2.1.min.js"></script>
+    <script src="libraries/jquery.blink.js"></script>
     <link href="styles/overview.css" type="text/css" rel="stylesheet">
     <script src="libraries/zoomooz-master/jquery.zoomooz.js"></script>
 
@@ -20,19 +21,8 @@
     var linkLocation;
     var tdId = 0;
     var indx = 0;
-    //wert muss noch variabel werden
 
-    /*  window.onload = function () {
-     socket.emit('overviewHtmlOnload');
-     }
-     */
 
-    /*socket.on('overviewHtmlOnload', function (playerArray2) {
-     playerArray = playerArray2;
-     // console.log("erster"+ erster.nickname);
-     fillNameFields(playerArray);
-     });
-     */
     //Clients verbinden sich //Blaue Felder füllemn :)
     socket.on('playerList', function (nicknameObj, playerArray7) {
         //Array mit Spielern füllen
@@ -46,15 +36,17 @@
     socket.on('trueAnswer', function (player, playerArray5, answerArray) {
         playerArray = playerArray5;
         console.log("[tdId]:   " + [tdId]);
-        console.log("answerArray[tdId]:   " + answerArray[tdId]);
+        console.log("answerArray[tdId]:   " + answerArray[indx].text);
         answerStart(answerArray, tdId, indx);
         fillNameFields(playerArray);
-        for(y = 0; y < 15; y++){
+        /*for (y = 0; y < 15; y++) {
 
-                document.getElementById("question"+y).style.height = 200+"px";
-                document.getElementById("question"+y).style.width = 150+"px";
+         document.getElementById("question" + y).style.height = 150 + "px";
+         document.getElementById("question" + y).style.width = 25 + "%";
 
-        }
+         }*/
+        //$('#question23').click();
+        document.getElementById('grayout').style="display: none";
     });
 
 
@@ -69,6 +61,7 @@
 
         // });
     });
+
 
     socket.on('fastest player', function (player) {
         //document.getElementById("erster-text").innerHTML = player;
@@ -89,7 +82,28 @@
         indx = indx2;
         console.log("tdId : " + tdId);
         console.log("qA: " + questionArray[indx].text);
-        console.log("this.questionArray.val" + questionArray[indx].val);
+        if (questionArray[indx].text == "Bild") {
+            bildStart(questionArray, tdId, indx);
+        } else {
+            console.log("this.questionArray.val" + questionArray[indx].val);
+            questionStart2(questionArray, tdId, indx);
+        }
+    });
+
+
+    var que;
+    socket.on('showSuperQuestion', function (questionArray, tdId2, indx2) {
+
+        que = '#question' + indx2;
+        // blink('#question'+indx2);
+        console.log("$(que:)" + que);
+        blink($(que));
+
+        tdId = tdId2;
+        indx = indx2;
+        console.log("superQuestion");
+        //console.log("qA: " + questionArray[indx].text);
+        //console.log("this.questionArray.val" + questionArray[indx].val);
         questionStart2(questionArray, tdId, indx);
     });
 
@@ -118,6 +132,16 @@
      window.location = linkLocation;
      }
      */
+    /*   function blink(selector){
+     $(selector).animate({opacity:0}, 2, "linear", function(){
+     $(this).delay(800);
+     $(this).animate({opacity:1}, 2, function(){
+     blink(this);
+     });
+     $(this).delay(800);
+     });
+
+     }*/
 
     //Frage in Tabelle eintragen
     function answerStart(answerArray, tdId, indx) {
@@ -134,20 +158,36 @@
 
         //  $('.zoomTarget').text(question);
         document.getElementById(tdId).innerHTML = question.text;
+       // $('#question23').click();
+        /**16 ist Anzahl der Fragen!! Hier ändern**/
+        /* for (y = 0; y < 17; y++) {
+         if (indx != y) {
+         document.getElementById("question" + y).style.height = 0 + "px";
+         document.getElementById("question" + y).style.width = 0 + "px";
+         } else {
+         //200
+         document.getElementById(tdId).style.height = 600 + "px";
+         //150
+         document.getElementById(tdId).style.width = 4000 + "px";
 
-        /**15 ist Anzahl der Fragen!! Hier ändern**/
-        for(y = 0; y < 15; y++){
-            if(indx != y){
-                document.getElementById("question"+y).style.height = 0+"px";
-                document.getElementById("question"+y).style.width = 0+"px";
-            }else{
-                //200
-                document.getElementById(tdId).style.height = 600+"px";
-                //150
-                document.getElementById(tdId).style.width = 4000+"px";
+         }
+         }*/
 
-            }
-        }
+        document.getElementById('grayout').style="display: inherit";
+    }
+
+    function bildStart(questionArray, tdId, indx) {
+        var question = questionArray[indx];
+        console.log("question: " + question.text);
+        console.log("BILD!!!!");
+        console.log("tdId:: " + tdId);
+        document.getElementById(tdId).click();
+        // document.getElementById(tdId).src="bild1.jpg";
+
+        //$('#linkX').click(function(){$('#linkY')[0].click();});
+        //  $('.zoomTarget').text(question);
+        // document.getElementById(tdId).innerHTML = question.text;
+
 
     }
 
@@ -157,28 +197,40 @@
         playerArray2.forEach(function (player) {
             $('#player' + i + '-name').text(player.nickname + '    ' + player.pkte);
 
-            document.getElementById("player" + i + "-name").style = "visibility:visible;";
+            document.getElementById("player" + i + "-name").style = "visibility:visible";
             document.getElementById("player" + i + "-name").style.backgroundColor = player.color;
             //$('.player' + player.id + '-name').css('visibility','visible').hide().fadeIn("slow");
             //  $('.player' + player.id + '-name').fadeTo("slow", 1); // 100% visible
 
-
             i += 1;
         });
-        // $('#player' + i + '-name').fadeIn;
-        // console.log('#player' + player.id + '-name');
-        // $('#player' + i + '-name').fadeIn("slow");
-
 
     }
 
-    /* $(document).ready(function() {
+    /*  $(document).ready(function() {
      $(".zoomTarget").click(function(evt) {
-     $(this).zoomTo({targetsize:0.75, duration:600});
      evt.stopPropagation();
+     $(this).zoomTo({targetsize:0.7,debug:true});
      });
+     $(document).click(function(evt) {
+     evt.stopPropagation();
+     $("body").zoomTo({targetsize:1.0,debug:true});
+     });
+     $("body").zoomTo({targetsize:1.0,debug:true});
      });
      */
+    $(document).ready(function () {
+        $("#question23").click(function (evt) {
+            $(this).zoomTo({targetsize: 1.15, duration: 600, debug: true});
+            evt.stopPropagation();
+        });
+        $("#question23").click(function (evt) {
+            $(".zoomTarget").zoomTo({targetsize: 1, duration: 600, debug: true});
+            evt.stopPropagation();
+        });
+      //  $(".zoomTarget").zoomTo({targetsize: 1.0, debug: true});
+    });
+
 
     /*    $(document).ready(function() {
      $(".zoomTarget").click(function(evt) {
@@ -187,25 +239,37 @@
      });
      });*/
 
+    function bildAnzeigen() {
+        //  document.getElementById("question12").href="#bild1";
+        $("#question12").attr('src', 'bild1.jpg');
+        // .attr('id', 'bild1');
+        $("#bild1").click();
+        //document.getElementById("question12").imgscr="bild1.jpg";
+        console.log("gmark");
+    }
 
 </script>
 
 
 <body>
+<div id="grayout" style="display: none;"></div>
+
+<!--<a href="#" id=grayout onclick="$('#grayout').toggle(900); return false;">GrayOut</a>-->
 <!--Zoom Classen-->
-<!--<div class="zoomViewport">
+<
+<div class="zoomViewport">
     <div class="zoomContainer">
-        &lt;!&ndash;Über das Data-Attribut „data-targetsize“ kann ein kleinerer Vergrößerungsfaktor eingestellt werden:
-        Erlaubt sind Werte zwischen Null und Eins. Der Wert „0.5“ vergrößert ein Element auf die halbe Fenstergröße.
-        Es gibt weitere Data-Attribute zur Anpassung der Zoom-Elemente. Über „data-duration“ wird beispielsweise die
-        Animationslänge in Millisekunden eingestellt.&ndash;&gt;
-        <div class="zoomTarget"  data-targetsize="0.7" id="question0">100</div>
-        <div class="zoomTarget"  data-targetsize="0.7" id="question1">100</div>
-        <div class="zoomTarget"  data-targetsize="0.7" id="question2">100</div>
-        <div class="zoomTarget"  data-targetsize="0.7" id="question3">100</div>
+        <!--    &lt;!&ndash;Über das Data-Attribut „data-targetsize“ kann ein kleinerer Vergrößerungsfaktor eingestellt werden:
+            Erlaubt sind Werte zwischen Null und Eins. Der Wert „0.5“ vergrößert ein Element auf die halbe Fenstergröße.
+            Es gibt weitere Data-Attribute zur Anpassung der Zoom-Elemente. Über „data-duration“ wird beispielsweise die
+            Animationslänge in Millisekunden eingestellt.&ndash;&gt;-->
+        <div class="zoomTarget" data-closeclick="true data-targetsize="1" id="question20">100</div>
+        <div class="zoomTarget" data-closeclick="true data-targetsize="1" id="question21">100</div>
+        <div class="zoomTarget" data-closeclick="true data-targetsize="1" id="question22">100</div>
+        <div class="zoomTarget" data-closeclick="true data-targetsize="1" id="question23">100</div>
 
     </div>
-</div>-->
+</div>
 
 
 <div><h1 id="heins">Wer ist dran?</h1></div>
@@ -225,6 +289,7 @@
             <th>Familie</th>
             <th>Skuriles</th>
             <th>Romantisch</th>
+
 
         </tr>
         </thead>
@@ -255,7 +320,7 @@
 
         </tr>
         <tr>
-            <td class="questionBoxes-css" id="question12">400</td>
+            <td id="question12" onclick="bildAnzeigen();return false"><img src="graphics/400.png"/></td>
             <td class="questionBoxes-css" id="question13">400</td>
             <td class="questionBoxes-css" id="question14">400</td>
             <td class="questionBoxes-css" id="question15">400</td>
@@ -263,12 +328,23 @@
 
         </tr>
 
-
         </tbody>
 
     </table>
 
+
 </div>
+<!--<ul>
+    <li><a href="#bild1"><img src="bild1_klein.jpg"/></a></li>
+    <li><a href="#bild2"><img src="bild1_klein.jpg"/></a></li>
+    <li><a href="#bild3"><img src="bild1_klein.jpg"/></a></li>
+</ul>
+-->
+<ul class="lightbox">
+    <li id="bild1"><a href="#start"><img src="bild1.jpg"/></a></li>
+    <li id="bild2"><a href="#start"><img src="bild1.jpg"/></a></li>
+    <li id="bild3"><a href="#start"><img src="bild1.jpg"/></a></li>
+</ul>
 
 <br/>
 <br/>
