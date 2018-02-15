@@ -1,0 +1,23 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>BuzzCaLu Picture Screen</title>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="libraries/jquery-3.2.1.min.js"></script>
+    <script src="libraries/jquery.blink.js"></script>
+    <link href="styles/overview.css" type="text/css" rel="stylesheet">
+    <script src="libraries/zoomooz-master/jquery.zoomooz.js"></script>
+
+</head>
+<body>
+Picturing!!
+<script>
+    var socket = io.connect();
+
+    socket.on('trueAnswer', function (playa, playerArray, questsionArray) {
+        window.location.replace('http://localhost:3000/overview')
+    });
+</script>
+</body>
+</html>

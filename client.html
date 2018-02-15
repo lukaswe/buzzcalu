@@ -72,6 +72,17 @@
 
     });
 
+    socket.on('showPicture', function (questionArray5, tdId5, indx5) {
+        $('#buzzerBtn').prop('disabled', false);
+        $('#buzz-text').text("Sei bereit, " + $('#username').val() + "!");
+
+    });
+
+    socket.on('showSuperQuestion', function (questionArray5, tdId5, indx5) {
+        $('#buzzerBtn').prop('disabled', false);
+        $('#buzz-text').text("Sei bereit, " + $('#username').val() + "!");
+
+    });
 
     var currColor;
     function changeColor(colorName) {
@@ -107,21 +118,21 @@
     <input id="username" type="text" name="username" placeholder="Username">
     <br/>
 
-<div id="submit">
-    <button id="submit-btn" onclick="save_name()" type="button" >
-        Save Name
-    </button>
-</div>
-<div id="submit" style="visibility:hidden;">
-    <h1 id="buzz-text">Be Ready ###</h1>
-    <button id="buzzerBtn"
+    <div id="submit">
+        <button id="submit-btn" onclick="save_name()" type="button" >
+            Save Name
+        </button>
+    </div>
+    <div id="submit" style="visibility:hidden;">
+        <h1 id="buzz-text">Be Ready ###</h1>
+        <button id="buzzerBtn"
             onclick="send_buzz()"
             type="button" disabled>
 
-        Buzz!
-    </button>
+            Buzz!
+        </button>
 
-</div>
+    </div>
 </div>
 
 <!--<form action="">

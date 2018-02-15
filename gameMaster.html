@@ -20,45 +20,103 @@
 
     //Für Bilder im .text Feld "Bild" eingeben. Auf Großschreibung achten!
     questionArray = [
-        {"text": "An welcher Gameshow nahm Angela Merkel einst teil?", "pkte": 100, "val": 0, "superquestion": 0},
+        {
+            "text": "An welcher Gameshow nahm Angela Merkel einst teil?",
+            "pkte": 100,
+            "val": 0, "superquestion": 0,
+            "picture":1, "erledigt":0},
         {
             "text": "Warum tragen die Herren auf dem Wiener Opernball weiße Fliegen?",
             "pkte": 100,
             "val": 0,
-            "superquestion": 0
+            "superquestion": 0,
+            "picture":0,
+            "erledigt":0
         },
-        {"text": "Haben Fliegen Flügel?", "pkte": 100, "val": 0, "superquestion": 0},
-        {"text": "Haben Fliegen Flügel?", "pkte": 100, "val": 0, "superquestion": 0},
+        {
+            "text": "Haben Fliegen Flügel?",
+            "pkte": 100, "val": 0,
+            "superquestion": 0,
+            "picture":0, "erledigt":0
+        },
+        {
+            "text": "Haben Fliegen Flügel?", "pkte": 100, "val": 0, "superquestion": 0,
+            "picture":0,
+            "erledigt":0
+        },
 
-        {"text": "Wie viele Golfbälle liegen auf dem Mond?", "pkte": 200, "val": 0, "superquestion": 1},
+        {
+            "text": "Wie viele Golfbälle liegen auf dem Mond?",
+            "pkte": 200, "val": 0, "superquestion": 1,
+            "picture":0,
+            "erledigt":0
+        },
         {
             "text": "Wer war als Tontechniker für die Ich bin ein Berliner-Rede von John F. Kennedy verantwortlich ?",
             "pkte": 200,
             "val": 0,
-            "superquestion": 0
+            "superquestion": 0,
+            "picture":0, "erledigt":0
         },
-        {"text": "Haben Fliegen Flügel?", "pkte": 200, "val": 0, "superquestion": 0},
-        {"text": "Haben Fliegen Flügel?", "pkte": 200, "val": 0, "superquestion": 0},
+        {
+            "text": "Haben Fliegen Flügel?",
+            "pkte": 200, "val": 0, "superquestion": 0,
+            "picture":0,
+            "erledigt":0
+        },
+        {
+            "text": "Haben Fliegen Flügel?", "pkte": 200, "val": 0,
+            "superquestion": 0, "picture":0, "erledigt":0
+        },
 
         {
             "text": "Was hat das Münchener Oktoberfest im Gegensatz zu anderen Volksfesten zu bieten?",
             "pkte": 300,
             "val": 0,
-            "superquestion": 0
+            "superquestion": 0,
+            "picture":0, "erledigt":0
         },
-        {"text": "Haben Fliegen Flügel?", "pkte": 300, "val": 0, "superquestion": 0},
-        {"text": "Haben Fliegen Flügel?", "pkte": 300, "val": 0, "superquestion": 0},
-        {"text": "Was zur Hölle?", "pkte": 300, "val": 0, "superquestion": 0},
+        {
+            "text": "Haben Fliegen Flügel?",
+            "pkte": 300, "val": 0, "superquestion": 0,
+            "picture":0, "erledigt":0
+        },
+        {
+            "text": "Haben Fliegen Flügel?",
+            "pkte": 300, "val": 0, "superquestion": 0,
+            "picture":0, "erledigt":0
+        },
+        {
+            "text": "Was zur Hölle?", "pkte": 300,
+            "val": 0, "superquestion": 0,
+            "picture":0, "erledigt":0},
 
-        {"text": "Bild", "pkte": 400, "val": 0, "superquestion": 0},
-        {"text": "Haben Fliegen Flügel?", "pkte": 400, "val": 0, "superquestion": 0},
+        {
+            "text": "Bild", "pkte": 400,
+            "val": 0, "superquestion": 0,
+            "picture":0, "erledigt":0
+        },
+        {
+            "text": "Haben Fliegen Flügel?",
+            "pkte": 400, "val": 0,
+            "superquestion": 0, "picture":0, "erledigt":0
+        },
         {
             "text": "Papst Franziskus ist Ehrenmitglied des Fußballvereins ...?",
             "pkte": 400,
             "val": 0,
-            "superquestion": 0
+            "superquestion": 0,
+            "picture":0,
+            "erledigt":0
         },
-        {"text": "Was zur Hölle?", "pkte": 400, "val": 0, "superquestion": 0}];
+        {
+            "text": "Was zur Hölle?",
+            "pkte": 400,
+            "val": 0,
+            "superquestion": 0,
+            "picture":0,
+            "erledigt":0
+        }];
 
 
     /**Client-Server Kommunikation**/
@@ -86,11 +144,14 @@
         var schnellster2 = $("#schnellster-text").html();
 
         //var  schnellster2 = document.getElementById("schnellster-text").innerText();
+        console.log("tdid: " + tdId);
+       // socket.emit('showNothing', questionArray, tdId, indx);
+        document.getElementById(tdId).innerHTML = "erledigt";
         console.log("this.playerArray" + playerArray[0].nickname);
         playerArray.forEach(function (player) {
             if (schnellster2 == player.nickname) {
                 player.pkte += currentQuestionObj.pkte;
-                console.log("this.playerArray" + playerArray[0].nickname);
+                console.log("schnellster Spieler, this.playerArray: " + playerArray[0].nickname);
                 socket.emit('trueAnswer', player, playerArray);
             }
 
@@ -191,6 +252,7 @@
         });
     }
 
+/**Function on click auf die Tabelle**/
     function showQuestion(tdId2) {
         tdId = tdId2;
         /**Hier anzahl der fragen anpassen**/
@@ -202,22 +264,60 @@
         }
 
 
-        console.log("this.questionArray" + questionArray[indx].text + "indx: " + indx);
+       // console.log("this.questionArray: " + questionArray[indx].text + "indx: " + indx);
         //NICht nur show question sondern auch BuzzerEnablen
-        console.log("this.questionArray.val" + questionArray[indx].val);
+       // console.log("this.questionArray.val: " + questionArray[indx].val);
 
-        console.log("this.questionArray.val" + questionArray[indx].val);
+//        console.log("this.questionArray.val: " + questionArray[indx].val);
+        if (questionArray[indx].erledigt == 0) {
+            if (questionArray[indx].val % 2 == 1) {
+                socket.emit('showNothing', questionArray, tdId2, indx);
+                document.getElementById(tdId).innerHTML = "erledigt";
+            } else {
+                socket.emit('showQuestion', questionArray, tdId2, indx);
+            }
+            currentQuestionObj = questionArray[indx];
+            questionArray[indx].val += 1;
+            questionArray[indx].erledigt = 1;
+        }else{
+            console.log("Die Frage ist schon erledigt.")
+        }
+    }
+
+    function showPicture(tdId2) {
+        tdId = tdId2;
+        /**Hier anzahl der fragen anpassen**/
+        //for (var anzahlDerFragen = 0; anzahlDerFragen < 16; anzahlDerFragen ++) {
+        if (tdId.length < 10) {
+            indx = tdId2.substring(tdId2.length - 1, tdId2.length);
+        } else {
+            indx = tdId2.substring(tdId2.length - 2, tdId2.length);
+        }
+
+        //NICht nur show question sondern auch BuzzerEnablen
+
         if (questionArray[indx].val % 2 == 1) {
             socket.emit('showNothing', questionArray, tdId2, indx);
             document.getElementById(tdId).innerHTML = "erledigt";
         } else {
-            socket.emit('showQuestion', questionArray, tdId2, indx);
+            socket.emit('showPicture', questionArray, tdId2, indx);
         }
         currentQuestionObj=  questionArray[indx];
         questionArray[indx].val += 1;
 
     }
 
+    socket.on('showQuestion', function (questionArray, tdId2, indx2) {
+        console.log(" showQuestion " );
+
+    });
+    socket.on('showPicture', function (questionArray, tdId2, indx2) {
+        console.log(" showPicture" );
+        //questionArray[indx].style()
+    });
+    socket.on('showSuperQuestion', function (questionArray, tdId2, indx2) {
+        console.log(" showSuperQuestion " );
+    });
 
 </script>
 <body>

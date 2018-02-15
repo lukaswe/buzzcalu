@@ -21,6 +21,7 @@
     var linkLocation;
     var tdId = 0;
     var indx = 0;
+    var prevTdId = 0;
 
 
     //Clients verbinden sich //Blaue Felder füllemn :)
@@ -28,16 +29,20 @@
         //Array mit Spielern füllen
         playerArray = playerArray7;
         console.log(nicknameObj.nickname + " just connected!");
-
+        socket.on('disconnect', function(){
+            console.log(nicknameObj.nickname + ' just disconnected!');
+        });
         fillNameFields(playerArray);
     });
 
 
     socket.on('trueAnswer', function (player, playerArray5, answerArray) {
         playerArray = playerArray5;
-        console.log("[tdId]:   " + [tdId]);
-        console.log("answerArray[tdId]:   " + answerArray[indx].text);
+     //   console.log("[tdId]:   " + [tdId]);
+     //   console.log("answerArray[tdId]:   " + answerArray[indx].text);
         answerStart(answerArray, tdId, indx);
+        prevTdId = tdId;
+        console.log('prevTdiDi: '+ prevTdId);
         fillNameFields(playerArray);
         /*for (y = 0; y < 15; y++) {
 
@@ -82,12 +87,13 @@
         indx = indx2;
         console.log("tdId : " + tdId);
         console.log("qA: " + questionArray[indx].text);
-        if (questionArray[indx].text == "Bild") {
-            bildStart(questionArray, tdId, indx);
-        } else {
-            console.log("this.questionArray.val" + questionArray[indx].val);
+       // if (questionArray[indx].text == "Bild") {
+        //    bildStart(questionArray, tdId, indx);
+       // } else {
+
+            console.log("this.questionArray.val " + questionArray[indx].val);
             questionStart2(questionArray, tdId, indx);
-        }
+       // }
     });
 
 
@@ -107,43 +113,31 @@
         questionStart2(questionArray, tdId, indx);
     });
 
+    socket.on('showPicture', function (questionArray, tdId2, indx2) {
+
+        que = '#question' + indx2;
+        console.log("$(que:)" + que);
+
+        tdId = tdId2;
+        indx = indx2;
+        if (prevTdId != 0){
+            document.getElementById(prevTdId).innerHTML = '';
+        }
+        console.log("showPicture!!!");
+        window.location.replace('http://localhost:3000/picturing')
+    });
+
 
     socket.on('showNothing', function (questionArray, tdId, indx) {
-        // tdId = tdId2;
-        //  indx = indx2;
-        //  console.log("tdId : " + tdId);
         console.log("qA: " + questionArray[indx].text + " , " + questionArray[indx].val);
         console.log("this.questionArray.val" + questionArray[indx].val);
         //  questionStart2(questionArray, tdId, indx);
         document.getElementById(tdId).innerHTML = "";
 
     });
-    //Weiterleitung zur FragenSeite
-    /*      window.setTimeout(" animation()", 100);
-     linkLocation = "http://localhost:3000/question";
-     $("body").fadeOut(1500, redirectPage);
-     $("body").fadeOut(1500, redirectPage);
-     */
 
 
-    /*
-
-     function redirectPage() {
-     window.location = linkLocation;
-     }
-     */
-    /*   function blink(selector){
-     $(selector).animate({opacity:0}, 2, "linear", function(){
-     $(this).delay(800);
-     $(this).animate({opacity:1}, 2, function(){
-     blink(this);
-     });
-     $(this).delay(800);
-     });
-
-     }*/
-
-    //Frage in Tabelle eintragen
+    //Antwort in Tabelle eintragen
     function answerStart(answerArray, tdId, indx) {
         document.getElementById(tdId).innerHTML = answerArray[indx];
     }
@@ -153,10 +147,13 @@
         //  console.log("j: " + this.j);
         var question = questionArray[indx];
         console.log("question: " + question.text);
-        console.log("question2: " + questionArray[indx].text);
-        console.log("tdId:: " + tdId);
+     //   console.log("question2: " + questionArray[indx].text);
+     //   console.log("tdId:: " + tdId);
 
-        //  $('.zoomTarget').text(question);
+        /** letztes Fragenfeld leeren**/
+        if (prevTdId != 0){
+            document.getElementById(prevTdId).innerHTML = '';
+        }
         document.getElementById(tdId).innerHTML = question.text;
        // $('#question23').click();
         /**16 ist Anzahl der Fragen!! Hier ändern**/
@@ -173,23 +170,10 @@
          }
          }*/
 
-        document.getElementById('grayout').style="display: inherit";
+      //  document.getElementById('grayout').style="display: inherit";
     }
 
-    function bildStart(questionArray, tdId, indx) {
-        var question = questionArray[indx];
-        console.log("question: " + question.text);
-        console.log("BILD!!!!");
-        console.log("tdId:: " + tdId);
-        document.getElementById(tdId).click();
-        // document.getElementById(tdId).src="bild1.jpg";
 
-        //$('#linkX').click(function(){$('#linkY')[0].click();});
-        //  $('.zoomTarget').text(question);
-        // document.getElementById(tdId).innerHTML = question.text;
-
-
-    }
 
     //Blaue Namensfelder werden befüllt
     function fillNameFields(playerArray2) {
@@ -199,26 +183,12 @@
 
             document.getElementById("player" + i + "-name").style = "visibility:visible";
             document.getElementById("player" + i + "-name").style.backgroundColor = player.color;
-            //$('.player' + player.id + '-name').css('visibility','visible').hide().fadeIn("slow");
-            //  $('.player' + player.id + '-name').fadeTo("slow", 1); // 100% visible
 
             i += 1;
         });
 
     }
 
-    /*  $(document).ready(function() {
-     $(".zoomTarget").click(function(evt) {
-     evt.stopPropagation();
-     $(this).zoomTo({targetsize:0.7,debug:true});
-     });
-     $(document).click(function(evt) {
-     evt.stopPropagation();
-     $("body").zoomTo({targetsize:1.0,debug:true});
-     });
-     $("body").zoomTo({targetsize:1.0,debug:true});
-     });
-     */
     $(document).ready(function () {
         $("#question23").click(function (evt) {
             $(this).zoomTo({targetsize: 1.15, duration: 600, debug: true});
@@ -232,37 +202,20 @@
     });
 
 
-    /*    $(document).ready(function() {
-     $(".zoomTarget").click(function(evt) {
-     $(this).zoomTo({targetsize:0.75, duration:600});
-     evt.stopPropagation();
-     });
-     });*/
 
-    function bildAnzeigen() {
-        //  document.getElementById("question12").href="#bild1";
-        $("#question12").attr('src', 'bild1.jpg');
-        // .attr('id', 'bild1');
-        $("#bild1").click();
-        //document.getElementById("question12").imgscr="bild1.jpg";
-        console.log("gmark");
-    }
 
 </script>
 
 
 <body>
-<div id="grayout" style="display: none;"></div>
+<!--<div id="grayout" style="display: none;"></div>-->
 
 <!--<a href="#" id=grayout onclick="$('#grayout').toggle(900); return false;">GrayOut</a>-->
 <!--Zoom Classen-->
-<
+<!--
 <div class="zoomViewport">
     <div class="zoomContainer">
-        <!--    &lt;!&ndash;Über das Data-Attribut „data-targetsize“ kann ein kleinerer Vergrößerungsfaktor eingestellt werden:
-            Erlaubt sind Werte zwischen Null und Eins. Der Wert „0.5“ vergrößert ein Element auf die halbe Fenstergröße.
-            Es gibt weitere Data-Attribute zur Anpassung der Zoom-Elemente. Über „data-duration“ wird beispielsweise die
-            Animationslänge in Millisekunden eingestellt.&ndash;&gt;-->
+
         <div class="zoomTarget" data-closeclick="true data-targetsize="1" id="question20">100</div>
         <div class="zoomTarget" data-closeclick="true data-targetsize="1" id="question21">100</div>
         <div class="zoomTarget" data-closeclick="true data-targetsize="1" id="question22">100</div>
@@ -270,7 +223,7 @@
 
     </div>
 </div>
-
+-->
 
 <div><h1 id="heins">Wer ist dran?</h1></div>
 <div id="erster">
@@ -285,10 +238,11 @@
     <table id="playerTable" class="questionUeberschrift-css">
         <thead>
         <tr>
-            <th>Mainstockheim</th>
+            <th>Leben</th>
             <th>Familie</th>
-            <th>Skuriles</th>
+            <th>Freunde</th>
             <th>Romantisch</th>
+            <th>Schätzfragen</th>
 
 
         </tr>
@@ -304,29 +258,35 @@
             <td class="questionBoxes-css" id="question1">100</td>
             <td class="questionBoxes-css" id="question2">100</td>
             <td class="questionBoxes-css" id="question3">100</td>
+            <td class="questionBoxes-css" id="question4">100</td>
         </tr>
         <tr>
-            <td class="questionBoxes-css" id="question4">200</td>
+
             <td class="questionBoxes-css" id="question5">200</td>
             <td class="questionBoxes-css" id="question6">200</td>
             <td class="questionBoxes-css" id="question7">200</td>
+            <td class="questionBoxes-css" id="question8">200</td>
+            <td class="questionBoxes-css" id="question9">200</td
         </tr>
         <tr>
-            <td class="questionBoxes-css" id="question8">300</td>
-            <td class="questionBoxes-css" id="question9">300</td>
             <td class="questionBoxes-css" id="question10">300</td>
             <td class="questionBoxes-css" id="question11">300</td>
-
+            <td class="questionBoxes-css" id="question12">300</td>
+            <td class="questionBoxes-css" id="question13">300</td>
+            <td class="questionBoxes-css" id="question14">300</td>
 
         </tr>
         <tr>
-            <td id="question12" onclick="bildAnzeigen();return false"><img src="graphics/400.png"/></td>
-            <td class="questionBoxes-css" id="question13">400</td>
-            <td class="questionBoxes-css" id="question14">400</td>
+
             <td class="questionBoxes-css" id="question15">400</td>
-
-
+            <td class="questionBoxes-css" id="question16">400</td>
+            <td class="questionBoxes-css" id="question17">400</td>
+            <td class="questionBoxes-css" id="question18">400</td>
+            <!--      <td id="question19" onclick="bildAnzeigen();return false"><img src="graphics/400.png"/></td> -->
         </tr>
+
+
+
 
         </tbody>
 
@@ -339,13 +299,13 @@
     <li><a href="#bild2"><img src="bild1_klein.jpg"/></a></li>
     <li><a href="#bild3"><img src="bild1_klein.jpg"/></a></li>
 </ul>
--->
+
 <ul class="lightbox">
     <li id="bild1"><a href="#start"><img src="bild1.jpg"/></a></li>
     <li id="bild2"><a href="#start"><img src="bild1.jpg"/></a></li>
     <li id="bild3"><a href="#start"><img src="bild1.jpg"/></a></li>
 </ul>
-
+-->
 <br/>
 <br/>
 <br/>

@@ -36,6 +36,10 @@ app.get('/question', function (req, res) {
     res.sendFile(__dirname + '/question.html');
 });
 
+app.get('/picturing', function (req, res) {
+    res.sendFile(__dirname + '/picturing.html');
+});
+
 /**zu html seiten zugehörige .css Dateien einbinden**/
 app.get('/styles/overview.css', function (req, res) {
     res.sendFile(__dirname + '/styles/overview.css');
@@ -178,6 +182,8 @@ io.on('connection', function (client) {
         console.log("sowquestion funzt.pkte: " + questionArray[indx].text + " , " + tdId);
         if (questionArray[indx].superquestion == 1){
             io.emit('showSuperQuestion', questionArray, tdId, indx);
+        } else if (questionArray[indx].picture == 1){
+            io.emit('showPicture', questionArray, tdId, indx);
         }else {
             io.emit('showQuestion', questionArray, tdId, indx);
         }
