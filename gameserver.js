@@ -5,7 +5,9 @@
 
 var app = require('express')();
 var http = require('http').Server(app);
-var io = require('socket.io')(http);
+var server = http.createServer();
+var io = require('socket.io').listen(server);
+//var io = require('socket.io')(http);
 var x = 0;
 var erster;
 var playerArray = new Array;
