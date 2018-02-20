@@ -1,0 +1,5 @@
+playerArray[nicknameObj
+.id
+.nickname
+.color
+]

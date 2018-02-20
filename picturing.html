@@ -8,16 +8,106 @@
     <script src="libraries/jquery.blink.js"></script>
     <link href="styles/overview.css" type="text/css" rel="stylesheet">
     <script src="libraries/zoomooz-master/jquery.zoomooz.js"></script>
+    <script type="text/javascript" src="libraries/close-pixelate.js"></script>
+   <!-- <img id="squares" alt="" src="pictures/bild1.jpg" /> -->
 
 </head>
 <body>
 Picturing!!
-<script>
+<h2>Original</h2>
+<img id="original" src="pictures/bild1.jpg">
+<hr/>
+<h2>Pixelate - squares</h2>
+<!-- Bilder hier einbinden -->
+<img id="squares" onclick="pixs" src="pictures/bild1.jpg">
+
+<script type="text/javascript">
+    /*window.onload = function() {
+
+        document.getElementById('squares').closePixelate([
+            { resolution : 8 }
+        ]);
+    };*/
+
+    var i ;
+
+/*
+    function mySandwich(param1, param2, callback) {
+        //alert('Started eating my sandwich.\n\nIt has: ' + param1 + ', ' + param2);
+        callback();
+    }
+
+    mySandwich('ham', 'cheese', function() {
+        alert('Finished eating my sandwich.');
+    });
+*/
+    var pixPic = document.getElementById('squares');
+    function pixs(i, callback) {
+        alert(i);
+        pixPic.closePixelate([
+            {resolution: i * 10}
+        ]);
+        callback();
+    }
+
+
+
+    window.onload = function() {
+        for (i=1000; i>0; i = i-100) {
+            pixs(i, function() {
+                //xalert('Finished eating my sandwich.');
+            });
+        }
+    };
+
+
+
+
+
+
+
     var socket = io.connect();
 
     socket.on('trueAnswer', function (playa, playerArray, questsionArray) {
         window.location.replace('http://localhost:3000/overview')
     });
+    var pix;
+    function pixelate(i) {
+        pix = i * 10
+        console.log('pix: ' + pix)
+
+        document.getElementById('squares').closePixelate([
+            { resolution : pix }
+        ]);
+    };
+
+
+
+
+    function countdown (i) {
+        if (i == undefined) {
+            // Startwert
+            i = 10;
+        }
+        alert(i);
+        if (i > 0) {
+            window.onload = function() {
+
+                document.getElementById('squares').closePixelate([
+                    { resolution : 8 }
+                ]);
+            };
+            i--;
+            pixelate(i);
+            // Funktion verzögert aufrufen
+            var timeout = window.setTimeout('countdown(' + i + ')', 10000);
+        }
+    }
+    // Countdown anstoßen
+   // countdown();
+
+
+
 </script>
 </body>
 </html>
