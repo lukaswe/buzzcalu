@@ -12,10 +12,8 @@
 
 <script>
     var obj = {};
-    //var socket = io.connect();
-    var socket = io.connectWithSession();
+    var socket = io.connect();
     var ich = {};
-    var currColor;
     //Daten vom Server empfangen bzw
     //socket.on = connect listener
     // var text = ('{"name"}')
@@ -35,11 +33,6 @@
         $('#subheading').text("Sei bereit, " + obj.nickname + "!");
     }
     ;
-
-    /**zu viele Clients wollen sich verbinden**/
-    socket.on('overcrowded', function (nickname) {
-        $('#subheading').text("Entschulde, " + obj.nickname + "! Leider versuchen zu viele Clients sich zu verbinden.");
-    } );
 
 
     socket.on('fastest player', function (player) {
@@ -91,7 +84,7 @@
 
     });
 
-    //Client Hintergrundfarbe ändern
+    var currColor;
     function changeColor(colorName) {
         document.body.style.backgroundColor = colorName;
         currColor = colorName;
@@ -130,7 +123,7 @@
             Save Name
         </button>
     </div>
-    <div id="submit2" style="visibility:hidden;">
+    <div id="submit" style="visibility:hidden;">
         <h1 id="buzz-text">Be Ready ###</h1>
         <button id="buzzerBtn"
             onclick="send_buzz()"

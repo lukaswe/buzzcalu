@@ -3,7 +3,7 @@
  */
 
 
-//var app = require('express')();
+var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var x = 0;
@@ -12,25 +12,6 @@ var playerArray = new Array;
 var answerArray = ["Glücksrad","Damit sie sich von den Kellnern unterscheiden",
     "0","0", "Zwei", "Peter Lustig", "0","0","Flohzirkus", "0","0", "0","Bild",
     "0", "1860 München","0" ];
-var connect = require('connect'),
-   // io      = require('socket.io'),
-    sio     = require('socket.io-sessions');
-
-var mystore = new MemoryStore;        // or RedisStore, etc
-var app = connect.createServer(connect.cookieParser(),
-    connect.session({secret:'faceroll here', store:mystore}),
-    function(req, res, next){
-        res.end('Hello World!');
-        // var session = req.session;
-    });  // With sessions
-
-var socket = sio.enable({
-    socket: io.listen(app),         // Socket.IO listener
-    store:  mystore,                // Your session store
-    parser: connect.cookieParser()  // Cookie parser
-});
-
-
 
 
 app.get('/', function (req, res) {
@@ -100,10 +81,6 @@ app.get('/libraries/greensock-js/src/uncompressed/TimelineMax.js', function (req
     res.sendFile(__dirname + '/libraries/greensock-js/src/uncompressed/TimelineMax.js');
 });
 
-app.get('/libraries/close-pixelate.js', function (req, res) {
-    res.sendFile(__dirname + '/libraries/close-pixelate.js');
-});
-
 /** Graphiken einbinden **/
 app.get('/graphics/BuzzCalu.png', function (req, res) {
     res.sendFile(__dirname + '/graphics/BuzzCalu.png');
@@ -113,33 +90,17 @@ app.get('/graphics/gold_buzzcalu.png', function (req, res) {
     res.sendFile(__dirname + '/graphics/gold_buzzcalu.png');
 });
 
-app.get('/pictures/bild1_klein.jpg', function (req, res) {
-    res.sendFile(__dirname + '/pictures/bild1_klein.jpg');
-});
-
-app.get('/pictures/bild1.jpg', function (req, res) {
-    res.sendFile(__dirname + '/pictures/bild1.jpg');
-});
-
-app.get('/graphics/400.png', function (req, res) {
+app.get('/bild1_klein.jpg', function (req, res) {
+    res.sendFile(__dirname + '/bild1_klein.jpg');
+});app.get('/bild1.jpg', function (req, res) {
+    res.sendFile(__dirname + '/bild1.jpg');
+});app.get('/graphics/400.png', function (req, res) {
     res.sendFile(__dirname + '/graphics/400.png');
 });
 
 //var socket = io();
 
-/**This adds a new event which you can listen for using socket.on(...), namely sconnection. It looks something like this:**/
-
-socket.on('sconnection', function(client, session){
-    // Client connected, session loaded
-    client.on('message', function(message){
-
-    });
-    client.on('disconnect', function(){
-        // Client disconnected, session saved after this callback
-    });
-//});
-
-//io.on('connection', function (client) {
+io.on('connection', function (client) {
     console.log('[socket.io] Ein neuer Client (Browser) hat sich verbunden.\n');
 
     //Clients verbinden sich
@@ -149,8 +110,8 @@ socket.on('sconnection', function(client, session){
         console.log("playerArray.length:  " + playerArray.length);
         while (z < playerArray.length) {
             //console.log("playerArray[x].nickname: " + playerArray[x].nickname);
-           // console.log("nicknameObj.nickname: " + nicknameObj.nickname);
-           // console.log("y: " + z);
+            console.log("nicknameObj.nickname: " + nicknameObj.nickname);
+            console.log("y: " + z);
             //  console.log("playerArray.length x: " + playerArray.length[x]);
             if (playerArray[z].nickname == nicknameObj.nickname) {
                 if (z == 0) {
@@ -169,22 +130,18 @@ socket.on('sconnection', function(client, session){
                     nicknameObj.color = "purple";
                     nicknameObj.id = z;
                 } else {
-                    console.log("Kritischer Fehler!, zu viele Clients versuchen sich zu verbinden")
-                    //zu viele Spieler wollen sich einloggen
-                    io.emit('overcrowded', nicknameObj.nickname)
-                    break;
+                    console.log("Kritischer Fehler!")
                 }
-                console.log("nicknameobj.nickname: " + nicknameObj.nickname + "nicknameobj.color: "+ nicknameObj.color + ",  nicknameObj.id: " + nicknameObj.id);
+                console.log("nicknameobj: " + nicknameObj.color + ",  nicknameObj.id: " + nicknameObj.id);
             }
             z++
         }
-        if (playerArray.length <= 5) {
-            client.nicknameObj = nicknameObj;
-            //  playerArray.push(nicknameObj);
-            console.log(nicknameObj.nickname + " just connected!");
-            //Blaue Felder im Overview füllen und gamemaster Spielerliste erstellen
-            io.emit('playerList', nicknameObj, playerArray);
-        }
+
+        client.nicknameObj = nicknameObj;
+        //  playerArray.push(nicknameObj);
+        console.log(nicknameObj.nickname + " just connected!");
+        //Blaue Felder im Overview füllen und gamemaster Spielerliste erstellen
+        io.emit('playerList', nicknameObj, playerArray);
     });
 
 //schnellster Buzzer wird ermittelt und an die CLients geschickt
@@ -263,15 +220,8 @@ socket.on('sconnection', function(client, session){
 })
 ;
 
-// Make Socket.IO session aware
-var socket = sio.enable({
-    socket: iolistener,
-    store:  mystore,
-    parser: connect.cookieParser()
-    per_message: true   // <-- Add this option
-});
-var iolistener = io.listen(app);
-app.listen(3000, function () {
+
+http.listen(3000, function () {
     console.log('listening on *:3000');
 });
 
