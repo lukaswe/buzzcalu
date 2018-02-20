@@ -5,9 +5,17 @@
 
 var app = require('express')();
 var http = require('http').Server(app);
-var server = http.createServer();
-var io = require('socket.io').listen(server);
-//var io = require('socket.io')(http);
+//var server = http.createServer();
+//var io = require('socket.io').listen(server);
+var io = require('socket.io')(http);
+
+//var cookieParser = express.cookieParser('your secret sauce'),
+  //  sessionStore = new connect.middleware.session.MemoryStore();
+
+//var SessionSockets = require('socket.io-sessions'),
+  //  sessionSockets = new SessionSockets(io, sessionStore, cookieParser);
+
+
 var x = 0;
 var erster;
 var playerArray = new Array;
@@ -102,6 +110,7 @@ app.get('/bild1_klein.jpg', function (req, res) {
 
 //var socket = io();
 
+//sessionSockets.on('connection', function (err, socket, session) {
 io.on('connection', function (client) {
     console.log('[socket.io] Ein neuer Client (Browser) hat sich verbunden.\n');
 
