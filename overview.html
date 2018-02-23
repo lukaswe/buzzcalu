@@ -14,15 +14,15 @@
 
 <script>
 
-    var socket = io.connect();
-    var playerArray = new Array;
-    var questionArrayOv = new Array;
-    var i = 1;
-    var j = 0;
-    var linkLocation;
-    var tdId = 0;
-    var indx = 0;
-    var prevTdId = 0;
+    var socket = io.connect(),
+        playerArray = new Array,
+        questionArrayOv = new Array,
+        i = 1,
+        j = 0,
+        tdId = 0,
+        indx = 0,
+        prevTdId = 0,
+        mystorage = localStorage;
 
 
     //Clients verbinden sich //Blaue Felder füllemn :)
@@ -30,9 +30,7 @@
         //Array mit Spielern füllen
         playerArray = playerArray7;
         console.log(nicknameObj.nickname + " just connected!");
-        socket.on('disconnect', function(){
-            console.log(nicknameObj.nickname + ' just disconnected!');
-        });
+        mystorage.setItem('playerArrayStorage', JSON.stringify(playerArray));
         fillNameFields(playerArray);
     });
 

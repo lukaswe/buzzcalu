@@ -5,16 +5,7 @@
 
 var app = require('express')();
 var http = require('http').Server(app);
-//var server = http.createServer();
-//var io = require('socket.io').listen(server);
 var io = require('socket.io')(http);
-
-//var cookieParser = express.cookieParser('your secret sauce'),
-  //  sessionStore = new connect.middleware.session.MemoryStore();
-
-//var SessionSockets = require('socket.io-sessions'),
-  //  sessionSockets = new SessionSockets(io, sessionStore, cookieParser);
-
 
 var x = 0;
 var erster;
@@ -112,47 +103,60 @@ app.get('/bild1_klein.jpg', function (req, res) {
 
 //sessionSockets.on('connection', function (err, socket, session) {
 io.on('connection', function (client) {
+
     console.log('[socket.io] Ein neuer Client (Browser) hat sich verbunden.\n');
+
+    /*socket.on('disconnect', function () {
+        console.log('user disconnected');
+    });*/
 
     //Clients verbinden sich
     client.on('set nickname', function (nicknameObj) {
-        playerArray.push(nicknameObj);
-        var z = 0;
-        console.log("playerArray.length:  " + playerArray.length);
-        while (z < playerArray.length) {
-            //console.log("playerArray[x].nickname: " + playerArray[x].nickname);
-            console.log("nicknameObj.nickname: " + nicknameObj.nickname);
-            console.log("y: " + z);
-            //  console.log("playerArray.length x: " + playerArray.length[x]);
-            if (playerArray[z].nickname == nicknameObj.nickname) {
-                if (z == 0) {
-                    nicknameObj.color = "green";
-                    nicknameObj.id = z;
-                } else if (z == 1) {
-                    nicknameObj.color = "red";
-                    nicknameObj.id = z;
-                } else if (z == 2) {
-                    nicknameObj.color = "blue";
-                    nicknameObj.id = z;
-                } else if (z == 3) {
-                    nicknameObj.color = "yellow";
-                    nicknameObj.id = z;
-                } else if (z == 4) {
-                    nicknameObj.color = "purple";
-                    nicknameObj.id = z;
-                } else {
-                    console.log("Kritischer Fehler!")
-                }
-                console.log("nicknameobj: " + nicknameObj.color + ",  nicknameObj.id: " + nicknameObj.id);
-            }
-            z++
-        }
+        if (nicknameObj.id === 100) {
+            playerArray.push(nicknameObj);
+            var z = 0;
+            console.log("playerArray.length:  " + playerArray.length);
+            while (z < playerArray.length) {
+                //console.log("playerArray[x].nickname: " + playerArray[x].nickname);
+                console.log("nicknameObj.nickname: " + nicknameObj.nickname);
+                console.log("y: " + z);
+                //  console.log("playerArray.length x: " + playerArray.length[x]);
 
-        client.nicknameObj = nicknameObj;
-        //  playerArray.push(nicknameObj);
-        console.log(nicknameObj.nickname + " just connected!");
-        //Blaue Felder im Overview füllen und gamemaster Spielerliste erstellen
-        io.emit('playerList', nicknameObj, playerArray);
+                if (playerArray[z].nickname === nicknameObj.nickname) {
+                    if (z == 0) {
+                        nicknameObj.color = "green";
+                        nicknameObj.id = z;
+                    } else if (z == 1) {
+                        nicknameObj.color = "red";
+                        nicknameObj.id = z;
+                    } else if (z == 2) {
+                        nicknameObj.color = "blue";
+                        nicknameObj.id = z;
+                    } else if (z == 3) {
+                        nicknameObj.color = "yellow";
+                        nicknameObj.id = z;
+                    } else if (z == 4) {
+                        nicknameObj.color = "purple";
+                        nicknameObj.id = z;
+                    } else {
+                        console.log("Kritischer Fehler!")
+                    }
+
+                    console.log("nicknameobj: " + nicknameObj.color + ",  nicknameObj.id: " + nicknameObj.id);
+                }
+                z++
+
+            }
+
+            client.nicknameObj = nicknameObj;
+            //  playerArray.push(nicknameObj);
+            console.log(nicknameObj.nickname + " just connected!");
+            //Blaue Felder im Overview füllen und gamemaster Spielerliste erstellen
+            io.emit('playerList', nicknameObj, playerArray);
+        }else{
+            console.log("reconnect");
+            io.emit('playerList', nicknameObj, playerArray);
+        }
     });
 
 //schnellster Buzzer wird ermittelt und an die CLients geschickt

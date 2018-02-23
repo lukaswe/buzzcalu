@@ -12,28 +12,114 @@
 
 
 <script>
-    var obj = {};
-    var socket = io.connect();
+    var obj = {},
+        socket = io.connect(),
+        mystorage = localStorage;
+
     var ich = {};
     //Daten vom Server empfangen bzw
     //socket.on = connect listener
     // var text = ('{"name"}')
-    function save_name() {
-        document.getElementById("username").disabled = true;
-        document.getElementById("username").style = "visibility:hidden;";
-        document.getElementById("submit-btn").disabled = true;
-        document.getElementById("buzzerBtn").style = "visibility:visible;";
-     //   document.getElementById("subheading").style = "visibility:hidden;";
-        document.getElementById("submit-btn").style = "visibility:hidden;";
 
-        obj = ({"id": 100, "nickname": $('#username').val(), "pkte": 0, "gameColor": "white"});
-
-        console.log("Hallo " + obj.nickname);
-        socket.emit('set nickname', obj);
-        // var myJSON = JSON.stringify(obj);
-        $('#subheading').text("Sei bereit, " + obj.nickname + "!");
+        console.log("storage: " + mystorage.getItem('nickname'));
+    if (mystorage.getItem('nickname')!= null){
+        window.onload = save_name;
     }
-    ;
+
+    function save_name() {
+        if (mystorage.getItem('nickname') == null) {
+            console.log("Neuanmeldung, als: " + $('#username').val());
+            // mystorage.getItem(obj.nickname);
+
+
+            document.getElementById("username").disabled = true;
+            document.getElementById("username").style = "visibility:hidden;";
+            document.getElementById("submit-btn").disabled = true;
+
+            //   document.getElementById("subheading").style = "visibility:hidden;";
+            document.getElementById("submit-btn").style = "visibility:hidden;";
+
+            obj = ({"id": 100, "nickname": $('#username').val(), "pkte": 0, "gameColor": "white"});
+            mystorage.setItem('nickname', $('#username').val());
+            mystorage.setItem('id', "100");
+            console.log("insavename storeg: " + mystorage.getItem('nickname'));
+
+            console.log("Hallo storage: " + mystorage.getItem('nickname'));
+            console.log("Hallo  obj: " + obj.nickname);
+
+
+            socket.emit('set nickname', obj);
+            // var myJSON = JSON.stringify(obj);
+        } else {
+            //  document.getElementById("username").disabled = true;
+            console.log("richtig");
+            //  $('#username').val(mystorage.getItem('nickname'));
+            document.getElementById('submit-btn').style = "visibility:hidden;";
+            document.getElementById("username").style = "visibility:hidden;";
+            document.getElementById("submit-btn").disabled = true;
+            document.getElementById("buzzerBtn").style = "visibility:visible;";
+            $('#subheading').text("Du bist bereits als: " + mystorage.getItem('nickname') + " eingeloggt, also sei bereit, " + mystorage.getItem('nickname') + "!");
+
+
+        }
+
+    };
+
+    /*socket.on('connect', () => {
+        // ...
+    });
+
+    // note: you should register event handlers outside of connect,
+    // so they are not registered again on reconnection
+    socket.on('myevent', () => {
+        // ...
+    });
+    Event: 'disconnect'
+    reason (String) either 'io server disconnect' or 'io client disconnect'
+
+    Fired upon a disconnection.
+
+    socket.on('disconnect', (reason) => {
+        // ...
+    });
+#Event: 'reconnect'
+    attempt (Number) reconnection attempt number
+    Fired upon a successful reconnection.
+
+    socket.on('reconnect', (attemptNumber) => {
+        // ...
+    });
+#Event: 'reconnect_attempt'
+    attempt (Number) reconnection attempt number
+    Fired upon an attempt to reconnect.
+
+    socket.on('reconnect_attempt', (attemptNumber) => {
+        // ...
+    });
+#Event: 'reconnecting'
+    attempt (Number) reconnection attempt number
+    Fired upon an attempt to reconnect.
+
+    socket.on('reconnecting', (attemptNumber) => {
+        // ...
+    });
+#Event: 'reconnect_error'
+    error (Object) error object
+    Fired upon a reconnection attempt error.
+
+    socket.on('reconnect_error', (error) => {
+        // ...
+    });*/
+
+
+    socket.on('playerList', function(obj, playerArray){
+        mystorage.setItem('nickname', obj.nickname); //speichern eines Eintrags mit 2 Werten.
+
+        //  keyName: Name des Eintrags
+        // keyValue: string mit zu speicherndem Eintrag
+        document.getElementById("buzzerBtn").style = "visibility:visible;";
+        $('#subheading').text("Sei bereit, " + obj.nickname + "!");
+    });
 
 
     socket.on('fastest player', function (player) {
