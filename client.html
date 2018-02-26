@@ -4,94 +4,87 @@
     <title>Client</title>
     <script src="libraries/jquery-3.2.1.min.js"></script>
     <link href="styles/client.css" rel="stylesheet">
+   <!-- <script src="/socket.io/socket.io.js"></script>-->
     <script src="/socket.io/socket.io.js"></script>
+    <!--<script src="http://localhost:3000/node_modules/socket.io-client/dist/socket.io.js"></script>-->
+     <!--<script src="/node_modules/socket.io-client/dist/socket.io.js"></script>-->
     <!--    <link href="styles/overview.css" rel="stylesheet">-->
     <script language="javascript" type="text/javascript" src="js/client.js"></script>
-   <!-- <script src="libraries/socket.io/node_modules/socket.io-client/dist/soc ket.io.js"></script> -->
+
 </head>
 
 
 <script>
     var obj = {},
-        socket = io(),
-        // socket = io.connect(),
-
+        socket = io.connect(),
         mystorage = localStorage;
-
-    var ich = {};
+        ich = {};
     //Daten vom Server empfangen bzw
-    //socket.on = connect listener
-    // var text = ('{"name"}')
 
-        console.log("storage: " + mystorage.getItem('nickname'));
-   /* if (mystorage.getItem('nickname')!= null){
-        socket.emit('reconnect', obj);
-        //window.onload = save_name;
-    }*/
-    $(document).ready(function() {
-        if (mystorage === undefined) {
-            alert("document ready occurred!");
+    console.log("storage: " + mystorage.getItem('nickname'));
+
+    $(document).ready(function () {
+       // alert("ahhhh");
+        if (mystorage.getItem('nickname')!= null){
+            console.log("reconn: " );
+            reconnect();
+           // socket.emit('reconnect', obj);
+        }else{
+            console.log("neu");
         }
     });
+
+
+    function reconnect(){
+        console.log("reconn23: "  + obj.nickname);
+        fields();
+        $('#subheading').text("Du bist bereits als: " + mystorage.getItem('nickname') + " eingeloggt, also sei bereit, " + mystorage.getItem('nickname') + "!");
+
+        //  console.log("das playerarray im client reconnect: " + playerArray);
+        //  playerArray =  mystorage.getItem(JSON.parse(playerArray));
+        var obj2 = mystorage.getItem('obj');
+            obj2 = JSON.parse(obj2);
+        console.log("reconn23: "  + obj2.nickname);
+        socket.emit('reconnect', obj2);
+    }
+
     function save_name() {
         if (mystorage.getItem('nickname')!= null) {
-        //    socket.emit('reconnect', obj);
-            console.log("richtig");
-            //  $('#username').val(mystorage.getItem('nickname'));
-            document.getElementById('submit-btn').style = "visibility:hidden;";
-            document.getElementById("username").style = "visibility:hidden;";
-            document.getElementById("submit-btn").disabled = true;
-            document.getElementById("buzzerBtn").style = "visibility:visible;";
-
-            $('#subheading').text("Du bist bereits als: " + mystorage.getItem('nickname') + " eingeloggt, also sei bereit, " + mystorage.getItem('nickname') + "!");
-            playerArray =  mystorage.getItem(JSON.parse(playerArray));
-            console.log("das playerarray im client reconnect: " + playerArray);
-            socket.emit('reconnect', playerArray);
+           reconnect();
 
         }else{
 
-
-  //  function save_name() {
-  //      if (mystorage.getItem('nickname') == null) {
             console.log("Neuanmeldung, als: " + $('#username').val());
-            // mystorage.getItem(obj.nickname);
+            fields();
+            obj = ({"id": 100, "nickname": $('#username').val() , "pkte": 0, "gameColor": "white"});
+            var obj2 = ('{"id": 100, "nickname":' + $('#username').val() +', "pkte": 0, "gameColor": "white"}');
 
-
-            document.getElementById("username").disabled = true;
-            document.getElementById("username").style = "visibility:hidden;";
-            document.getElementById("submit-btn").disabled = true;
-
-            //   document.getElementById("subheading").style = "visibility:hidden;";
-            document.getElementById("submit-btn").style = "visibility:hidden;";
-
-            obj = ({"id": 100, "nickname": $('#username').val(), "pkte": 0, "gameColor": "white"});
+            //name = name.toString();
             mystorage.setItem('nickname', $('#username').val());
+            var name = $('#username').val();
+         //   var myJson = JSON.parse('{"id": 100, "nickname":'+ name+', "pkte": 0, "gameColor": "white"}');
+            mystorage.setItem('obj', JSON.stringify({"id": 100, "nickname":name, "pkte": 0, "gameColor": "white"}));
+
             mystorage.setItem('id', "100");
-            console.log("insavename storeg: " + mystorage.getItem('nickname'));
+            console.log("insavename storeg: " + mystorage.getItem('obj'));
 
             console.log("Hallo storage: " + mystorage.getItem('nickname'));
-            console.log("Hallo  obj: " + obj.nickname);
-
 
             socket.emit('set nickname', obj);
             // var myJSON = JSON.stringify(obj);
-        }/* else {
-            //  document.getElementById("username").disabled = true;
-            console.log("richtig");
-            //  $('#username').val(mystorage.getItem('nickname'));
-            document.getElementById('submit-btn').style = "visibility:hidden;";
-            document.getElementById("username").style = "visibility:hidden;";
-            document.getElementById("submit-btn").disabled = true;
-            document.getElementById("buzzerBtn").style = "visibility:visible;";
-
-            $('#subheading').text("Du bist bereits als: " + mystorage.getItem('nickname') + " eingeloggt, also sei bereit, " + mystorage.getItem('nickname') + "!");
-            playerArray =  mystorage.getItem(JSON.parse(playerArray));
-            console.log("das playerarray im client reconnect: " + playerArray);
-            socket.emit('reconnect', playerArray);
-
-        }*/
+        }
 
     };
+
+    function fields(){
+        document.getElementById("username").disabled = true;
+        document.getElementById("username").style = "visibility:hidden;";
+        document.getElementById("submit-btn").disabled = true;
+
+        //   document.getElementById("subheading").style = "visibility:hidden;";
+        document.getElementById("submit-btn").style = "visibility:hidden;";
+    }
+
 
     /*socket.on('connect', () => {
         // ...

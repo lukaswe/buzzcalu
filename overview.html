@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <title>BuzzCaLu Overview Screen</title>
     <script src="/socket.io/socket.io.js"></script>
-    <script src="libraries/socket.io/node_modules/socket.io-client/dist/socket.io.js"></script>
     <script src="libraries/jquery-3.2.1.min.js"></script>
     <script src="libraries/jquery.blink.js"></script>
     <link href="styles/overview.css" type="text/css" rel="stylesheet">
@@ -15,8 +14,8 @@
 <script>
 
     var socket = io(),
-        playerArray = new Array,
-        questionArrayOv = new Array,
+        playerArray =[],
+        questionArrayOv = [],
         i = 1,
         j = 0,
         tdId = 0,
@@ -38,7 +37,17 @@
         //Array mit Spielern füllen
         playerArray = playerArray7;
         console.log(nicknameObj.nickname + " just connected!");
-        mystorage.setItem('playerArrayStorage', JSON.stringify(playerArray));
+        console.log(nicknameObj.nickname + " just connected!");
+        var x = 0;
+        playerArray.forEach(function(player) {
+            mystorage.setItem('playerArrayStorage[x]', JSON.stringify(player));
+
+            console.log("jsonstring: " + mystorage.getItem('playerArrayStorage[x]'));
+            x++;
+        });
+
+
+     //   mystorage.setItem('playerArrayStorage', JSON.stringify(playerArray));
         fillNameFields(playerArray);
     });
 
@@ -203,7 +212,7 @@
 
     //Blaue Namensfelder werden befüllt
     function fillNameFields(playerArray2) {
-        i = 1;
+        i = 0;
         playerArray2.forEach(function (player) {
             $('#player' + i + '-name').text(player.nickname + '    ' + player.pkte);
 

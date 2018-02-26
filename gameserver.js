@@ -138,12 +138,52 @@ io.on('connection', function (client) {
         console.log('user disconnected');
     });*/
 
-    client.on('reconnect', function (obj) {
+    client.on('reconnect', function (nicknameObj) {
         console.log('user reconnected');
+        if (playerArray == null){
+            addNicknameToPlayerArray(nicknameObj);
+        }
+        console.log("player: " + playerArray[0].nickname)
         io.emit('reconnect', playerArray );
 
     });
 
+    function addNicknameToPlayerArray(nicknameObj) {
+        playerArray.push(nicknameObj);
+        var z = 0;
+        console.log("playerArray.length:  " + playerArray.length);
+        while (z < playerArray.length) {
+            //console.log("playerArray[x].nickname: " + playerArray[x].nickname);
+            console.log("nicknameObj.nickname: " + nicknameObj.nickname);
+            console.log("y: " + z);
+            //  console.log("playerArray.length x: " + playerArray.length[x]);
+
+            if (playerArray[z].nickname === nicknameObj.nickname) {
+                if (z === 0) {
+                    nicknameObj.color = "green";
+                    nicknameObj.id = z;
+                } else if (z === 1) {
+                    nicknameObj.color = "red";
+                    nicknameObj.id = z;
+                } else if (z === 2) {
+                    nicknameObj.color = "blue";
+                    nicknameObj.id = z;
+                } else if (z === 3) {
+                    nicknameObj.color = "yellow";
+                    nicknameObj.id = z;
+                } else if (z === 4) {
+                    nicknameObj.color = "purple";
+                    nicknameObj.id = z;
+                } else {
+                    console.log("Kritischer Fehler!")
+                }
+
+                console.log("nicknameobj: " + nicknameObj.color + ",  nicknameObj.id: " + nicknameObj.id);
+            }
+            z++
+        }
+
+    }
 
     //Clients verbinden sich
     client.on('set nickname', function (nicknameObj) {
@@ -192,7 +232,7 @@ io.on('connection', function (client) {
             console.log("reconnect");
             io.emit('playerList', nicknameObj, playerArray);
         }
-        mystorage.setItem('playerArrayStorage', JSON.stringify(playerArray));
+      //  mystorage.setItem('playerArrayStorage', JSON.stringify(playerArray));
     });
 
 //schnellster Buzzer wird ermittelt und an die CLients geschickt
