@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>BuzzCaLu Overview Screen</title>
     <script src="/socket.io/socket.io.js"></script>
-    <script src="node_modules/socket.io-client/dist/socket.io.js"></script>
+    <script src="libraries/socket.io/node_modules/socket.io-client/dist/socket.io.js"></script>
     <script src="libraries/jquery-3.2.1.min.js"></script>
     <script src="libraries/jquery.blink.js"></script>
     <link href="styles/overview.css" type="text/css" rel="stylesheet">
@@ -14,7 +14,7 @@
 
 <script>
 
-    var socket = io.connect(),
+    var socket = io(),
         playerArray = new Array,
         questionArrayOv = new Array,
         i = 1,
@@ -23,6 +23,14 @@
         indx = 0,
         prevTdId = 0,
         mystorage = localStorage;
+
+
+    socket.on('reconnect', function (playerArray7) {
+        //Array mit Spielern füllen
+        playerArray = playerArray7;
+        console.log('reconnected & playerarray: ' + playerArray);
+        fillNameFields(playerArray);
+    });
 
 
     //Clients verbinden sich //Blaue Felder füllemn :)
@@ -35,7 +43,26 @@
     });
 
 
+
     socket.on('trueAnswer', function (player, playerArray5, answerArray) {
+        playerArray = playerArray5;
+     //   console.log("[tdId]:   " + [tdId]);
+     //   console.log("answerArray[tdId]:   " + answerArray[indx].text);
+        answerStart(answerArray, tdId, indx);
+        prevTdId = tdId;
+        console.log('prevTdiDi: '+ prevTdId);
+        fillNameFields(playerArray);
+        /*for (y = 0; y < 15; y++) {
+
+         document.getElementById("question" + y).style.height = 150 + "px";
+         document.getElementById("question" + y).style.width = 25 + "%";
+
+         }*/
+        //$('#question23').click();
+        document.getElementById('grayout').style="display: none";
+    });
+
+    socket.on('giveUp', function (player, playerArray5, answerArray) {
         playerArray = playerArray5;
      //   console.log("[tdId]:   " + [tdId]);
      //   console.log("answerArray[tdId]:   " + answerArray[indx].text);
@@ -238,8 +265,8 @@
         <thead>
         <tr>
             <th>Leben</th>
-            <th>Familie</th>
-            <th>Freunde</th>
+            <th>Conny</th>
+            <th>Christian</th>
             <th>Romantisch</th>
             <th>Schätzfragen</th>
 

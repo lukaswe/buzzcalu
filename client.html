@@ -2,18 +2,20 @@
 <html>
 <head>
     <title>Client</title>
-    <script src="/socket.io/socket.io.js"></script>
     <script src="libraries/jquery-3.2.1.min.js"></script>
     <link href="styles/client.css" rel="stylesheet">
+    <script src="/socket.io/socket.io.js"></script>
     <!--    <link href="styles/overview.css" rel="stylesheet">-->
     <script language="javascript" type="text/javascript" src="js/client.js"></script>
-    <script src="node_modules/socket.io-client/dist/socket.io.js"></script>
+   <!-- <script src="libraries/socket.io/node_modules/socket.io-client/dist/soc ket.io.js"></script> -->
 </head>
 
 
 <script>
     var obj = {},
-        socket = io.connect(),
+        socket = io(),
+        // socket = io.connect(),
+
         mystorage = localStorage;
 
     var ich = {};
@@ -22,12 +24,35 @@
     // var text = ('{"name"}')
 
         console.log("storage: " + mystorage.getItem('nickname'));
-    if (mystorage.getItem('nickname')!= null){
-        window.onload = save_name;
-    }
-
+   /* if (mystorage.getItem('nickname')!= null){
+        socket.emit('reconnect', obj);
+        //window.onload = save_name;
+    }*/
+    $(document).ready(function() {
+        if (mystorage === undefined) {
+            alert("document ready occurred!");
+        }
+    });
     function save_name() {
-        if (mystorage.getItem('nickname') == null) {
+        if (mystorage.getItem('nickname')!= null) {
+        //    socket.emit('reconnect', obj);
+            console.log("richtig");
+            //  $('#username').val(mystorage.getItem('nickname'));
+            document.getElementById('submit-btn').style = "visibility:hidden;";
+            document.getElementById("username").style = "visibility:hidden;";
+            document.getElementById("submit-btn").disabled = true;
+            document.getElementById("buzzerBtn").style = "visibility:visible;";
+
+            $('#subheading').text("Du bist bereits als: " + mystorage.getItem('nickname') + " eingeloggt, also sei bereit, " + mystorage.getItem('nickname') + "!");
+            playerArray =  mystorage.getItem(JSON.parse(playerArray));
+            console.log("das playerarray im client reconnect: " + playerArray);
+            socket.emit('reconnect', playerArray);
+
+        }else{
+
+
+  //  function save_name() {
+  //      if (mystorage.getItem('nickname') == null) {
             console.log("Neuanmeldung, als: " + $('#username').val());
             // mystorage.getItem(obj.nickname);
 
@@ -50,7 +75,7 @@
 
             socket.emit('set nickname', obj);
             // var myJSON = JSON.stringify(obj);
-        } else {
+        }/* else {
             //  document.getElementById("username").disabled = true;
             console.log("richtig");
             //  $('#username').val(mystorage.getItem('nickname'));
@@ -58,10 +83,13 @@
             document.getElementById("username").style = "visibility:hidden;";
             document.getElementById("submit-btn").disabled = true;
             document.getElementById("buzzerBtn").style = "visibility:visible;";
+
             $('#subheading').text("Du bist bereits als: " + mystorage.getItem('nickname') + " eingeloggt, also sei bereit, " + mystorage.getItem('nickname') + "!");
+            playerArray =  mystorage.getItem(JSON.parse(playerArray));
+            console.log("das playerarray im client reconnect: " + playerArray);
+            socket.emit('reconnect', playerArray);
 
-
-        }
+        }*/
 
     };
 
@@ -114,7 +142,7 @@
 
     socket.on('playerList', function(obj, playerArray){
         mystorage.setItem('nickname', obj.nickname); //speichern eines Eintrags mit 2 Werten.
-
+        mystorage.setItem('playerArrayStorage', JSON.stringify(playerArray));
         //  keyName: Name des Eintrags
         // keyValue: string mit zu speicherndem Eintrag
         document.getElementById("buzzerBtn").style = "visibility:visible;";
@@ -141,6 +169,11 @@
 
        socket.on('trueAnswer', function (druecker, drueckerArray, questionArray) {
      console.log(druecker.nickname + " kriegt Punkte!!");
+           $('#buzzerBtn').prop('disabled', true);
+           changeColor('white');
+     });
+       socket.on('giveUp', function (druecker, drueckerArray, questionArray) {
+     console.log("Niemand kriegt Punkte!!");
            $('#buzzerBtn').prop('disabled', true);
            changeColor('white');
      });

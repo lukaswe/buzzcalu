@@ -4,14 +4,14 @@
     <meta charset="UTF-8">
     <title>BuzzCaLu GameMaster Screen</title>
     <script src="/socket.io/socket.io.js"></script>
-    <script src="node_modules/socket.io-client/dist/socket.io.js"></script>
+    <script src="libraries/socket.io/node_modules/socket.io-client/dist/socket.io.js"></script>
     <script src="libraries/jquery-3.2.1.min.js"></script>
     <link href="styles/gameMaster.css" type="text/css" rel="stylesheet">
 </head>
 
 
 <script>
-    var socket = io.connect();
+    var socket = io();
     var schnellster;
     var playerArray = new Array;
     var fragenPunkte = 100;
@@ -22,6 +22,7 @@
     //Für Bilder im .text Feld "Bild" eingeben. Auf Großschreibung achten!
     questionArray = [
         {
+
             "text": "An welcher Gameshow nahm Angela Merkel einst teil?",
             "pkte": 100,
             "val": 0, "superquestion": 0,
@@ -35,13 +36,27 @@
             "erledigt":0
         },
         {
-            "text": "Haben Fliegen Flügel?",
-            "pkte": 100, "val": 0,
+            <!-- Christian Frage -->
+            "text": "Haben Fliegen Flügel5?",
+            "pkte": 100,
+            "val": 0,
             "superquestion": 0,
-            "picture":0, "erledigt":0
+            "picture":0,
+            "erledigt":0
         },
         {
-            "text": "Haben Fliegen Flügel?", "pkte": 100, "val": 0, "superquestion": 0,
+            "text": "Haben Fliegen Flügel?",
+            "pkte": 100,
+            "val": 0,
+            "superquestion": 0,
+            "picture":0,
+            "erledigt":0
+        },
+        {
+            "text": "Haben Fliegen Flügel?",
+            "pkte": 100,
+            "val": 0,
+            "superquestion": 0,
             "picture":0,
             "erledigt":0
         },
@@ -60,14 +75,27 @@
             "picture":0, "erledigt":0
         },
         {
+            <!-- Christian Frage -->
             "text": "Haben Fliegen Flügel?",
             "pkte": 200, "val": 0, "superquestion": 0,
             "picture":0,
             "erledigt":0
         },
         {
-            "text": "Haben Fliegen Flügel?", "pkte": 200, "val": 0,
-            "superquestion": 0, "picture":0, "erledigt":0
+            "text": "Haben Fliegen Flügel?",
+            "pkte": 200,
+            "val": 0,
+            "superquestion": 0,
+            "picture":0,
+            "erledigt":0
+        },
+        {
+            "text": "Haben Fliegen Flügel?",
+            "pkte": 200,
+            "val": 0,
+            "superquestion": 0,
+            "picture":0,
+            "erledigt":0
         },
 
         {
@@ -75,7 +103,8 @@
             "pkte": 300,
             "val": 0,
             "superquestion": 0,
-            "picture":0, "erledigt":0
+            "picture":0,
+            "erledigt":0
         },
         {
             "text": "Haben Fliegen Flügel?",
@@ -83,26 +112,46 @@
             "picture":0, "erledigt":0
         },
         {
-            "text": "Haben Fliegen Flügel?",
-            "pkte": 300, "val": 0, "superquestion": 0,
-            "picture":0, "erledigt":0
+            <!-- Christian Frage -->
+            "text": "Wie viele der hier anwesenden Hochzeitsgäste waren bereits mit Christian zusammen in der 1. Klasse?",
+            "pkte": 300,
+            "val": 0,
+            "superquestion": 0,
+            "picture":1,
+            "erledigt":0
         },
         {
-            "text": "Was zur Hölle?", "pkte": 300,
+            "text": "Was zur Hölle?",
+            "pkte": 300,
             "val": 0, "superquestion": 0,
-            "picture":0, "erledigt":0},
+            "picture":0, "erledigt":0
+        },
+
 
         {
-            "text": "Bild", "pkte": 400,
+            "text": "Was zur Hölle?",
+            "pkte": 300,
             "val": 0, "superquestion": 0,
             "picture":0, "erledigt":0
+        },
+
+        {
+            "text": "Bild",
+            "pkte": 400,
+            "val": 0,
+            "superquestion": 0,
+            "picture":0,
+            "erledigt":0
         },
         {
             "text": "Haben Fliegen Flügel?",
             "pkte": 400, "val": 0,
-            "superquestion": 0, "picture":0, "erledigt":0
+            "superquestion": 0,
+            "picture":0,
+            "erledigt":0
         },
         {
+            <!-- Christian Frage -->
             "text": "Papst Franziskus ist Ehrenmitglied des Fußballvereins ...?",
             "pkte": 400,
             "val": 0,
@@ -117,10 +166,26 @@
             "superquestion": 0,
             "picture":0,
             "erledigt":0
+        },
+        {
+            "text": "Was zur Hölle2?",
+            "pkte": 400,
+            "val": 0,
+            "superquestion": 0,
+            "picture":0,
+            "erledigt":0
         }];
 
 
     /**Client-Server Kommunikation**/
+    socket.on('reconnect', function (playerArray7) {
+        //Array mit Spielern füllen
+        playerArray = playerArray7;
+        console.log('reconnected & playerarray: ' + playerArray);
+        start();
+    });
+
+
         //Clients verbinden sich
     socket.on('playerList', function (nicknameObj, playerArray2) {
         //Array mit Spielern füllen
@@ -161,6 +226,22 @@
         start();
     }
 
+    function giveUp() {
+        var schnellster2 = ':(';
+
+        //var  schnellster2 = document.getElementById("schnellster-text").innerText();
+        console.log("tdid: " + tdId);
+        // socket.emit('showNothing', questionArray, tdId, indx);
+        document.getElementById(tdId).innerHTML = "erledigt";
+        console.log("this.playerArray" + playerArray[0].nickname);
+
+        console.log("schnellster Spieler, keiner. ");
+        socket.emit('trueAnswer', player, playerArray);
+
+        $('#schnellster-text').text("Niemand.");
+        start();
+    }
+
     function wrongAnswer() {
         console.log("in wrongAnswer, playerArray[0].nickname:  " + playerArray[0].nickname);
         //schnellster.pkte -= fragenPunkte;
@@ -182,6 +263,10 @@
 
     socket.on('trueAnswer', function (playa, playerArray, questionArray) {
         schnellster = playa;
+    });
+
+    socket.on('giveUp', function (playa, playerArray, questionArray) {
+        //schnellster = playa;
     });
 
     socket.on('wrongAnswer', function (player, playerArray9) {
@@ -368,6 +453,7 @@
             <th style="padding-left: 25px">Familie</th>
             <th style="padding-left: 25px">Skuriles</th>
             <th style="padding-left: 25px">Romantisch</th>
+            <th style="padding-left: 25px">Romantisch</th>
 
         </tr>
         </thead>
@@ -379,26 +465,30 @@
             <td class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question1">100</td>
             <td class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question2">100</td>
             <td class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question3">100</td>
+            <td class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question4">100</td>
         </tr>
         <tr>
-            <td class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question4">200</td>
             <td class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question5">200</td>
             <td class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question6">200</td>
             <td class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question7">200</td>
+            <td class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question8">200</td>
+            <td class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question9">200</td>
         </tr>
         <tr>
-            <td class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question8">300</td>
-            <td class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question9">300</td>
             <td class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question10">300</td>
             <td class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question11">300</td>
-
+            <td class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question12">300</td>
+            <td class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question13">300</td>
+            <td class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question14">300</td>
 
         </tr>
         <tr>
-            <td class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question12">400</td>
-            <td class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question13">400</td>
-            <td class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question14">400</td>
             <td class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question15">400</td>
+            <td class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question16">400</td>
+            <td class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question17">400</td>
+            <td class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question18">400</td>
+            <td class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question19">400</td>
+
 
 
         </tr>
@@ -436,6 +526,11 @@
         type="button"
         id="wrongAnswer"
         onclick="wrongAnswer()">Wrong
+</button>
+<br><button class="answbtn-css"
+        type="button"
+        id="giveUp"
+        onclick="giveUp()">Give Up
 </button>
 <br>
 <!--<button type = "submit">Buzz!</button>

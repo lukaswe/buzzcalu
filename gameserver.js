@@ -9,10 +9,32 @@ var io = require('socket.io')(http);
 
 var x = 0;
 var erster;
-var playerArray = new Array;
-var answerArray = ["Glücksrad","Damit sie sich von den Kellnern unterscheiden",
-    "0","0", "Zwei", "Peter Lustig", "0","0","Flohzirkus", "0","0", "0","Bild",
-    "0", "1860 München","0" ];
+var playerArray = [];
+var answerArray = [
+    //100
+    "Glücksrad",
+    "Damit sie sich von den Kellnern unterscheiden",
+    "0", // Christian Frage
+    "0",
+    "Zwei",
+    //200
+    "Peter Lustig",
+    "0",
+    "0", // Christian Frage
+    "Flohzirkus",
+    "0",
+    //300
+    "0",
+    "0",
+    "2", // Christian Frage
+    "0",
+    "1860 München",
+    //400
+    "0",
+    "0" ,
+    "0" , // Christian Frage
+    "0" ,
+    "0" ];
 
 
 app.get('/', function (req, res) {
@@ -52,6 +74,9 @@ app.get('/styles/client.css', function (req, res) {
 
 app.get('/styles/gameMaster.css', function (req, res) {
     res.sendFile(__dirname + '/styles/gameMaster.css');
+});
+app.get('/styles/picturing.css', function (req, res) {
+    res.sendFile(__dirname + '/styles/picturing.css');
 });
 
 /**zu html seiten zugehörige .js Dateien einbinden**/
@@ -98,6 +123,9 @@ app.get('/bild1_klein.jpg', function (req, res) {
 });app.get('/graphics/400.png', function (req, res) {
     res.sendFile(__dirname + '/graphics/400.png');
 });
+app.get('/pictures/1klasse.jpg', function (req, res) {
+    res.sendFile(__dirname + '/pictures/1klasse.jpg');
+});
 
 //var socket = io();
 
@@ -109,6 +137,13 @@ io.on('connection', function (client) {
     /*socket.on('disconnect', function () {
         console.log('user disconnected');
     });*/
+
+    client.on('reconnect', function (obj) {
+        console.log('user reconnected');
+        io.emit('reconnect', playerArray );
+
+    });
+
 
     //Clients verbinden sich
     client.on('set nickname', function (nicknameObj) {
@@ -157,6 +192,7 @@ io.on('connection', function (client) {
             console.log("reconnect");
             io.emit('playerList', nicknameObj, playerArray);
         }
+        mystorage.setItem('playerArrayStorage', JSON.stringify(playerArray));
     });
 
 //schnellster Buzzer wird ermittelt und an die CLients geschickt
@@ -165,7 +201,7 @@ io.on('connection', function (client) {
         //var obj2 = ({ "name": $('#nameField').val(),  "pkte": 0});
         console.log('message: ' + x);
         x += 1;
-        if (x == 1) {
+        if (x === 1) {
             erster = buzzer;
             client.buzzer = buzzer;
             console.log('message3: ' + buzzer);
@@ -185,6 +221,12 @@ io.on('connection', function (client) {
         x = 0;
     });
 
+    client.on('giveUp', function (player, playerArr) {
+
+        io.emit('giveUp', player, playerArr, answerArray);
+        x = 0;
+    });
+
     client.on('wrongAnswer', function (player, playerArr) {
         console.log("playerArr:  " + playerArr[0].nickname);
         console.log("player:  " + player.nickname);
@@ -195,9 +237,9 @@ io.on('connection', function (client) {
 
     client.on('showQuestion', function (questionArray, tdId, indx) {
         console.log("sowquestion funzt.pkte: " + questionArray[indx].text + " , " + tdId);
-        if (questionArray[indx].superquestion == 1){
+        if (questionArray[indx].superquestion === 1){
             io.emit('showSuperQuestion', questionArray, tdId, indx);
-        } else if (questionArray[indx].picture == 1){
+        } else if (questionArray[indx].picture === 1){
             io.emit('showPicture', questionArray, tdId, indx);
         }else {
             io.emit('showQuestion', questionArray, tdId, indx);

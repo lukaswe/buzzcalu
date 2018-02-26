@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>BuzzCaLu Picture Screen</title>
-    <script src="node_modules/socket.io-client/dist/socket.io.js"></script>
+    <script src="libraries/socket.io/node_modules/socket.io-client/dist/socket.io.js"></script>
     <script src="libraries/jquery-3.2.1.min.js"></script>
     <script src="libraries/jquery.blink.js"></script>
     <link href="styles/overview.css" type="text/css" rel="stylesheet">
@@ -11,11 +11,17 @@
 
 </head>
 <body>
-Picturing!!
-<script>
-    var socket = io.connect();
+<figure>
+    <h1> Wie viele hier anwesenden Hochzeitsgäste waren bereits mit Christian zusammen in der 1. Klasse? </h1>
 
-    socket.on('trueAnswer', function (playa, playerArray, questsionArray) {
+    <img src="/pictures/1klasse.jpg" alt="1.Klasse" />
+
+</figure>
+<script>
+    var socket = io();
+
+
+    socket.on('trueAnswer', function (player, playerArray, questionArray) {
         window.location.replace('http://localhost:3000/overview')
     });
 </script>
