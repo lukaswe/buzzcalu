@@ -25,14 +25,15 @@
             "text": "An welcher Gameshow nahm Angela Merkel einst teil?",
             "pkte": 100,
             "val": 0, "superquestion": 0,
-            "picture":1, "erledigt":0},
+            "picture": 1, "erledigt": 0
+        },
         {
             "text": "Warum tragen die Herren auf dem Wiener Opernball weiße Fliegen?",
             "pkte": 100,
             "val": 0,
             "superquestion": 0,
-            "picture":0,
-            "erledigt":0
+            "picture": 0,
+            "erledigt": 0
         },
         {
             <!-- Christian Frage -->
@@ -40,61 +41,61 @@
             "pkte": 100,
             "val": 0,
             "superquestion": 0,
-            "picture":0,
-            "erledigt":0
+            "picture": 0,
+            "erledigt": 0
         },
         {
             "text": "Haben Fliegen Flügel?",
             "pkte": 100,
             "val": 0,
             "superquestion": 0,
-            "picture":0,
-            "erledigt":0
+            "picture": 0,
+            "erledigt": 0
         },
         {
             "text": "Haben Fliegen Flügel?",
             "pkte": 100,
             "val": 0,
             "superquestion": 0,
-            "picture":0,
-            "erledigt":0
+            "picture": 0,
+            "erledigt": 0
         },
 
         {
             "text": "Wie viele Golfbälle liegen auf dem Mond?",
             "pkte": 200, "val": 0, "superquestion": 1,
-            "picture":0,
-            "erledigt":0
+            "picture": 0,
+            "erledigt": 0
         },
         {
             "text": "Wer war als Tontechniker für die Ich bin ein Berliner-Rede von John F. Kennedy verantwortlich ?",
             "pkte": 200,
             "val": 0,
             "superquestion": 0,
-            "picture":0, "erledigt":0
+            "picture": 0, "erledigt": 0
         },
         {
             <!-- Christian Frage -->
             "text": "Haben Fliegen Flügel?",
             "pkte": 200, "val": 0, "superquestion": 0,
-            "picture":0,
-            "erledigt":0
+            "picture": 0,
+            "erledigt": 0
         },
         {
             "text": "Haben Fliegen Flügel?",
             "pkte": 200,
             "val": 0,
             "superquestion": 0,
-            "picture":0,
-            "erledigt":0
+            "picture": 0,
+            "erledigt": 0
         },
         {
             "text": "Haben Fliegen Flügel?",
             "pkte": 200,
             "val": 0,
             "superquestion": 0,
-            "picture":0,
-            "erledigt":0
+            "picture": 0,
+            "erledigt": 0
         },
 
         {
@@ -102,13 +103,13 @@
             "pkte": 300,
             "val": 0,
             "superquestion": 0,
-            "picture":0,
-            "erledigt":0
+            "picture": 0,
+            "erledigt": 0
         },
         {
             "text": "Haben Fliegen Flügel?",
             "pkte": 300, "val": 0, "superquestion": 0,
-            "picture":0, "erledigt":0
+            "picture": 0, "erledigt": 0
         },
         {
             <!-- Christian Frage -->
@@ -116,14 +117,14 @@
             "pkte": 300,
             "val": 0,
             "superquestion": 0,
-            "picture":1,
-            "erledigt":0
+            "picture": 1,
+            "erledigt": 0
         },
         {
             "text": "Was zur Hölle?",
             "pkte": 300,
             "val": 0, "superquestion": 0,
-            "picture":0, "erledigt":0
+            "picture": 0, "erledigt": 0
         },
 
 
@@ -131,7 +132,7 @@
             "text": "Was zur Hölle?",
             "pkte": 300,
             "val": 0, "superquestion": 0,
-            "picture":0, "erledigt":0
+            "picture": 0, "erledigt": 0
         },
 
         {
@@ -139,15 +140,15 @@
             "pkte": 400,
             "val": 0,
             "superquestion": 0,
-            "picture":0,
-            "erledigt":0
+            "picture": 0,
+            "erledigt": 0
         },
         {
             "text": "Haben Fliegen Flügel?",
             "pkte": 400, "val": 0,
             "superquestion": 0,
-            "picture":0,
-            "erledigt":0
+            "picture": 0,
+            "erledigt": 0
         },
         {
             <!-- Christian Frage -->
@@ -155,37 +156,38 @@
             "pkte": 400,
             "val": 0,
             "superquestion": 0,
-            "picture":0,
-            "erledigt":0
+            "picture": 0,
+            "erledigt": 0
         },
         {
             "text": "Was zur Hölle?",
             "pkte": 400,
             "val": 0,
             "superquestion": 0,
-            "picture":0,
-            "erledigt":0
+            "picture": 0,
+            "erledigt": 0
         },
         {
             "text": "Was zur Hölle2?",
             "pkte": 400,
             "val": 0,
             "superquestion": 0,
-            "picture":0,
-            "erledigt":0
+            "picture": 0,
+            "erledigt": 0
         }];
 
 
     /**Client-Server Kommunikation**/
-    socket.on('reconnect', function (playerArray7) {
+    socket.on('reconnect3', function (playerArray7) {
         //Array mit Spielern füllen
         playerArray = playerArray7;
         console.log('reconnected & playerarray: ' + playerArray);
+        console.log('reconnected & playerarray[0]: ' + playerArray[0]);
         start();
     });
 
 
-        //Clients verbinden sich
+    //Clients verbinden sich
     socket.on('playerList', function (nicknameObj, playerArray2) {
         //Array mit Spielern füllen
         playerArray = playerArray2;
@@ -210,7 +212,7 @@
 
         //var  schnellster2 = document.getElementById("schnellster-text").innerText();
         console.log("tdid: " + tdId);
-       // socket.emit('showNothing', questionArray, tdId, indx);
+        // socket.emit('showNothing', questionArray, tdId, indx);
         document.getElementById(tdId).innerHTML = "erledigt";
         console.log("this.playerArray" + playerArray[0].nickname);
         playerArray.forEach(function (player) {
@@ -248,8 +250,8 @@
             if (schnellster.nickname == player.nickname) {
                 console.log("in wrongAnswer, this.playerArray:  " + player.nickname);
                 console.log("in wrongAnswer, playerpkte:  " + player.pkte);
-                console.log("in wrongAnswer, currentQuestionObj.pkte:  " +currentQuestionObj.pkte);
-                console.log("in wrongAnswer, currentQuestionObj.text:  " +currentQuestionObj.text);
+                console.log("in wrongAnswer, currentQuestionObj.pkte:  " + currentQuestionObj.pkte);
+                console.log("in wrongAnswer, currentQuestionObj.text:  " + currentQuestionObj.text);
                 player.pkte -= currentQuestionObj.pkte;
                 console.log("in wrongAnswer, playerpkte:  " + player.pkte);
                 socket.emit('wrongAnswer', player, playerArray);
@@ -281,45 +283,58 @@
         renderRows(tbody);
 
     }
-
+    //Spieler in Tabelle eintragen
     function renderRows(tbody) {
         tbody.innerHTML = '';
         console.log("in render ROws");
 
         //playerArray = JSON.parse(playerArray);
         console.log("playerArray: " + playerArray);
-        playerArray.forEach(function (player) {
-            //neue Zelie
-            console.log("player: " + player.pkte);
-            var row = document.createElement("tr");
+        if (playerArray.length !== 0) {
+            playerArray.forEach(function (player) {
+                //neue Zelie
+                console.log("player: " + player.pkte);
+                var row = document.createElement("tr");
 
-            //neue Spalten
-            var playerNameTd = document.createElement("td"),
-                    playerPkteTd = document.createElement("td");
-            playerColorTd = document.createElement("td");
+                //neue Spalten
+                var playerNameTd = document.createElement("td"),
+                    playerPkteTd = document.createElement("td"),
+                    playerColorTd = document.createElement("td"),
+                    playerButtonTd = document.createElement("button");
 
-            playerNameTd.appendChild(document.createTextNode(player.nickname));
-            playerPkteTd.appendChild(document.createTextNode(player.pkte));
+                playerButtonTd.onclick = function () {
+                    row.parentElement.removeChild(row);
+                    io.emit('removePlayer')
+                   // entfernen(player);
 
-            //   playerPkteTd.appendChild(document.createTextNode(player.pkte));
-            playerColorTd.appendChild(document.createTextNode(player.color));
+                }
 
-            row.appendChild(playerNameTd);
-            row.appendChild(playerPkteTd);
-            row.appendChild(playerColorTd);
+                playerNameTd.appendChild(document.createTextNode(player.nickname));
+                playerPkteTd.appendChild(document.createTextNode(player.pkte));
 
-            //Eintrag entfernen
-            //   playerXoxoTd.onclick = function () {
-            //      row.parentElement.removeChild(row);
-            //entfernen(player);
+                //   playerPkteTd.appendChild(document.createTextNode(player.pkte));
+                playerColorTd.appendChild(document.createTextNode(player.color));
+                playerButtonTd.appendChild(document.createTextNode("kick"));
 
-            //}
+                row.appendChild(playerNameTd);
+                row.appendChild(playerPkteTd);
+                row.appendChild(playerColorTd);
+                row.appendChild(playerButtonTd);
 
-            tbody.appendChild(row);
+                //Eintrag entfernen
 
 
-        });
+                tbody.appendChild(row);
+            });
+        }
+        else {
+            alert("playerarray is empty in gameMasterHtml");
+        }
     }
+
+
+
+
 
     window.onload = function () {
         questionStart();
@@ -337,21 +352,21 @@
         });
     }
 
-/**Function on click auf die Tabelle**/
+    /**Function on click auf die Tabelle**/
     function showQuestion(tdId2) {
         tdId = tdId2;
         /**Hier anzahl der fragen anpassen**/
         //for (var anzahlDerFragen = 0; anzahlDerFragen < 16; anzahlDerFragen ++) {
         if (tdId.length < 10) {
-             indx = tdId2.substring(tdId2.length - 1, tdId2.length);
+            indx = tdId2.substring(tdId2.length - 1, tdId2.length);
         } else {
-             indx = tdId2.substring(tdId2.length - 2, tdId2.length);
+            indx = tdId2.substring(tdId2.length - 2, tdId2.length);
         }
 
 
-       // console.log("this.questionArray: " + questionArray[indx].text + "indx: " + indx);
+        // console.log("this.questionArray: " + questionArray[indx].text + "indx: " + indx);
         //NICht nur show question sondern auch BuzzerEnablen
-       // console.log("this.questionArray.val: " + questionArray[indx].val);
+        // console.log("this.questionArray.val: " + questionArray[indx].val);
 
 //        console.log("this.questionArray.val: " + questionArray[indx].val);
         if (questionArray[indx].erledigt == 0) {
@@ -364,7 +379,7 @@
             currentQuestionObj = questionArray[indx];
             questionArray[indx].val += 1;
             questionArray[indx].erledigt = 1;
-        }else{
+        } else {
             console.log("Die Frage ist schon erledigt.")
         }
     }
@@ -387,27 +402,25 @@
         } else {
             socket.emit('showPicture', questionArray, tdId2, indx);
         }
-        currentQuestionObj=  questionArray[indx];
+        currentQuestionObj = questionArray[indx];
         questionArray[indx].val += 1;
 
     }
 
     socket.on('showQuestion', function (questionArray, tdId2, indx2) {
-        console.log(" showQuestion " );
+        console.log(" showQuestion ");
 
     });
     socket.on('showPicture', function (questionArray, tdId2, indx2) {
-        console.log(" showPicture" );
+        console.log(" showPicture");
         //questionArray[indx].style()
     });
     socket.on('showSuperQuestion', function (questionArray, tdId2, indx2) {
-        console.log(" showSuperQuestion " );
+        console.log(" showSuperQuestion ");
     });
 
 </script>
 <body>
-
-
 
 
 <!--Teilnehmer Tabelle-->
@@ -420,6 +433,8 @@
             <th style="padding-right: 40px">Name</th>
             <th style="padding-right: 40px">Punktzahl</th>
             <th style="padding-right: 40px">Farbe</th>
+            <th style="padding-right: 40px">Kick it</th>
+
             <!--  <th style="padding-right: 25px">xoxo</th>
               <th style="padding-right: 25px"></th>-->
 
@@ -489,7 +504,6 @@
             <td class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question19">400</td>
 
 
-
         </tr>
 
 
@@ -526,7 +540,8 @@
         id="wrongAnswer"
         onclick="wrongAnswer()">Wrong
 </button>
-<br><button class="answbtn-css"
+<br>
+<button class="answbtn-css"
         type="button"
         id="giveUp"
         onclick="giveUp()">Give Up
