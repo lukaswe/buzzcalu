@@ -39,7 +39,163 @@ var answerArray = [
     "0",
     "0", // Christian Frage
     "0",
-    "0"];
+    "0"],
+    questionArray = [
+    {
+
+        "text": "An welcher Gameshow nahm Angela Merkel einst teil?",
+        "pkte": 100,
+        "val": 0, "superquestion": 0,
+        "picture": 1, "erledigt": 0
+    },
+    {
+        "text": "Warum tragen die Herren auf dem Wiener Opernball weiße Fliegen?",
+        "pkte": 100,
+        "val": 0,
+        "superquestion": 0,
+        "picture": 0,
+        "erledigt": 0
+    },
+    {
+        <!-- Christian Frage -->
+        "text": "Haben Fliegen Flügel5?",
+        "pkte": 100,
+        "val": 0,
+        "superquestion": 0,
+        "picture": 0,
+        "erledigt": 0
+    },
+    {
+        "text": "Haben Fliegen Flügel?",
+        "pkte": 100,
+        "val": 0,
+        "superquestion": 0,
+        "picture": 0,
+        "erledigt": 0
+    },
+    {
+        "text": "Haben Fliegen Flügel?",
+        "pkte": 100,
+        "val": 0,
+        "superquestion": 0,
+        "picture": 0,
+        "erledigt": 0
+    },
+
+    {
+        "text": "Wie viele Golfbälle liegen auf dem Mond?",
+        "pkte": 200, "val": 0, "superquestion": 1,
+        "picture": 0,
+        "erledigt": 0
+    },
+    {
+        "text": "Wer war als Tontechniker für die Ich bin ein Berliner-Rede von John F. Kennedy verantwortlich ?",
+        "pkte": 200,
+        "val": 0,
+        "superquestion": 0,
+        "picture": 0, "erledigt": 0
+    },
+    {
+        <!-- Christian Frage -->
+        "text": "Haben Fliegen Flügel?",
+        "pkte": 200, "val": 0, "superquestion": 0,
+        "picture": 0,
+        "erledigt": 0
+    },
+    {
+        "text": "Haben Fliegen Flügel?",
+        "pkte": 200,
+        "val": 0,
+        "superquestion": 0,
+        "picture": 0,
+        "erledigt": 0
+    },
+    {
+        "text": "Haben Fliegen Flügel?",
+        "pkte": 200,
+        "val": 0,
+        "superquestion": 0,
+        "picture": 0,
+        "erledigt": 0
+    },
+
+    {
+        "text": "Was hat das Münchener Oktoberfest im Gegensatz zu anderen Volksfesten zu bieten?",
+        "pkte": 300,
+        "val": 0,
+        "superquestion": 0,
+        "picture": 0,
+        "erledigt": 0
+    },
+    {
+        "text": "Haben Fliegen Flügel?",
+        "pkte": 300, "val": 0, "superquestion": 0,
+        "picture": 0, "erledigt": 0
+    },
+    {
+        <!-- Christian Frage -->
+        "text": "Wie viele der hier anwesenden Hochzeitsgäste waren bereits mit Christian zusammen in der 1. Klasse?",
+        "pkte": 300,
+        "val": 0,
+        "superquestion": 0,
+        "picture": 1,
+        "erledigt": 0
+    },
+    {
+        "text": "Was zur Hölle?",
+        "pkte": 300,
+        "val": 0, "superquestion": 0,
+        "picture": 0, "erledigt": 0
+    },
+
+
+    {
+        "text": "Was zur Hölle?",
+        "pkte": 300,
+        "val": 0, "superquestion": 0,
+        "picture": 0, "erledigt": 0
+    },
+
+    {
+        "text": "Bild",
+        "pkte": 400,
+        "val": 0,
+        "superquestion": 0,
+        "picture": 0,
+        "erledigt": 0
+    },
+    {
+        "text": "Haben Fliegen Flügel?",
+        "pkte": 400, "val": 0,
+        "superquestion": 0,
+        "picture": 0,
+        "erledigt": 0
+    },
+    {
+        <!-- Christian Frage -->
+        "text": "Papst Franziskus ist Ehrenmitglied des Fußballvereins ...?",
+        "pkte": 400,
+        "val": 0,
+        "superquestion": 0,
+        "picture": 0,
+        "erledigt": 0
+    },
+    {
+        "text": "Was zur Hölle?",
+        "pkte": 400,
+        "val": 0,
+        "superquestion": 0,
+        "picture": 0,
+        "erledigt": 0
+    },
+    {
+        "text": "Was zur Hölle2?",
+        "pkte": 400,
+        "val": 0,
+        "superquestion": 0,
+        "picture": 0,
+        "erledigt": 0
+    }];
 
 
 app.get('/', function (req, res) {
@@ -142,6 +298,8 @@ io.on('connection', function (client) {
         console.log('[socket.io] Ein neuer Client (Browser) hat sich verbunden.\n');
         console.log("id ganz am Anfang: " + client.id);
         io.emit('generateId', client.id);
+        
+        io.emit('questionArrayStorage', questionArray);
         ids.push(client.id);
 
         // ids.push(client.id);
@@ -160,7 +318,7 @@ io.on('connection', function (client) {
 
                 });
             }*/
-
+        var truth = false;
         client.on('reconnect2', function (obj) {
             console.log("reconnect");
             if (ids.length === 0) {
@@ -176,6 +334,7 @@ io.on('connection', function (client) {
                     console.log("id aus dem Array: " + id);
                     if (id === obj.id) {
                         console.log("ids sind gleich");
+                        truth = true;
                         if (playerArray.length === 0 ){
                             playerArray.push(obj)
                         }
@@ -184,9 +343,12 @@ io.on('connection', function (client) {
                         break;
                     } else {
                         console.log("ids sind unterschiedlich");
-                        ids.push(obj.id);
+                        //ids.push(obj.id);
                     }
 
+                }
+                if (!truth){
+                    io.emit('emptyLocalstorage');
                 }
             }
         });
@@ -313,6 +475,7 @@ io.on('connection', function (client) {
 
 //schnellster Buzzer wird ermittelt und an die CLients geschickt
         client.on('send_buzz', function (buzzer) {
+            //buzzer = JSON.parse(buzzer);
             console.log("test2 " + buzzer.nickname);
             //var obj2 = ({ "name": $('#nameField').val(),  "pkte": 0});
             console.log('message: ' + x);
@@ -337,18 +500,27 @@ io.on('connection', function (client) {
             x = 0;
         });
 
-        client.on('giveUp', function (player, playerArr) {
+        client.on('giveUp', function ( playerArr) {
 
-            io.emit('giveUp', player, playerArr, answerArray);
+            io.emit('giveUp',  playerArr, answerArray);
             x = 0;
         });
 
+
+
+
         client.on('wrongAnswer', function (player, playerArr) {
-            console.log("playerArr:  " + playerArr[0].nickname);
+            console.log("playerArr:  " + playerArray[0].nickname);
             console.log("player:  " + player.nickname);
             playerArray = playerArr;
             io.emit('wrongAnswer', player, playerArr);
             x = 0;
+        });
+
+        client.on('backToOverview', function () {
+            console.log("backToOverview: " + playerArray[0].nickname);
+            io.emit('backToOverview', playerArray);
+
         });
 
         client.on('showQuestion', function (questionArray, tdId, indx) {

@@ -12,6 +12,7 @@
 </head>
 <body>
 <figure>
+    <h3 id="erster-text"> ... </h3>
     <h1> Wie viele hier anwesenden Hochzeitsgäste waren bereits mit Christian zusammen in der 1. Klasse? </h1>
 
     <img src="/pictures/1klasse.jpg" alt="1.Klasse" />
@@ -20,9 +21,34 @@
 <script>
     var socket = io();
 
+    socket.on('fastest player', function (player) {
+        //document.getElementById("erster-text").innerHTML = player;
+        $('#erster-text').text(player.nickname);
+      /*  playerArray.forEach(function (player2) {
+            console.log("player2.nickname" + player2.nickname);
+            if (player2.id == player.id) {
+                console.log("das geht jetzt mal " + player2.id + " = " + player.id);
+                //  document.getElementById("player" + player2.id + "-name").style = "visibility: hidden;";
+            }
+        });*/
+
+    });
+
+
+    socket.on('giveUp', function ( playerArray, questionArray) {
+        socket.emit('backToOverview');
+        window.location.replace('http://localhost:3000/overview');
+
+
+    });
 
     socket.on('trueAnswer', function (player, playerArray, questionArray) {
-        window.location.replace('http://localhost:3000/overview')
+        socket.emit('backToOverview');
+        window.location.replace('http://localhost:3000/overview');
+
+    });
+    socket.on('wrongAnswer', function (player, playerArray, questionArray) {
+      //  window.location.replace('http://localhost:3000/overview')
     });
 </script>
 </body>

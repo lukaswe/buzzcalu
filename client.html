@@ -108,8 +108,10 @@
         mystorage.clear();
         //  keyName: Name des Eintrags
         // keyValue: string mit zu speicherndem Eintrag
-        document.getElementById("buzzerBtn").style = "visibility:visible;";
-        $('#subheading').text("Sei bereit, " + obj.nickname + "!");
+        location.reload();
+        //document.getElementById("buzzerBtn").style = "visibility:visible;";
+        //$('#subheading').text("Sei bereit, " + obj.nickname + "!");
+
     });
 
     socket.on('playerList', function (obj, playerArray) {
@@ -128,8 +130,11 @@
         //BuzzerBtn ausgrauen, um ihn nur einmal drücken zu können.
         $('#buzzerBtn').prop('disabled', true);
 
-        console.log("ich.nickname: " + obj.nickname);
-        if (player.nickname == obj.nickname) {
+
+      var obj2 = mystorage.getItem('obj');
+      obj2 = JSON.parse(obj2);
+        console.log("ich.nickname: " + obj2.nickname);
+        if (player.nickname === obj2.nickname) {
             $('#buzz-text').text("Glückwunsch, Du bist dran!");
             changeColor('green');
         }
@@ -160,6 +165,7 @@
     //Buzzer wieder enablen!
     socket.on('showQuestion', function (questionArray5, tdId5, indx5) {
         $('#buzzerBtn').prop('disabled', false);
+
         $('#buzz-text').text("Sei bereit, " + $('#username').val() + "!");
 
     });
@@ -185,14 +191,12 @@
 
 
     function send_buzz() {
-        var socket = io();
 
-        console.log("send_buzz Test: " + $('#username').val());
-        // Eigenes Event vom Client an den Server schicken
-        //  socket.emit('send_buzz', $('#username').val());
-        socket.emit('send_buzz', obj);
+        var obj3 = mystorage.getItem('obj');
+        obj3 = JSON.parse(obj3);
+        console.log("send_buzz Test: " + obj3.nickname);
+        socket.emit('send_buzz',  obj3);
 
-        //  return false;
     }
     ;
 

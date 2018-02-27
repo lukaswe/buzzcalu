@@ -12,14 +12,15 @@
 <script>
     var socket = io.connect();
     var schnellster;
-    var playerArray = new Array;
-    var fragenPunkte = 100;
-    var questionArray = new Array
-    var tdId = 100,
-        currentQuestionObj;
+    var playerArray = [],
+        fragenPunkte = 100,
+      //  questionArray = [],
+        tdId = 100,
+        currentQuestionObj,
+        mystorage = localStorage;
 
     //Für Bilder im .text Feld "Bild" eingeben. Auf Großschreibung achten!
-    questionArray = [
+   /* questionArray = [
         {
 
             "text": "An welcher Gameshow nahm Angela Merkel einst teil?",
@@ -174,15 +175,37 @@
             "superquestion": 0,
             "picture": 0,
             "erledigt": 0
-        }];
+        }];*/
 
+
+    $(document).ready(function () {
+        if (mystorage.getItem('playerArrayStorage') !== null) {
+            console.log("Backto");
+            //prevTdId = tdId;
+            playerArray = JSON.parse(mystorage.getItem('playerArrayStorage'));
+          //  playerArray = JSON.parse(mystorage.getItem('questionArrayStorage'));
+            // fillNameFields(playerArray);
+
+            start();
+            //    document.getElementById('grayout').style = "display: none";
+        } else {
+            alert("leer");
+        }
+    });
+
+    socket.on('questionArrayStorage',function(questionArray){
+       // console.log(questionArray[0]);
+        mystorage.setItem('questionArrayStorage', JSON.stringify(questionArray));
+    });
 
     /**Client-Server Kommunikation**/
     socket.on('reconnect3', function (playerArray7) {
         //Array mit Spielern füllen
-        playerArray = playerArray7;
-        console.log('reconnected & playerarray: ' + playerArray);
-        console.log('reconnected & playerarray[0]: ' + playerArray[0]);
+        //playerArray = playerArray7;
+        //console.log('reconnected & playerarray: ' + playerArray);
+        console.log('reconnected & playerarray[0]: ' + playerArray7[0].nickname);
+        mystorage.setItem('playerArrayStorage', JSON.stringify(playerArray7));
+
         start();
     });
 
@@ -190,7 +213,8 @@
     //Clients verbinden sich
     socket.on('playerList', function (nicknameObj, playerArray2) {
         //Array mit Spielern füllen
-        playerArray = playerArray2;
+        // playerArray = playerArray2;
+        mystorage.setItem('playerArrayStorage', JSON.stringify(playerArray2));
         console.log(nicknameObj.nickname + " just connected!");
         start();
 
@@ -221,7 +245,7 @@
                 console.log("schnellster Spieler, this.playerArray: " + playerArray[0].nickname);
                 socket.emit('trueAnswer', player, playerArray);
             }
-
+            mystorage.setItem('playerArrayStorage', JSON.stringify(playerArray));
         });
         $('#schnellster-text').text("...");
         start();
@@ -237,7 +261,8 @@
         console.log("this.playerArray" + playerArray[0].nickname);
 
         console.log("schnellster Spieler, keiner. ");
-        socket.emit('trueAnswer', player, playerArray);
+        mystorage.setItem('playerArrayStorage', JSON.stringify(playerArray));
+        socket.emit('giveUp', playerArray);
 
         $('#schnellster-text').text("Niemand.");
         start();
@@ -257,6 +282,7 @@
                 socket.emit('wrongAnswer', player, playerArray);
             }
         });
+        mystorage.setItem('playerArrayStorage', JSON.stringify(playerArray2));
         $('#schnellster-text').text("...");
         start();
     }
@@ -283,13 +309,14 @@
         renderRows(tbody);
 
     }
+
     //Spieler in Tabelle eintragen
     function renderRows(tbody) {
         tbody.innerHTML = '';
-        console.log("in render ROws");
+        console.log("JSON.parse(mystorage.getItem('playerArrayStorage')): " + JSON.parse(mystorage.getItem('playerArrayStorage'))[0].nickname);
 
-        //playerArray = JSON.parse(playerArray);
-        console.log("playerArray: " + playerArray);
+        playerArray = JSON.parse(mystorage.getItem('playerArrayStorage'));
+        //console.log("playerArray: " + playerArray);
         if (playerArray.length !== 0) {
             playerArray.forEach(function (player) {
                 //neue Zelie
@@ -304,8 +331,8 @@
 
                 playerButtonTd.onclick = function () {
                     row.parentElement.removeChild(row);
-                    io.emit('removePlayer')
-                   // entfernen(player);
+                    io.emit('removePlayer');
+                    // entfernen(player);
 
                 }
 
@@ -333,9 +360,6 @@
     }
 
 
-
-
-
     window.onload = function () {
         questionStart();
     }
@@ -343,8 +367,9 @@
     function questionStart() {
         // socket.emit('questionStart', questionArray);
         var j = 0;
+        var questionArray = JSON.parse(mystorage.getItem('questionArrayStorage'));
         questionArray.forEach(function (question) {
-            console.log("question: " + question.text);
+           // console.log("question: " + question.text);
 
             $('#question' + [j]).text(question.text);
             //    document.getElementById("question" + [j]).style = "visibility:visible;";
@@ -354,6 +379,7 @@
 
     /**Function on click auf die Tabelle**/
     function showQuestion(tdId2) {
+        var questionArray = JSON.parse(mystorage.getItem('questionArrayStorage'));
         tdId = tdId2;
         /**Hier anzahl der fragen anpassen**/
         //for (var anzahlDerFragen = 0; anzahlDerFragen < 16; anzahlDerFragen ++) {
@@ -363,10 +389,7 @@
             indx = tdId2.substring(tdId2.length - 2, tdId2.length);
         }
 
-
-        // console.log("this.questionArray: " + questionArray[indx].text + "indx: " + indx);
         //NICht nur show question sondern auch BuzzerEnablen
-        // console.log("this.questionArray.val: " + questionArray[indx].val);
 
 //        console.log("this.questionArray.val: " + questionArray[indx].val);
         if (questionArray[indx].erledigt == 0) {
@@ -382,9 +405,11 @@
         } else {
             console.log("Die Frage ist schon erledigt.")
         }
+        mystorage.setItem('questionArrayStorage',JSON.stringify( questionArray));
     }
 
     function showPicture(tdId2) {
+        var questionArray = JSON.parse(mystorage.getItem('questionArrayStorage'));
         tdId = tdId2;
         /**Hier anzahl der fragen anpassen**/
         //for (var anzahlDerFragen = 0; anzahlDerFragen < 16; anzahlDerFragen ++) {
@@ -404,6 +429,7 @@
         }
         currentQuestionObj = questionArray[indx];
         questionArray[indx].val += 1;
+       mystorage.setItem('questionArrayStorage',JSON.stringify(questionArray));
 
     }
 

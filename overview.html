@@ -24,10 +24,33 @@
         mystorage = localStorage;
 
 
+    $(document).ready(function () {
+        if (mystorage.getItem('playerArrayStorage') !== null){
+//        if (playerArray.length > 0) {
+            console.log("Backto");
+            //playerArray = playerArray6;
+            //   console.log("[tdId]:   " + [tdId]);
+            //   console.log("answerArray[tdId]:   " + answerArray[indx].text);
+          //  answerStart(answerArray, tdId, indx);
+            prevTdId = tdId;
+            playerArray = JSON.parse(mystorage.getItem('playerArrayStorage'));
+
+           // console.log('prevTdiDi: ' + prevTdId);
+            fillNameFields(playerArray);
+
+        //    document.getElementById('grayout').style = "display: none";
+        }else{alert("leer");}
+    });
+
+
+
+
+
     socket.on('reconnect3', function (playerArray7) {
         //Array mit Spielern füllen
         playerArray = playerArray7;
         console.log('reconnected & playerarray: ' + playerArray);
+        mystorage.setItem('playerArrayStorage', JSON.stringify(playerArray));
         fillNameFields(playerArray);
     });
 
@@ -47,7 +70,7 @@
         });
 
 
-     //   mystorage.setItem('playerArrayStorage', JSON.stringify(playerArray));
+        mystorage.setItem('playerArrayStorage', JSON.stringify(playerArray));
         fillNameFields(playerArray);
     });
 
@@ -79,13 +102,7 @@
         prevTdId = tdId;
         console.log('prevTdiDi: '+ prevTdId);
         fillNameFields(playerArray);
-        /*for (y = 0; y < 15; y++) {
 
-         document.getElementById("question" + y).style.height = 150 + "px";
-         document.getElementById("question" + y).style.width = 25 + "%";
-
-         }*/
-        //$('#question23').click();
         document.getElementById('grayout').style="display: none";
     });
 
@@ -103,6 +120,18 @@
     });
 
 
+    socket.on('backToOverview', function (playerArray6) {
+        console.log("Backto");
+        playerArray = playerArray6;
+        //   console.log("[tdId]:   " + [tdId]);
+        //   console.log("answerArray[tdId]:   " + answerArray[indx].text);
+        answerStart(answerArray, tdId, indx);
+        prevTdId = tdId;
+        console.log('prevTdiDi: '+ prevTdId);
+        fillNameFields(playerArray);
+
+        document.getElementById('grayout').style="display: none";
+    });
     socket.on('fastest player', function (player) {
         //document.getElementById("erster-text").innerHTML = player;
         $('#erster-text').text(player.nickname);
@@ -190,22 +219,8 @@
             document.getElementById(prevTdId).innerHTML = '';
         }
         document.getElementById(tdId).innerHTML = question.text;
-       // $('#question23').click();
-        /**16 ist Anzahl der Fragen!! Hier ändern**/
-        /* for (y = 0; y < 17; y++) {
-         if (indx != y) {
-         document.getElementById("question" + y).style.height = 0 + "px";
-         document.getElementById("question" + y).style.width = 0 + "px";
-         } else {
-         //200
-         document.getElementById(tdId).style.height = 600 + "px";
-         //150
-         document.getElementById(tdId).style.width = 4000 + "px";
 
-         }
-         }*/
 
-      //  document.getElementById('grayout').style="display: inherit";
     }
 
 
@@ -213,6 +228,7 @@
     //Blaue Namensfelder werden befüllt
     function fillNameFields(playerArray2) {
         i = 0;
+        console.log("hmmm");
         playerArray2.forEach(function (player) {
             $('#player' + i + '-name').text(player.nickname + '    ' + player.pkte);
 
@@ -224,7 +240,7 @@
 
     }
 
-    $(document).ready(function () {
+ /*   $(document).ready(function () {
         $("#question23").click(function (evt) {
             $(this).zoomTo({targetsize: 1.15, duration: 600, debug: true});
             evt.stopPropagation();
@@ -235,7 +251,7 @@
         });
       //  $(".zoomTarget").zoomTo({targetsize: 1.0, debug: true});
     });
-
+*/
 
 
 
@@ -301,7 +317,7 @@
             <td class="questionBoxes-css" id="question6">200</td>
             <td class="questionBoxes-css" id="question7">200</td>
             <td class="questionBoxes-css" id="question8">200</td>
-            <td class="questionBoxes-css" id="question9">200</td
+            <td class="questionBoxes-css" id="question9">200</td>
         </tr>
         <tr>
             <td class="questionBoxes-css" id="question10">300</td>
@@ -317,6 +333,7 @@
             <td class="questionBoxes-css" id="question16">400</td>
             <td class="questionBoxes-css" id="question17">400</td>
             <td class="questionBoxes-css" id="question18">400</td>
+            <td class="questionBoxes-css" id="question19">400</td>
             <!--      <td id="question19" onclick="bildAnzeigen();return false"><img src="graphics/400.png"/></td> -->
         </tr>
 
