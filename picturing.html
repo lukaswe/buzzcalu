@@ -37,14 +37,14 @@
 
     socket.on('giveUp', function ( playerArray, questionArray) {
         socket.emit('backToOverview');
-        window.location.replace('http://localhost:3000/overview');
+        window.location.assign('/overview');
 
 
     });
 
     socket.on('trueAnswer', function (player, playerArray, questionArray) {
         socket.emit('backToOverview');
-        window.location.replace('http://localhost:3000/overview');
+        window.location.assign('/overview');
 
     });
     socket.on('wrongAnswer', function (player, playerArray, questionArray) {

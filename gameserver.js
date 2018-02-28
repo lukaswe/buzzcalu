@@ -24,27 +24,28 @@ var playerObject = {},
         //100
         "Glücksrad",
         "Damit sie sich von den Kellnern unterscheiden",
-        "0", // Christian Frage
-        "0",
+        "Paris", // Christian Frage
+        "James Bond",
         "Zwei",
         //200
+        "Schokolade",
         "Peter Lustig",
-        "0",
-        "0", // Christian Frage
-        "Flohzirkus",
-        "0",
+        "durch Feuchtigkeit", // Christian Frage
+        "Der Mann ist gar nicht dick, sondern nur groß. - Der Ukrainer \"Leonid Stadnik\" ist mit 2,53 Meter Körpergröße und Schuhgröße 64 wahrscheinlich größte Mensch der Welt.",
+        "Hamburg",
         //300
-        "0",
-        "0",
+        "Flohzirkus",
+        "Die meiste radioaktive Strahlung stammt aus der Erde und war schon immer da. Der Weltraum ist die zweitstärkste Strahlungsquelle.",
         "2", // Christian Frage
-        "0",
-        "1860 München",
+        "Man bekam Wasser, und zwar Weihwasser.",
+        "Sie ist gar kein Mensch.Die 13-jährige  Feili  ist eine Schimpansen-Dame im Zoo von Zhengzhou (in Zentralchina). Sie ist mittlerweile Nikotin-abhängig, weil Sie ständig Zoobesucher um Zigaretten anbettelt. Das meldete die Nachrichtenagentur \"China News Service\".",
+
         //400
-        "0",
-        "0",
-        "0", // Christian Frage
-        "0",
-        "0"],
+        "1860 München",
+        "Auf Friedhöfen gab es ein Jahr-2000-Problem. Auf vielen Friedhöfen war es üblich, dass bei Doppelgräbern immer auch gleich der Name und die ersten beiden Ziffern (\"19\") des Sterbejahres vom noch lebenden Partner in den Grabstein eingemeiselt wurden, doch einige davon haben den Jahrtausendwechsel überlebt, und die hatten dann ein falsches Datum auf Ihrem späteren Grabstein.",
+        "Er griff versehentlich neben den Hörer. Ken Charles Barger, 47, aus North Carolina schoss sich versehentlich in den Kopf, als er, durch einen nächtlichen Anruf geweckt, statt nach dem Telefon nach seiner 38.er Smith & Wesson griff.", // Christian Frage
+        "Ein Pferd hat eine Höchstleistung von über 10 PS. Kurzfristig kann ein Pferd ungefähr 12 PS leisten. Die Dauerleistung liegt allerdings bei etwa einem PS.",
+        "Es sind mehr als 5000 € pro Einwohner! Es sind sogar sehr viel mehr!"],
     questionArray = [
         {
             "id": 0,
@@ -67,7 +68,7 @@ var playerObject = {},
         {
             <!-- Christian Frage -->
             "id": 2,
-            "text": "Haben Fliegen Flügel5?",
+            "text": "Wie lautet die Hauptstadt von Frankreich?",
             "pkte": 100,
             "val": 0,
             "superquestion": 0,
@@ -76,7 +77,7 @@ var playerObject = {},
         },
         {
             "id": 3,
-            "text": "Haben Fliegen Flügel?",
+            "text": "Welcher Agent steht im Zusammenhang mit der \"Lizenz zum Töten\"",
             "pkte": 100,
             "val": 0,
             "superquestion": 0,
@@ -85,7 +86,7 @@ var playerObject = {},
         },
         {   <!--Schätzfrage-->
             "id": 4,
-            "text": "Haben Fliegen Flügel?",
+            "text": "Wie viele Flügel haben Fliegen?",
             "pkte": 100,
             "val": 0,
             "superquestion": 0,
@@ -95,7 +96,7 @@ var playerObject = {},
 
         {
             "id": 5,
-            "text": "Wie viele Golfbälle liegen auf dem Mond?",
+            "text": "Welches der unten genannten Lebensmittel enthält am meisten Eisen? - Rindfleich, -Spinar, -Schokolade",
             "pkte": 200,
             "val": 0,
             "superquestion": 0,
@@ -114,14 +115,14 @@ var playerObject = {},
         {
             <!-- Christian Frage -->
             "id": 7,
-            "text": "Haben Fliegen Flügel?",
+            "text": "Wodurch \"trocknet\" Sekundenkleber?",
             "pkte": 200, "val": 0, "superquestion": 0,
             "picture": 0,
             "erledigt": 0
         },
         {
             "id": 8,
-            "text": "Haben Fliegen Flügel?",
+            "text": "Warum macht ein Ukrainer namens \"Leonid Stadnik\" keine Diät, obwohl er 210 kg wiegt?",
             "pkte": 200,
             "val": 0,
             "superquestion": 0,
@@ -130,7 +131,7 @@ var playerObject = {},
         },
         {   <!--Schätzfrage-->
             "id":9,
-                "text": "Haben Fliegen Flügel?",
+                "text": "In welcher europäischen Stadt gibt es die meisten Brücken?",
             "pkte": 200,
             "val": 0,
             "superquestion": 0,
@@ -149,7 +150,7 @@ var playerObject = {},
         },
         {    <!-- Conny Frage -->
             "id":11,
-            "text": "Haben Fliegen Flügel?",
+            "text": "Wovon bekommen wir die meiste radioaktive Strahlung ab?",
             "pkte": 300,
             "val": 0,
             "superquestion": 0,
@@ -168,7 +169,7 @@ var playerObject = {},
         },
         {
             "id":13,
-            "text": "Was zur Hölle?",
+            "text": "Was bekam man beim weltweit ersten Münzautomat für sein Geld?",
             "pkte": 300,
             "val": 0,
             "superquestion": 0,
@@ -179,7 +180,7 @@ var playerObject = {},
 
         {   <!--Schätzfrage-->
             "id":14,
-                "text": "Was zur Hölle?",
+                "text": "Warum berichteten im August 2004 weltweit einige Zeitungen darüber, dass eine 13-jährige in China raucht und Passanten um Zigaretten anbettelt?",
             "pkte": 300,
             "val": 0, "superquestion": 0,
             "picture": 0, "erledigt": 0
@@ -187,7 +188,7 @@ var playerObject = {},
 
         {
             "id":15,
-            "text": "Bild",
+            "text": "Papst Franziskus ist Ehrenmitglied des Fußballvereins ...?",
             "pkte": 400,
             "val": 0,
             "superquestion": 0,
@@ -196,7 +197,7 @@ var playerObject = {},
         },
         {    <!-- Conny Frage -->
             "id":16,
-            "text": "Haben Fliegen Flügel?",
+            "text": "1999 sprach man vom Jahr-2000-Problem. Man befürchtete, dass zum Jahrtausendwechsel sämtliche Computer verrückt spielen. Tatsächlich gab es aber ein ganz anderes Jahr-2000-Problem, aber wo?",
             "pkte": 400,
             "val": 0,
             "superquestion": 0,
@@ -206,7 +207,7 @@ var playerObject = {},
         {
             <!-- Christian Frage -->
             "id":17,
-            "text": "Papst Franziskus ist Ehrenmitglied des Fußballvereins ...?",
+            "text": "Am 21. Dezember 1992 kam ein Mann aus North Carolina auf mysteriöse Weise ums Leben nachdem sein Telefon klingelte. Was war passiert?",
             "pkte": 400,
             "val": 0,
             "superquestion": 0,
@@ -215,7 +216,7 @@ var playerObject = {},
         },
         {
             "id":18,
-            "text": "Was zur Hölle?",
+            "text": "Wie hoch ist die Höchstleistung eines durchschnittlichen Pferdes in PS?",
             "pkte": 400,
             "val": 0,
             "superquestion": 0,
@@ -224,7 +225,7 @@ var playerObject = {},
         },
         {   <!--Schätzfrage-->
             "id":19,
-            "text": "Was zur Hölle2?",
+            "text": "Seit der deutschen Wiedervereinigung sind gigantische Beträge von West- nach Ostdeutschland geflossen, aber wieviel ist das, wenn man den gesamten Betrag durch die Einwohnerzahl Westdeutschlands teilt? Wieviel hat also quasi jeder einzelne Westdeutsche (bis 2013) in die neuen Bundesländer gezahlt??",
             "pkte": 400,
             "val": 0,
             "superquestion": 0,
