@@ -19,19 +19,15 @@
         socket = io.connect(),
       //  socket = io.connect(),
         mystorage = localStorage;
-    ich = {};
+        ich = {};
     //Daten vom Server empfangen bzw
 
 
    $(document).ready(function () {
 
-
-        if (mystorage.getItem('nickname') != null) {
-            var obj2 = mystorage.getItem('obj');
-            obj2 = JSON.parse(obj2);
-            //console.log("scehiße man, " + obj2.id);
-            //socket.emit('connect', obj2.id);
-            console.log("storage: " + mystorage.getItem('nickname'));
+       console.log("ready(function)", mystorage.getItem('id'));
+        if (mystorage.getItem('id') !== null) {
+        console.log('und überhautp: ' + mystorage.getItem('id'));
             console.log("reconnnnect: ");
         //    socket.emit('reconnect');
             reconnect();
@@ -41,31 +37,25 @@
         }
     });
 
-   /*socket.on('reconnect', function (clientId) {
-        console.log('clientId im reconnect socket.on: ' + clientId);
-        reconnect();
-
+   /* socket.on('emptyReloadLocalstorage',function(){
+        mystorage.clear();
+        console.log("mystorage wird geleert.");
     });*/
-    socket.on('generateId', function (clientId2) {
-        console.log("mystoragegetitem: "+mystorage.getItem('obj'));
 
+    socket.on('reconnectPlayer', function (player) {
+        console.log("User ist reconnected" + player.nickname);
+        buttonVisibility();
+        $('#subheading').text("Du bist bereits als: " + player.nickname + " eingeloggt, also sei bereit, " + mystorage.getItem('nickname') + "!");
 
-        if(mystorage.getItem('obj') === null) {
-            console.log("haus: " + clientId2);
-            mystorage.setItem('id', clientId2);
-        }
     });
     function reconnect() {
-        //  console.log("reconn23: "  + obj.nickname);
         buttonVisibility();
-        $('#subheading').text("Du bist bereits als: " + mystorage.getItem('nickname') + " eingeloggt, also sei bereit, " + mystorage.getItem('nickname') + "!");
+        $('#subheading').text("Du bist bereits als: " + mystorage.getItem('playerName') + " eingeloggt, also sei bereit, " + mystorage.getItem('nickname') + "!");
+        var id2 = mystorage.getItem('id');
+        console.log("reconnect ID: " + id2);
+      //  console.log("PlayerObject: " + playerObject.nickname + ", " + playerObject.id + ", " + playerObject.color + ", " + playerObject.pkte);
 
-        //  console.log("das playerarray im client reconnect: " + playerArray);
-        //  playerArray =  mystorage.getItem(JSON.parse(playerArray));
-        var obj2 = mystorage.getItem('obj');
-        obj2 = JSON.parse(obj2);
-        console.log("reconnect ID: " + obj2.id);
-        socket.emit('reconnect2', obj2);
+        socket.emit('reconnectPlayer', id2);
     }
 
     function save_name() {
@@ -75,23 +65,30 @@
             console.log("ist schol");
         } else {
 
-                console.log("Neuanmeldung, als: " + $('#username').val());
+
+                //console.log("Neuanmeldung, als: " + $('#username').val());
                 document.getElementById("username").disabled = true;
                 document.getElementById("username").style = "visibility:hidden;";
                 document.getElementById("submit-btn").disabled = true;
-
-                //   document.getElementById("subheading").style = "visibility:hidden;";
                 document.getElementById("submit-btn").style = "visibility:hidden;";
-                obj = ({"id": mystorage.getItem('id'), 'nickname': $('#username').val(), "pkte": 0, "gameColor": "white"});
-                mystorage.setItem('obj', JSON.stringify(obj));
+              //  obj = ({"id": mystorage.getItem('id'), 'nickname': $('#username').val(), "pkte": 0, "gameColor": "white"});
+             //   mystorage.setItem('obj', JSON.stringify(obj));
+                mystorage.setItem('playerName', $('#username').val());
 
-                console.log("obej: " + obj.id);
-                socket.emit('createPlayer', obj); //Former 'set nickname'
+              //  console.log("obej: " + obj.id);
+            //console.log("mystoragegetitem: "+mystorage.getItem('obj'));
+
+
+
+                socket.emit('createPlayer', $('#username').val() ); //Former 'set nickname'
         //    });
             // var myJSON = JSON.stringify(obj);
         }
 
     };
+
+    socket.on('getPlayerObject', function (druecker, drueckerArray, questionArray) {});
+
 
     function buttonVisibility() {
         document.getElementById("username").disabled = true;
@@ -103,7 +100,7 @@
     }
 
 
-    socket.on('emptyLocalstorage', function (obj, playerArray) {
+    socket.on('emptyLocalstorage', function () {
         console.log("Localstorage wird gelöscht");
         mystorage.clear();
         //  keyName: Name des Eintrags
@@ -114,13 +111,13 @@
 
     });
 
-    socket.on('playerList', function (obj, playerArray) {
-        mystorage.setItem('nickname', obj.nickname); //speichern eines Eintrags mit 2 Werten.
-        mystorage.setItem('playerArrayStorage', JSON.stringify(playerArray));
+    socket.on('playerList', function (playerObject, playerArray) {
+        mystorage.setItem('id', playerObject.id); //speichern eines Eintrags mit 2 Werten.
         //  keyName: Name des Eintrags
         // keyValue: string mit zu speicherndem Eintrag
+        console.log("PlayerObject: " + playerObject.nickname + ", " +playerObject.id + ", " + playerObject.color + ", " + playerObject.pkte);
         document.getElementById("buzzerBtn").style = "visibility:visible;";
-        $('#subheading').text("Sei bereit, " + obj.nickname + "!");
+        $('#subheading').text("Sei bereit, " + playerObject.nickname + "!");
     });
 
 
@@ -131,10 +128,8 @@
         $('#buzzerBtn').prop('disabled', true);
 
 
-      var obj2 = mystorage.getItem('obj');
-      obj2 = JSON.parse(obj2);
-        console.log("ich.nickname: " + obj2.nickname);
-        if (player.nickname === obj2.nickname) {
+        console.log("ich.nickname: " + player.nickname);
+        if (player.nickname === player.nickname) {
             $('#buzz-text').text("Glückwunsch, Du bist dran!");
             changeColor('green');
         }
@@ -191,12 +186,8 @@
 
 
     function send_buzz() {
-
-        var obj3 = mystorage.getItem('obj');
-        obj3 = JSON.parse(obj3);
-        console.log("send_buzz Test: " + obj3.nickname);
-        socket.emit('send_buzz',  obj3);
-
+        console.log("send_buzz Test: " + mystorage.getItem('id'));
+        socket.emit('send_buzz',  mystorage.getItem('id'));
     }
     ;
 

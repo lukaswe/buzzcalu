@@ -13,189 +13,224 @@ var io = require('socket.io')(http);
 
 var x = 0;
 var erster;
-var playerArray = [];
-var ids = [];
-var answerArray = [
-    //100
-    "Glücksrad",
-    "Damit sie sich von den Kellnern unterscheiden",
-    "0", // Christian Frage
-    "0",
-    "Zwei",
-    //200
-    "Peter Lustig",
-    "0",
-    "0", // Christian Frage
-    "Flohzirkus",
-    "0",
-    //300
-    "0",
-    "0",
-    "2", // Christian Frage
-    "0",
-    "1860 München",
-    //400
-    "0",
-    "0",
-    "0", // Christian Frage
-    "0",
-    "0"],
+var playerArray = [],
+ clientArray = [];
+var ids = [],
+    currentQuestionObj,
+    fastestPlayer={};
+var playerObject = {},
+
+    answerArray = [
+        //100
+        "Glücksrad",
+        "Damit sie sich von den Kellnern unterscheiden",
+        "0", // Christian Frage
+        "0",
+        "Zwei",
+        //200
+        "Peter Lustig",
+        "0",
+        "0", // Christian Frage
+        "Flohzirkus",
+        "0",
+        //300
+        "0",
+        "0",
+        "2", // Christian Frage
+        "0",
+        "1860 München",
+        //400
+        "0",
+        "0",
+        "0", // Christian Frage
+        "0",
+        "0"],
     questionArray = [
-    {
+        {
+            "id": 0,
+            "text": "An welcher Gameshow nahm Angela Merkel einst teil?",
+            "pkte": 100,
+            "val": 0,
+            "superquestion": 0,
+            "picture": 1,
+            "erledigt": 0
+        },
+        {   <!-- Conny Frage -->
+            "id": 1,
+            "text": "Warum tragen die Herren auf dem Wiener Opernball weiße Fliegen?",
+            "pkte": 100,
+            "val": 0,
+            "superquestion": 0,
+            "picture": 0,
+            "erledigt": 0
+        },
+        {
+            <!-- Christian Frage -->
+            "id": 2,
+            "text": "Haben Fliegen Flügel5?",
+            "pkte": 100,
+            "val": 0,
+            "superquestion": 0,
+            "picture": 0,
+            "erledigt": 0
+        },
+        {
+            "id": 3,
+            "text": "Haben Fliegen Flügel?",
+            "pkte": 100,
+            "val": 0,
+            "superquestion": 0,
+            "picture": 0,
+            "erledigt": 0
+        },
+        {   <!--Schätzfrage-->
+            "id": 4,
+            "text": "Haben Fliegen Flügel?",
+            "pkte": 100,
+            "val": 0,
+            "superquestion": 0,
+            "picture": 0,
+            "erledigt": 0
+        },
 
-        "text": "An welcher Gameshow nahm Angela Merkel einst teil?",
-        "pkte": 100,
-        "val": 0, "superquestion": 0,
-        "picture": 1, "erledigt": 0
-    },
-    {
-        "text": "Warum tragen die Herren auf dem Wiener Opernball weiße Fliegen?",
-        "pkte": 100,
-        "val": 0,
-        "superquestion": 0,
-        "picture": 0,
-        "erledigt": 0
-    },
-    {
-        <!-- Christian Frage -->
-        "text": "Haben Fliegen Flügel5?",
-        "pkte": 100,
-        "val": 0,
-        "superquestion": 0,
-        "picture": 0,
-        "erledigt": 0
-    },
-    {
-        "text": "Haben Fliegen Flügel?",
-        "pkte": 100,
-        "val": 0,
-        "superquestion": 0,
-        "picture": 0,
-        "erledigt": 0
-    },
-    {
-        "text": "Haben Fliegen Flügel?",
-        "pkte": 100,
-        "val": 0,
-        "superquestion": 0,
-        "picture": 0,
-        "erledigt": 0
-    },
+        {
+            "id": 5,
+            "text": "Wie viele Golfbälle liegen auf dem Mond?",
+            "pkte": 200,
+            "val": 0,
+            "superquestion": 0,
+            "picture": 0,
+            "erledigt": 0
+        },
+        {    <!-- Conny Frage -->
+            "id": 6,
+            "text": "Wer war als Tontechniker für die Ich bin ein Berliner-Rede von John F. Kennedy verantwortlich ?",
+            "pkte": 200,
+            "val": 0,
+            "superquestion": 0,
+            "picture": 0,
+            "erledigt": 0
+        },
+        {
+            <!-- Christian Frage -->
+            "id": 7,
+            "text": "Haben Fliegen Flügel?",
+            "pkte": 200, "val": 0, "superquestion": 0,
+            "picture": 0,
+            "erledigt": 0
+        },
+        {
+            "id": 8,
+            "text": "Haben Fliegen Flügel?",
+            "pkte": 200,
+            "val": 0,
+            "superquestion": 0,
+            "picture": 0,
+            "erledigt": 0
+        },
+        {   <!--Schätzfrage-->
+            "id":9,
+                "text": "Haben Fliegen Flügel?",
+            "pkte": 200,
+            "val": 0,
+            "superquestion": 0,
+            "picture": 0,
+            "erledigt": 0
+        },
 
-    {
-        "text": "Wie viele Golfbälle liegen auf dem Mond?",
-        "pkte": 200, "val": 0, "superquestion": 1,
-        "picture": 0,
-        "erledigt": 0
-    },
-    {
-        "text": "Wer war als Tontechniker für die Ich bin ein Berliner-Rede von John F. Kennedy verantwortlich ?",
-        "pkte": 200,
-        "val": 0,
-        "superquestion": 0,
-        "picture": 0, "erledigt": 0
-    },
-    {
-        <!-- Christian Frage -->
-        "text": "Haben Fliegen Flügel?",
-        "pkte": 200, "val": 0, "superquestion": 0,
-        "picture": 0,
-        "erledigt": 0
-    },
-    {
-        "text": "Haben Fliegen Flügel?",
-        "pkte": 200,
-        "val": 0,
-        "superquestion": 0,
-        "picture": 0,
-        "erledigt": 0
-    },
-    {
-        "text": "Haben Fliegen Flügel?",
-        "pkte": 200,
-        "val": 0,
-        "superquestion": 0,
-        "picture": 0,
-        "erledigt": 0
-    },
-
-    {
-        "text": "Was hat das Münchener Oktoberfest im Gegensatz zu anderen Volksfesten zu bieten?",
-        "pkte": 300,
-        "val": 0,
-        "superquestion": 0,
-        "picture": 0,
-        "erledigt": 0
-    },
-    {
-        "text": "Haben Fliegen Flügel?",
-        "pkte": 300, "val": 0, "superquestion": 0,
-        "picture": 0, "erledigt": 0
-    },
-    {
-        <!-- Christian Frage -->
-        "text": "Wie viele der hier anwesenden Hochzeitsgäste waren bereits mit Christian zusammen in der 1. Klasse?",
-        "pkte": 300,
-        "val": 0,
-        "superquestion": 0,
-        "picture": 1,
-        "erledigt": 0
-    },
-    {
-        "text": "Was zur Hölle?",
-        "pkte": 300,
-        "val": 0, "superquestion": 0,
-        "picture": 0, "erledigt": 0
-    },
+        {
+            "id":10,
+            "text": "Was hat das Münchener Oktoberfest im Gegensatz zu anderen Volksfesten zu bieten?",
+            "pkte": 300,
+            "val": 0,
+            "superquestion": 0,
+            "picture": 0,
+            "erledigt": 0
+        },
+        {    <!-- Conny Frage -->
+            "id":11,
+            "text": "Haben Fliegen Flügel?",
+            "pkte": 300,
+            "val": 0,
+            "superquestion": 0,
+            "picture": 0,
+            "erledigt": 0
+        },
+        {
+            <!-- Christian Frage -->
+            "id":12,
+            "text": "Wie viele der hier anwesenden Hochzeitsgäste waren bereits mit Christian zusammen in der 1. Klasse?",
+            "pkte": 300,
+            "val": 0,
+            "superquestion": 0,
+            "picture": 1,
+            "erledigt": 0
+        },
+        {
+            "id":13,
+            "text": "Was zur Hölle?",
+            "pkte": 300,
+            "val": 0,
+            "superquestion": 0,
+            "picture": 0,
+            "erledigt": 0
+        },
 
 
-    {
-        "text": "Was zur Hölle?",
-        "pkte": 300,
-        "val": 0, "superquestion": 0,
-        "picture": 0, "erledigt": 0
-    },
+        {   <!--Schätzfrage-->
+            "id":14,
+                "text": "Was zur Hölle?",
+            "pkte": 300,
+            "val": 0, "superquestion": 0,
+            "picture": 0, "erledigt": 0
+        },
 
-    {
-        "text": "Bild",
-        "pkte": 400,
-        "val": 0,
-        "superquestion": 0,
-        "picture": 0,
-        "erledigt": 0
-    },
-    {
-        "text": "Haben Fliegen Flügel?",
-        "pkte": 400, "val": 0,
-        "superquestion": 0,
-        "picture": 0,
-        "erledigt": 0
-    },
-    {
-        <!-- Christian Frage -->
-        "text": "Papst Franziskus ist Ehrenmitglied des Fußballvereins ...?",
-        "pkte": 400,
-        "val": 0,
-        "superquestion": 0,
-        "picture": 0,
-        "erledigt": 0
-    },
-    {
-        "text": "Was zur Hölle?",
-        "pkte": 400,
-        "val": 0,
-        "superquestion": 0,
-        "picture": 0,
-        "erledigt": 0
-    },
-    {
-        "text": "Was zur Hölle2?",
-        "pkte": 400,
-        "val": 0,
-        "superquestion": 0,
-        "picture": 0,
-        "erledigt": 0
-    }];
+        {
+            "id":15,
+            "text": "Bild",
+            "pkte": 400,
+            "val": 0,
+            "superquestion": 0,
+            "picture": 0,
+            "erledigt": 0
+        },
+        {    <!-- Conny Frage -->
+            "id":16,
+            "text": "Haben Fliegen Flügel?",
+            "pkte": 400,
+            "val": 0,
+            "superquestion": 0,
+            "picture": 0,
+            "erledigt": 0
+        },
+        {
+            <!-- Christian Frage -->
+            "id":17,
+            "text": "Papst Franziskus ist Ehrenmitglied des Fußballvereins ...?",
+            "pkte": 400,
+            "val": 0,
+            "superquestion": 0,
+            "picture": 0,
+            "erledigt": 0
+        },
+        {
+            "id":18,
+            "text": "Was zur Hölle?",
+            "pkte": 400,
+            "val": 0,
+            "superquestion": 0,
+            "picture": 0,
+            "erledigt": 0
+        },
+        {   <!--Schätzfrage-->
+            "id":19,
+            "text": "Was zur Hölle2?",
+            "pkte": 400,
+            "val": 0,
+            "superquestion": 0,
+            "picture": 0,
+            "erledigt": 0
+        }];
 
 
 app.get('/', function (req, res) {
@@ -296,225 +331,218 @@ app.get('/pictures/1klasse.jpg', function (req, res) {
 io.on('connection', function (client) {
 
         console.log('[socket.io] Ein neuer Client (Browser) hat sich verbunden.\n');
-        console.log("id ganz am Anfang: " + client.id);
-        io.emit('generateId', client.id);
-        
-        io.emit('questionArrayStorage', questionArray);
-        ids.push(client.id);
+        //  console.log("id ganz am Anfang: " + client.id);
+        //  io.emit('generateId', client.id);
 
-        // ids.push(client.id);
-        /*    //} else {
-                //Client ID Abfrage und Speicherung
-                for (x=0; x<ids.length; x++){
-                console.log("IDS: " + ids[x]);
-                }
-                ids.forEach(function (id) {
-                    console.log("id aus dem Array: " + id);
-                    if (client.id === id) {
-                        io.emit('reconnect', client.id);
-                    } else {
-                        ids.push(client.id);
+
+        //io.emit('emptyReloadLocalstorage');
+
+        client.on('reconnectPlayer', function (playerid) {
+            console.log("reconnectPlayer");
+            if (playerArray.length !== 0) {
+                playerArray.forEach(function (player) {
+                    if (player.id === playerid) {
+                        console.log("player ist in playerArray");
+                        io.emit('reconnectPlayer', player);
+                        io.emit('emptyReloadLocalstorage');
+                        // io.emit('reconnectNotPlayer', playerArray);
+                        //io.emit('playerList', player, playerArray);
                     }
-
                 });
-            }*/
-        var truth = false;
-        client.on('reconnect2', function (obj) {
-            console.log("reconnect");
-            if (ids.length === 0) {
-                console.log("Fehler");
             }
             else {
-                for (x = 0; x < ids.length; x++) {
-                    console.log("IDS: " + ids[x]);
-                }
-                //   ids.forEach(function (id) {
-                for (x = 0; x < ids.length; x++) {
-                    var id = ids[x];
-                    console.log("id aus dem Array: " + id);
-                    if (id === obj.id) {
-                        console.log("ids sind gleich");
-                        truth = true;
-                        if (playerArray.length === 0 ){
-                            playerArray.push(obj)
-                        }
-                        console.log("layerArray.length: " + playerArray.length);
-                        io.emit('reconnect3', playerArray);
-                        break;
-                    } else {
-                        console.log("ids sind unterschiedlich");
-                        //ids.push(obj.id);
-                    }
+                console.log("reconnectPlayer hat playerArray größe 0 ");
+                clientArray = [];
+                io.emit('emptyLocalstorage');
 
-                }
-                if (!truth){
-                    io.emit('emptyLocalstorage');
-                }
             }
         });
 
-
-//Clients verbinden sich
-        client.on('createPlayer', function (nicknameObj) {
-            console.log("nicknameID in createPlayer: " + nicknameObj.id);
-            if (playerArray.length !== 0) {
-                console.log("dem fehler auf der spur");
-                playerArray.forEach(function (player) {
-                    console.log("nicknameObj.id: " + nicknameObj.id);
-                    console.log("player.id: " + player.id);
-                    if (nicknameObj.id !== player.id) {
-
-
-                        // if (nicknameObj.id === 100) {
-                        playerArray.push(nicknameObj);
-                        var z = 0;
-                        console.log("playerArray.length:  " + playerArray.length);
-                        while (z < playerArray.length) {
-                            //console.log("playerArray[x].nickname: " + playerArray[x].nickname);
-                            console.log("nicknameObj.nickname: " + nicknameObj.nickname);
-                            console.log("y: " + z);
-                            //  console.log("playerArray.length x: " + playerArray.length[x]);
-
-                            if (playerArray[z].nickname === nicknameObj.nickname) {
-                                if (z === 0) {
-                                    nicknameObj.color = "green";
-                                    z++;
-                                    break;
-                                    //nicknameObj.id = z;
-                                } else if (z === 1) {
-                                    nicknameObj.color = "red";
-                                    // nicknameObj.id = z;
-                                    z++;
-                                    break;
-                                } else if (z === 2) {
-                                    nicknameObj.color = "blue";
-                                    // nicknameObj.id = z;
-                                    z++;
-                                    break;
-                                } else if (z === 3) {
-                                    nicknameObj.color = "yellow";
-                                    // nicknameObj.id = z;
-                                    z++;
-                                    break;
-                                } else if (z === 4) {
-                                    nicknameObj.color = "purple";
-                                    //  nicknameObj.id = z;
-                                    z++;
-                                    break;
-                                } else {
-                                    console.log("Kritischer Fehler!")
-                                }
-
-                                console.log("nicknameobj: " + nicknameObj.color + ",  nicknameObj.id: " + nicknameObj.id);
-                            }
-                            z++
-
-                        }
-
-                        client.nicknameObj = nicknameObj;
-                        //  playerArray.push(nicknameObj);
-                        console.log(nicknameObj.nickname + " just connected!");
-                        //Blaue Felder im Overview füllen und gamemaster Spielerliste erstellen
-                        io.emit('playerList', nicknameObj, playerArray);
-                    } else {
-                        console.log("reconnect");
-                        io.emit('playerList', nicknameObj, playerArray);
+        client.on('reconnectNotPlayer',function(id){
+            console.log("reconnectNotPlayer");
+            console.log("reconnectNotPlayer id: " + id);
+            console.log("clientArray.length: " + clientArray.length);
+            if (clientArray.length > 0) {
+                clientArray.forEach(function (clientid) {
+                    console.log('client.id: ' + clientid);
+                    if (clientid === id) {
+                        console.log('reconnectNotPlayer');
+                        io.emit('reconnectNotPlayer', playerArray, questionArray, tdId, indx);
                     }
-                    //  mystorage.setItem('playerArrayStorage', JSON.stringify(playerArray));
-                });
-            } else {
-                console.log("else");
-                playerArray.push(nicknameObj);
+
+                })
+            }else{console.log("Client noch nicht registriert.");}
+
+        });
+
+        client.on('register', function(){
+
+            var iid = client.id;
+            console.log("register iid: "+ iid);
+            clientArray.push(iid);
+            io.emit('register', iid);
+            io.emit('questionArrayStorage', questionArray);
+
+        });
+
+
+        //Clients verbinden sich
+        client.on('createPlayer', function (nickname) {
+            console.log("createPlayer", nickname);
+            if(nickname !== null) {
+                console.log("Client.id in createPlayer:  " + client.id);
+                playerObject = ({"id": client.id, 'nickname': nickname, "pkte": 0, "gameColor": "white"});
+
                 var z = 0;
-                console.log("playerArray.length:  " + playerArray.length);
-                while (z < playerArray.length) {
-                    //console.log("playerArray[x].nickname: " + playerArray[x].nickname);
-                    console.log("nicknameObj.nickname: " + nicknameObj.nickname);
-                    console.log("y: " + z);
-                    //  console.log("playerArray.length x: " + playerArray.length[x]);
+                while (z < (playerArray.length + 1)) {
 
-                    if (playerArray[z].nickname === nicknameObj.nickname) {
-                        if (z === 0) {
-                            nicknameObj.color = "green";
-                            z++;
-                            break;
-                            //nicknameObj.id = z;
-                        } else if (z === 1) {
-                            nicknameObj.color = "red";
-                            // nicknameObj.id = z;
-                            z++;
-                            break;
-                        } else if (z === 2) {
-                            nicknameObj.color = "blue";
-                            // nicknameObj.id = z;
-                            z++;
-                            break;
-                        } else if (z === 3) {
-                            nicknameObj.color = "yellow";
-                            // nicknameObj.id = z;
-                            z++;
-                            break;
-                        } else if (z === 4) {
-                            nicknameObj.color = "purple";
-                            //  nicknameObj.id = z;
-                            z++;
-                            break;
-                        } else {
-                            console.log("Kritischer Fehler!")
-                        }
-
-                        console.log("nicknameobj: " + nicknameObj.color + ",  nicknameObj.id: " + nicknameObj.id);
+                    if (z === 0) {
+                        playerObject.color = "green";
+                        z++;
+                        break;
+                        //nicknameObj.id = z;
+                    } else if (z === 1) {
+                        playerObject.color = "red";
+                        // nicknameObj.id = z;
+                        z++;
+                        break;
+                    } else if (z === 2) {
+                        playerObject.color = "blue";
+                        // nicknameObj.id = z;
+                        z++;
+                        break;
+                    } else if (z === 3) {
+                        playerObject.color = "yellow";
+                        // nicknameObj.id = z;
+                        z++;
+                        break;
+                    } else if (z === 4) {
+                        playerObject.color = "purple";
+                        //  nicknameObj.id = z;
+                        z++;
+                        break;
+                    } else {
+                        console.log("Kritischer Fehler!")
                     }
-                    z++
 
+                    console.log("nicknameobj: " + nicknameObj.color + ",  nicknameObj.id: " + nicknameObj.id);
+                    z++
                 }
-                io.emit('playerList', nicknameObj, playerArray);
+                playerArray.push(playerObject);
+                //Blaue Felder im Overview füllen und gamemaster Spielerliste erstellen
+                io.emit('playerList', playerObject, playerArray);
             }
         });
 
 
 //schnellster Buzzer wird ermittelt und an die CLients geschickt
-        client.on('send_buzz', function (buzzer) {
-            //buzzer = JSON.parse(buzzer);
-            console.log("test2 " + buzzer.nickname);
-            //var obj2 = ({ "name": $('#nameField').val(),  "pkte": 0});
-            console.log('message: ' + x);
-            x += 1;
-            if (x === 1) {
-                erster = buzzer;
-                client.buzzer = buzzer;
-                console.log('message3: ' + buzzer);
-                console.log('message4: ' + buzzer.nickname);
-                io.emit('fastest player', buzzer);
+        client.on('send_buzz', function (id) {
+            playerArray.forEach(function (player) {
+                if (player.id === id) {
+
+                    //buzzer = JSON.parse(buzzer);
+                    console.log("test2 " + id);
+                    console.log('message: ' + x);
+                    x += 1;
+                    if (x === 1) {
+                        erster = player;
+                        //client.buzzer = buzzer;
+                        console.log('message3: ' + player);
+                        console.log('message4: ' + player.nickname);
+                        io.emit('fastest player', player);
+                        fastestPlayer = player;
 
 
+                    }
+                }else{console.log("ungültiger Mitspieler.");}
+            });
+        });
+
+        var tdId;
+        var indx;
+        client.on('showQuestion', function(tdId2) {
+            tdId = tdId2;
+            console.log("tdId2 vorne: " + tdId2);
+
+            /**Hier anzahl der fragen anpassen**/
+            //for (var anzahlDerFragen = 0; anzahlDerFragen < 16; anzahlDerFragen ++) {
+            if (tdId.length < 10) {
+                indx = tdId2.substring(tdId2.length - 1, tdId2.length);
+            } else {
+                indx = tdId2.substring(tdId2.length - 2, tdId2.length);
             }
-        });
 
+            if (questionArray[indx].erledigt === 0) {
+                //Frage als erledigt markieren.
 
-        client.on('trueAnswer', function (player, playerArr) {
-            console.log("playerArr" + playerArr[0].nickname);
-            playerArray = playerArr;
-            console.log("answerArray[0]" + answerArray[0]);
-            io.emit('trueAnswer', player, playerArr, answerArray);
+                // if (questionArray[indx].val % 2 === 1) {
+                //     socket.emit('showNothing', questionArray, tdId2, indx);
+                //     document.getElementById(tdId).innerHTML = "erledigt";
+                // } else {
+                    if (questionArray[indx].superquestion === 1) {
+                        console.log("superquestion");
+                        io.emit('showSuperQuestion', questionArray, tdId2, indx);
+                        questionArray[indx].erledigt = 1;
+                    } else if (questionArray[indx].picture === 1) {
+                        console.log("picture");
+                        io.emit('showPicture', questionArray, tdId2, indx);
+                        questionArray[indx].erledigt = 1;
+                    } else {
+                        console.log("normale Frage");
+                        io.emit('showQuestion', questionArray, tdId2, indx);
+                        questionArray[indx].erledigt = 1;
+                    }
+                //}
+                currentQuestionObj = questionArray[indx];
+              //  questionArray[indx].val += 1;
+                //questionArray[indx].erledigt = 1;
+            } else {
+                console.log("Die Frage ist schon erledigt.")
+            }
             x = 0;
         });
 
-        client.on('giveUp', function ( playerArr) {
 
-            io.emit('giveUp',  playerArr, answerArray);
+        client.on('trueAnswer', function (fastestPlayer) {
+            console.log("in trueAnswer, schnellster: " + fastestPlayer.nickname);
+
+            playerArray.forEach(function (player) {
+                if (fastestPlayer.nickname === player.nickname) {
+                    player.pkte += currentQuestionObj.pkte;
+                    console.log("schnellster Spieler, this.playerArray: " + playerArray[0].nickname);
+                    io.emit('trueAnswer', player, playerArray, answerArray, tdId, indx, questionArray);
+                  //  $('#schnellster-text').text("...");
+                }
+            });
+            x = 0;
+        });
+
+        client.on('giveUp', function () {
+
+            //var  schnellster2 = document.getElementById("schnellster-text").innerText();
+            // socket.emit('showNothing', questionArray, tdId, indx);
+
+
+            io.emit('giveUp', playerArray, answerArray);
             x = 0;
         });
 
 
+        client.on('wrongAnswer', function (fastestPlayer ) {
+            console.log("in wrongAnswer, playerArray[0].nickname:  " +fastestPlayer.id);
+            //schnellster.pkte -= fragenPunkte;
+            playerArray.forEach(function (player) {
+                if (fastestPlayer.id === player.id) {
+                    player.pkte -= currentQuestionObj.pkte;
+                    console.log("in wrongAnswer, playerpkte:  " + player.pkte);
+                    io.emit('wrongAnswer', player, playerArray);
+                }else{
+                    alert("irgendwas läuft schief.");
+                }
+            });
 
-
-        client.on('wrongAnswer', function (player, playerArr) {
-            console.log("playerArr:  " + playerArray[0].nickname);
-            console.log("player:  " + player.nickname);
-            playerArray = playerArr;
-            io.emit('wrongAnswer', player, playerArr);
             x = 0;
+
         });
 
         client.on('backToOverview', function () {
@@ -523,17 +551,7 @@ io.on('connection', function (client) {
 
         });
 
-        client.on('showQuestion', function (questionArray, tdId, indx) {
-            console.log("sowquestion funzt.pkte: " + questionArray[indx].text + " , " + tdId);
-            if (questionArray[indx].superquestion === 1) {
-                io.emit('showSuperQuestion', questionArray, tdId, indx);
-            } else if (questionArray[indx].picture === 1) {
-                io.emit('showPicture', questionArray, tdId, indx);
-            } else {
-                io.emit('showQuestion', questionArray, tdId, indx);
-            }
-            x = 0;
-        });
+
 
 
         client.on('showNothing', function (questionArray, tdId, indx) {

@@ -14,7 +14,7 @@
 <script>
 
     var socket = io(),
-        playerArray =[],
+        playerArray = [],
         questionArrayOv = [],
         i = 1,
         j = 0,
@@ -25,44 +25,67 @@
 
 
     $(document).ready(function () {
-        if (mystorage.getItem('playerArrayStorage') !== null){
-//        if (playerArray.length > 0) {
-            console.log("Backto");
-            //playerArray = playerArray6;
-            //   console.log("[tdId]:   " + [tdId]);
-            //   console.log("answerArray[tdId]:   " + answerArray[indx].text);
-          //  answerStart(answerArray, tdId, indx);
-            prevTdId = tdId;
-            playerArray = JSON.parse(mystorage.getItem('playerArrayStorage'));
+        if (mystorage.getItem('id') !== null) {
+            console.log("reconnection: ", mystorage.getItem('id'));
+            var id = mystorage.getItem('id')
+            socket.emit('reconnectNotPlayer', id);
+        } else {
+            console.log("Register");
+            socket.emit('register');
 
-           // console.log('prevTdiDi: ' + prevTdId);
-            fillNameFields(playerArray);
-
-        //    document.getElementById('grayout').style = "display: none";
-        }else{alert("leer");}
+        }
+        /* if (mystorage.getItem('playerArrayStorage') !== null){
+             console.log("Backto");
+             playerArray = JSON.parse(mystorage.getItem('playerArrayStorage'));
+             fillNameFields(playerArray);
+         //    document.getElementById('grayout').style = "display: none";
+         }else{alert("leer");}*/
     });
 
 
+    socket.on('emptyReloadLocalstorage', function () {
+        mystorage.clear();
+        console.log("mystorage wird geleert.");
+
+    });
+
+    socket.on('register', function (id) {
+        console.log('id: ', id);
+        mystorage.setItem('id', id);
+    });
+
+    socket.on('emptyLocalstorage', function () {
+        console.log("Localstorage wird gelöscht");
+        mystorage.clear();
+        location.reload();
+        //  socket.emit('register');
+    });
 
 
-
-    socket.on('reconnect3', function (playerArray7) {
+    socket.on('reconnectNotPlayer', function (playerArray, questionArray, tdId, indx) {
         //Array mit Spielern füllen
-        playerArray = playerArray7;
-        console.log('reconnected & playerarray: ' + playerArray);
-        mystorage.setItem('playerArrayStorage', JSON.stringify(playerArray));
+        //playerArray = playerArray7;
+        console.log('reconnected & playerarray: ' + playerArray[0]);
+        console.log('reconnected & questionarray: ' + questionArray[0]);
+        //  mystorage.setItem('playerArrayStorage', JSON.stringify(playerArray));
+        //questionStartReconnect(questionArray);
+        console.log("tdId:" + tdId + ", indx:" + indx);
+        if (tdId !== null){
+        questionStart2(questionArray, tdId, indx);}
+
         fillNameFields(playerArray);
+        //window.location.reload();
     });
 
 
     //Clients verbinden sich //Blaue Felder füllemn :)
-    socket.on('playerList', function (nicknameObj, playerArray7) {
+    socket.on('playerList', function (playerObject, playerArray7) {
         //Array mit Spielern füllen
         playerArray = playerArray7;
-        console.log(nicknameObj.nickname + " just connected!");
-        console.log(nicknameObj.nickname + " just connected!");
+        console.log(playerObject.nickname + " just connected!");
+        console.log(playerObject.nickname + " just connected!");
         var x = 0;
-        playerArray.forEach(function(player) {
+        playerArray.forEach(function (player) {
             mystorage.setItem('playerArrayStorage[x]', JSON.stringify(player));
 
             console.log("jsonstring: " + mystorage.getItem('playerArrayStorage[x]'));
@@ -75,15 +98,15 @@
     });
 
 
-
-    socket.on('trueAnswer', function (player, playerArray5, answerArray) {
+    socket.on('trueAnswer', function (player, playerArray5, answerArray, tdId, indx) {
         playerArray = playerArray5;
-     //   console.log("[tdId]:   " + [tdId]);
-     //   console.log("answerArray[tdId]:   " + answerArray[indx].text);
+        //   console.log("[tdId]:   " + [tdId]);
+        //   console.log("answerArray[tdId]:   " + answerArray[indx].text);
         answerStart(answerArray, tdId, indx);
         prevTdId = tdId;
-        console.log('prevTdiDi: '+ prevTdId);
+        console.log('prevTdiDi: ' + prevTdId);
         fillNameFields(playerArray);
+
         /*for (y = 0; y < 15; y++) {
 
          document.getElementById("question" + y).style.height = 150 + "px";
@@ -91,28 +114,29 @@
 
          }*/
         //$('#question23').click();
-        document.getElementById('grayout').style="display: none";
+        //  document.getElementById('grayout').style="display: none";
     });
 
     socket.on('giveUp', function (player, playerArray5, answerArray) {
         playerArray = playerArray5;
-     //   console.log("[tdId]:   " + [tdId]);
-     //   console.log("answerArray[tdId]:   " + answerArray[indx].text);
+        //   console.log("[tdId]:   " + [tdId]);
+        //   console.log("answerArray[tdId]:   " + answerArray[indx].text);
         answerStart(answerArray, tdId, indx);
         prevTdId = tdId;
-        console.log('prevTdiDi: '+ prevTdId);
+        console.log('prevTdiDi: ' + prevTdId);
         fillNameFields(playerArray);
-
-        document.getElementById('grayout').style="display: none";
+        $('#erster-text').text("...");
+        document.getElementById('grayout').style = "display: none";
     });
 
 
-    socket.on('wrongAnswer', function (player, playerArray9) {
+    socket.on('wrongAnswer', function (player, playerArray9, answerArray) {
         playerArray = playerArray9;
         //playerArray.forEach(function (player) {
         //   if (schnellster.nickname == player.nickname) {
         //       console.log("player.pkte: " + player.pkte);
         //  player.pkte = schnellster.pkte;
+        $('#erster-text').text("...");
         fillNameFields(playerArray9);
         //    }
 
@@ -127,11 +151,12 @@
         //   console.log("answerArray[tdId]:   " + answerArray[indx].text);
         answerStart(answerArray, tdId, indx);
         prevTdId = tdId;
-        console.log('prevTdiDi: '+ prevTdId);
+        console.log('prevTdiDi: ' + prevTdId);
         fillNameFields(playerArray);
 
-        document.getElementById('grayout').style="display: none";
+        document.getElementById('grayout').style = "display: none";
     });
+
     socket.on('fastest player', function (player) {
         //document.getElementById("erster-text").innerHTML = player;
         $('#erster-text').text(player.nickname);
@@ -147,17 +172,16 @@
 
 
     socket.on('showQuestion', function (questionArray, tdId2, indx2) {
-        tdId = tdId2;
-        indx = indx2;
-        console.log("tdId : " + tdId);
-        console.log("qA: " + questionArray[indx].text);
-       // if (questionArray[indx].text == "Bild") {
+        //tdId = tdId2;
+        console.log("tdId2: " + tdId2);
+        // console.log("qA: " + questionArray[indx].text);
+        // if (questionArray[indx].text == "Bild") {
         //    bildStart(questionArray, tdId, indx);
-       // } else {
+        // } else {
 
-            console.log("this.questionArray.val " + questionArray[indx].val);
-            questionStart2(questionArray, tdId, indx);
-       // }
+        //   console.log("this.questionArray.val " + questionArray[indx].val);
+        questionStart2(questionArray, tdId2, indx2);
+        // }
     });
 
 
@@ -184,7 +208,7 @@
 
         tdId = tdId2;
         indx = indx2;
-        if (prevTdId != 0){
+        if (prevTdId != 0) {
             document.getElementById(prevTdId).innerHTML = '';
         }
         console.log("showPicture!!!");
@@ -204,25 +228,49 @@
     //Antwort in Tabelle eintragen
     function answerStart(answerArray, tdId, indx) {
         document.getElementById(tdId).innerHTML = answerArray[indx];
+
     }
 
-    //Frage in Tabelle eintragen
+    /** Frage in Tabelle eintragen **/
     function questionStart2(questionArray, tdId, indx) {
         //  console.log("j: " + this.j);
-        var question = questionArray[indx];
-        console.log("question: " + question.text);
-     //   console.log("question2: " + questionArray[indx].text);
-     //   console.log("tdId:: " + tdId);
+        // var question = questionArray[indx];
+        // console.log("question: " + question.text);
+        //   console.log("question2: " + questionArray[indx].text);
+        //   console.log("tdId:: " + tdId);
 
+        document.getElementById(tdId).innerHTML = questionArray[indx].text;
         /** letztes Fragenfeld leeren**/
-        if (prevTdId != 0){
-            document.getElementById(prevTdId).innerHTML = '';
-        }
-        document.getElementById(tdId).innerHTML = question.text;
+        questionArray.forEach(function (question) {
+            if (question.erledigt === 1) {
+                console.log('Diese Frage ist schon beantwortet: ' + question);
+                document.getElementById('question' + question.id).innerHTML = '';
+            }
 
+            // document.getElementById('question'+question.id).innerHTML = question.text;
+        });
 
     }
 
+    function questionStartReconnect(questionArray) {
+        //  console.log("j: " + this.j);
+        // var question = questionArray[indx];
+        // console.log("question: " + question.text);
+        //   console.log("question2: " + questionArray[indx].text);
+        //   console.log("tdId:: " + tdId);
+
+        /** letztes Fragenfeld leeren**/
+        questionArray.forEach(function (question) {
+
+            if (question.erledigt === 1) {
+                console.log("erledigte Fragen im questionStartReconnect: " + question.text);
+                document.getElementById('question' + question.id).innerHTML = '';
+            }
+        });
+        //  document.getElementById(tdId).innerHTML = question.text;
+
+
+    }
 
 
     //Blaue Namensfelder werden befüllt
@@ -239,19 +287,6 @@
         });
 
     }
-
- /*   $(document).ready(function () {
-        $("#question23").click(function (evt) {
-            $(this).zoomTo({targetsize: 1.15, duration: 600, debug: true});
-            evt.stopPropagation();
-        });
-        $("#question23").click(function (evt) {
-            $(".zoomTarget").zoomTo({targetsize: 1, duration: 600, debug: true});
-            evt.stopPropagation();
-        });
-      //  $(".zoomTarget").zoomTo({targetsize: 1.0, debug: true});
-    });
-*/
 
 
 
@@ -336,8 +371,6 @@
             <td class="questionBoxes-css" id="question19">400</td>
             <!--      <td id="question19" onclick="bildAnzeigen();return false"><img src="graphics/400.png"/></td> -->
         </tr>
-
-
 
 
         </tbody>

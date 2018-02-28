@@ -13,10 +13,10 @@
     var socket = io.connect();
     var schnellster;
     var playerArray = [],
+        buzz = false,
         fragenPunkte = 100,
       //  questionArray = [],
         tdId = 100,
-        currentQuestionObj,
         mystorage = localStorage;
 
     //Für Bilder im .text Feld "Bild" eingeben. Auf Großschreibung achten!
@@ -179,143 +179,139 @@
 
 
     $(document).ready(function () {
-        if (mystorage.getItem('playerArrayStorage') !== null) {
-            console.log("Backto");
-            //prevTdId = tdId;
-            playerArray = JSON.parse(mystorage.getItem('playerArrayStorage'));
-          //  playerArray = JSON.parse(mystorage.getItem('questionArrayStorage'));
-            // fillNameFields(playerArray);
-
-            start();
-            //    document.getElementById('grayout').style = "display: none";
-        } else {
-            alert("leer");
+        if(mystorage.getItem('id')!== null){
+            console.log("reconnection mit :  " +mystorage.getItem('id'));
+            var id =mystorage.getItem('id')
+            socket.emit('reconnectNotPlayer', id);
+        }else{
+            socket.emit('register');
+            console.log("Fregister");//socket.emit('register');
         }
+
+            // if (playerArray !== null) {
+            //     console.log("Backto");
+            //     start(playerArray);
+            //
+            // }else{console.log("Playerarray ist noch leer.");}
+            // //    document.getElementById('grayout').style = "display: none";
+    });
+
+    socket.on('emptyReloadLocalstorage',function(){
+        mystorage.clear();
+        console.log("mystorage wird geleert.");
+
+    });
+
+    socket.on('register', function(id){
+        console.log('id: ',id);
+       mystorage.setItem('id', id);
+    });
+
+    socket.on('reconnectNotPlayer', function (playerArray, questionArray) {
+     if (playerArray !== null) {
+    //     console.log('reconnected & playerarray[0]: ' + playerArray[0].nickname);
+
+         start(playerArray);
+         questionStart(questionArray);
+
+     }else{console.log("Wir sind warum auch immer in reconnectNotPlayer");}
+    });
+
+    socket.on('emptyLocalstorage', function () {
+        console.log("Localstorage wird gelöscht");
+        mystorage.clear();
+        location.reload();
+      //  socket.emit('register');
     });
 
     socket.on('questionArrayStorage',function(questionArray){
        // console.log(questionArray[0]);
         mystorage.setItem('questionArrayStorage', JSON.stringify(questionArray));
+        questionStart(questionArray);
     });
 
     /**Client-Server Kommunikation**/
-    socket.on('reconnect3', function (playerArray7) {
-        //Array mit Spielern füllen
-        //playerArray = playerArray7;
-        //console.log('reconnected & playerarray: ' + playerArray);
-        console.log('reconnected & playerarray[0]: ' + playerArray7[0].nickname);
-        mystorage.setItem('playerArrayStorage', JSON.stringify(playerArray7));
 
-        start();
-    });
 
 
     //Clients verbinden sich
-    socket.on('playerList', function (nicknameObj, playerArray2) {
+    socket.on('playerList', function (playerObject, playerArray2) {
         //Array mit Spielern füllen
-        // playerArray = playerArray2;
         mystorage.setItem('playerArrayStorage', JSON.stringify(playerArray2));
-        console.log(nicknameObj.nickname + " just connected!");
-        start();
+        console.log(playerObject.nickname + " just connected!");
+        start(playerArray2);
 
     });
 
     socket.on('fastest player', function (player) {
-        //document.getElementById("erster-text").innerHTML = player;
         $('#schnellster-text').text(player.nickname);
-        // console.log("this.schnellster "+ this.schnellster.nickname);
-        console.log("this.player " + player.nickname);
         schnellster = player;
         console.log("this.schnellster2 " + schnellster.nickname);
-        console.log("this.player2 " + player.nickname);
+        buzz = true;
+        document.getElementById("rightAnswer").disabled = false;
+        document.getElementById("wrongAnswer").disabled = false;
+
     });
 
     /**Seitenspezifische Funktionalitäten**/
     function trueAnswer() {
-        var schnellster2 = $("#schnellster-text").html();
+       socket.emit('trueAnswer', schnellster);
+        $("#schnellster-text").text(schnellster.nickname);
+        document.getElementById("rightAnswer").disabled = true;
+        document.getElementById("wrongAnswer").disabled = true;
 
-        //var  schnellster2 = document.getElementById("schnellster-text").innerText();
-        console.log("tdid: " + tdId);
-        // socket.emit('showNothing', questionArray, tdId, indx);
-        document.getElementById(tdId).innerHTML = "erledigt";
-        console.log("this.playerArray" + playerArray[0].nickname);
-        playerArray.forEach(function (player) {
-            if (schnellster2 == player.nickname) {
-                player.pkte += currentQuestionObj.pkte;
-                console.log("schnellster Spieler, this.playerArray: " + playerArray[0].nickname);
-                socket.emit('trueAnswer', player, playerArray);
-            }
-            mystorage.setItem('playerArrayStorage', JSON.stringify(playerArray));
-        });
-        $('#schnellster-text').text("...");
-        start();
     }
 
     function giveUp() {
-        var schnellster2 = ':(';
-
-        //var  schnellster2 = document.getElementById("schnellster-text").innerText();
-        console.log("tdid: " + tdId);
-        // socket.emit('showNothing', questionArray, tdId, indx);
-        document.getElementById(tdId).innerHTML = "erledigt";
-        console.log("this.playerArray" + playerArray[0].nickname);
-
-        console.log("schnellster Spieler, keiner. ");
-        mystorage.setItem('playerArrayStorage', JSON.stringify(playerArray));
-        socket.emit('giveUp', playerArray);
+       socket.emit('giveUp')
 
         $('#schnellster-text').text("Niemand.");
-        start();
+        document.getElementById("rightAnswer").disabled = true;
+        document.getElementById("wrongAnswer").disabled = true;
     }
 
     function wrongAnswer() {
-        console.log("in wrongAnswer, playerArray[0].nickname:  " + playerArray[0].nickname);
-        //schnellster.pkte -= fragenPunkte;
-        playerArray.forEach(function (player) {
-            if (schnellster.nickname == player.nickname) {
-                console.log("in wrongAnswer, this.playerArray:  " + player.nickname);
-                console.log("in wrongAnswer, playerpkte:  " + player.pkte);
-                console.log("in wrongAnswer, currentQuestionObj.pkte:  " + currentQuestionObj.pkte);
-                console.log("in wrongAnswer, currentQuestionObj.text:  " + currentQuestionObj.text);
-                player.pkte -= currentQuestionObj.pkte;
-                console.log("in wrongAnswer, playerpkte:  " + player.pkte);
-                socket.emit('wrongAnswer', player, playerArray);
-            }
-        });
-        mystorage.setItem('playerArrayStorage', JSON.stringify(playerArray2));
+        socket.emit('wrongAnswer', schnellster);
+
+       // mystorage.setItem('playerArrayStorage', JSON.stringify(playerArray2));
         $('#schnellster-text').text("...");
-        start();
+        document.getElementById("rightAnswer").disabled = true;
+        document.getElementById("wrongAnswer").disabled = true;
+
     }
     ;
 
-    socket.on('trueAnswer', function (playa, playerArray, questionArray) {
-        schnellster = playa;
+    socket.on('trueAnswer', function (winner, playerArray, answerArray,tdId, indx, questionArray) {
+        schnellster = winner;
+        start(playerArray);
+        questionStart(questionArray);
     });
 
-    socket.on('giveUp', function (playa, playerArray, questionArray) {
+    socket.on('giveUp', function (playerArray, questionArray) {
+     //   document.getElementById(tdId).innerHTML = "erledigt";
         //schnellster = playa;
+        start(playerArray);
     });
 
     socket.on('wrongAnswer', function (player, playerArray9) {
         playerArray = playerArray9;
+        start(playerArray);
         console.log("socket on wrongArray, playerArray9:  " + playerArray9[0].nickname);
     });
 
 
     //Spieler in Tabelle eintragen
-    function start() {
+    function start(playerArray) {
         var tbody = document.getElementById("ctbody");
         console.log("in start");
-        renderRows(tbody);
+        renderRows(tbody, playerArray);
 
     }
 
     //Spieler in Tabelle eintragen
-    function renderRows(tbody) {
+    function renderRows(tbody,playerArray) {
         tbody.innerHTML = '';
-        console.log("JSON.parse(mystorage.getItem('playerArrayStorage')): " + JSON.parse(mystorage.getItem('playerArrayStorage'))[0].nickname);
 
-        playerArray = JSON.parse(mystorage.getItem('playerArrayStorage'));
         //console.log("playerArray: " + playerArray);
         if (playerArray.length !== 0) {
             playerArray.forEach(function (player) {
@@ -331,7 +327,7 @@
 
                 playerButtonTd.onclick = function () {
                     row.parentElement.removeChild(row);
-                    io.emit('removePlayer');
+                    socket.emit('removePlayer');
                     // entfernen(player);
 
                 }
@@ -355,33 +351,42 @@
             });
         }
         else {
-            alert("playerarray is empty in gameMasterHtml");
         }
     }
 
 
-    window.onload = function () {
-        questionStart();
-    }
 
-    function questionStart() {
+/**Fragen einfüllen**/
+    function questionStart(questionArray) {
         // socket.emit('questionStart', questionArray);
+    console.log("questionstart wird ausgeführt")
+    console.log("question in uestionstart: " + questionArray[0]);
         var j = 0;
-        var questionArray = JSON.parse(mystorage.getItem('questionArrayStorage'));
+      //  var questionArray = JSON.parse(mystorage.getItem('questionArrayStorage'));
         questionArray.forEach(function (question) {
            // console.log("question: " + question.text);
 
             $('#question' + [j]).text(question.text);
+            if(question.erledigt === 1){
+                $('#question' + [j]).text("erledigt");
+            }
             //    document.getElementById("question" + [j]).style = "visibility:visible;";
             j++;
         });
     }
 
+
     /**Function on click auf die Tabelle**/
     function showQuestion(tdId2) {
+        console.log("tdId2: " + tdId2);
+        socket.emit('showQuestion', tdId2)
+        document.getElementById("rightAnswer").disabled = true;
+        document.getElementById("wrongAnswer").disabled = true;
+    };
+   /* function showQuestion(tdId2) {
         var questionArray = JSON.parse(mystorage.getItem('questionArrayStorage'));
         tdId = tdId2;
-        /**Hier anzahl der fragen anpassen**/
+        /!**Hier anzahl der fragen anpassen**!/
         //for (var anzahlDerFragen = 0; anzahlDerFragen < 16; anzahlDerFragen ++) {
         if (tdId.length < 10) {
             indx = tdId2.substring(tdId2.length - 1, tdId2.length);
@@ -406,7 +411,7 @@
             console.log("Die Frage ist schon erledigt.")
         }
         mystorage.setItem('questionArrayStorage',JSON.stringify( questionArray));
-    }
+    }*/
 
     function showPicture(tdId2) {
         var questionArray = JSON.parse(mystorage.getItem('questionArrayStorage'));
@@ -421,7 +426,7 @@
 
         //NICht nur show question sondern auch BuzzerEnablen
 
-        if (questionArray[indx].val % 2 == 1) {
+        if (questionArray[indx].val % 2 === 1) {
             socket.emit('showNothing', questionArray, tdId2, indx);
             document.getElementById(tdId).innerHTML = "erledigt";
         } else {
@@ -489,11 +494,11 @@
     <table id="questionTable" class="questionUeberschrift-css">
         <thead>
         <tr>
-            <th style="padding-left: 25px">Mainstockheim</th>
             <th style="padding-left: 25px">Familie</th>
-            <th style="padding-left: 25px">Skuriles</th>
+            <th style="padding-left: 25px">Conny</th>
+            <th style="padding-left: 25px">Christian</th>
             <th style="padding-left: 25px">Romantisch</th>
-            <th style="padding-left: 25px">Romantisch</th>
+            <th style="padding-left: 25px">Schätzfrage</th>
 
         </tr>
         </thead>
