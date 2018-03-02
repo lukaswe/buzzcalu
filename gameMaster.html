@@ -181,19 +181,12 @@
     $(document).ready(function () {
         if(mystorage.getItem('id')!== null){
             console.log("reconnection mit :  " +mystorage.getItem('id'));
-            var id =mystorage.getItem('id')
+            var id = mystorage.getItem('id');
             socket.emit('reconnectNotPlayer', id);
         }else{
             socket.emit('register');
-            console.log("Fregister");//socket.emit('register');
+            console.log("register");//socket.emit('register');
         }
-
-            // if (playerArray !== null) {
-            //     console.log("Backto");
-            //     start(playerArray);
-            //
-            // }else{console.log("Playerarray ist noch leer.");}
-            // //    document.getElementById('grayout').style = "display: none";
     });
 
     socket.on('emptyReloadLocalstorage',function(){
@@ -220,7 +213,7 @@
     socket.on('emptyLocalstorage', function () {
         console.log("Localstorage wird gelöscht");
         mystorage.clear();
-        location.reload();
+      //  location.reload();
       //  socket.emit('register');
     });
 
@@ -413,10 +406,16 @@
         mystorage.setItem('questionArrayStorage',JSON.stringify( questionArray));
     }*/
 
-    function showPicture(tdId2) {
-        var questionArray = JSON.parse(mystorage.getItem('questionArrayStorage'));
+  /*  function showPicture(tdId2) {
+        console.log("tdId2: " + tdId2);
+        socket.emit('showPicture', tdId2)
+        console.log("showPicture");
+        document.getElementById("rightAnswer").disabled = true;
+        document.getElementById("wrongAnswer").disabled = true;
+
+       /!* var questionArray = JSON.parse(mystorage.getItem('questionArrayStorage'));
         tdId = tdId2;
-        /**Hier anzahl der fragen anpassen**/
+        /!**Hier anzahl der fragen anpassen**!/
         //for (var anzahlDerFragen = 0; anzahlDerFragen < 16; anzahlDerFragen ++) {
         if (tdId.length < 10) {
             indx = tdId2.substring(tdId2.length - 1, tdId2.length);
@@ -435,8 +434,8 @@
         currentQuestionObj = questionArray[indx];
         questionArray[indx].val += 1;
        mystorage.setItem('questionArrayStorage',JSON.stringify(questionArray));
-
-    }
+*!/
+    }*/
 
     socket.on('showQuestion', function (questionArray, tdId2, indx2) {
         console.log(" showQuestion ");

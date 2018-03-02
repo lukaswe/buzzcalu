@@ -21,13 +21,14 @@
         tdId = 0,
         indx = 0,
         prevTdId = 0,
+        imgChunks=[],
         mystorage = localStorage;
 
 
     $(document).ready(function () {
         if (mystorage.getItem('id') !== null) {
             console.log("reconnection: ", mystorage.getItem('id'));
-            var id = mystorage.getItem('id')
+            var id = mystorage.getItem('id');
             socket.emit('reconnectNotPlayer', id);
         } else {
             console.log("Register");
@@ -57,7 +58,7 @@
     socket.on('emptyLocalstorage', function () {
         console.log("Localstorage wird gelöscht");
         mystorage.clear();
-        location.reload();
+        //location.reload();
         //  socket.emit('register');
     });
 
@@ -99,9 +100,11 @@
 
 
     socket.on('trueAnswer', function (player, playerArray5, answerArray, tdId, indx) {
+        var img = document.getElementById('img-stream2');
         playerArray = playerArray5;
         //   console.log("[tdId]:   " + [tdId]);
         //   console.log("answerArray[tdId]:   " + answerArray[indx].text);
+        img.setAttribute('src', "");
         answerStart(answerArray, tdId, indx);
         prevTdId = tdId;
         console.log('prevTdiDi: ' + prevTdId);
@@ -185,7 +188,7 @@
     });
 
 
-    var que;
+    //var que;
     socket.on('showSuperQuestion', function (questionArray, tdId2, indx2) {
 
         que = '#question' + indx2;
@@ -200,20 +203,35 @@
         //console.log("this.questionArray.val" + questionArray[indx].val);
         questionStart2(questionArray, tdId, indx);
     });
-
-    socket.on('showPicture', function (questionArray, tdId2, indx2) {
-
-        que = '#question' + indx2;
+    /**BildübertragunG**/
+    socket.on('showPicture', function (questionArray, tdId2, indx2, chunk) {
+        var img = document.getElementById('img-stream2');
+        imgChunks.push(chunk);
+        console.log("Image loading");
+        img.setAttribute('src', 'data:image/jpeg;base64,' + window.btoa(imgChunks));
+       /* que = '#question' + indx2;
         console.log("$(que:)" + que);
 
         tdId = tdId2;
         indx = indx2;
         if (prevTdId != 0) {
             document.getElementById(prevTdId).innerHTML = '';
-        }
+        }*/
         console.log("showPicture!!!");
-        window.location.assign('/picturing')
+        questionStart2(questionArray, tdId2, indx2);
+    //<img src="/pictures/1klasse.jpg" alt="1.Klasse" />
+       // window.location.assign('/picturing')
     });
+
+
+    /*socket.on('img-chunk', function (chunk) {
+        var img = document.getElementById('img-stream2');
+        imgChunks.push(chunk);
+        console.log("Image loading");
+        img.setAttribute('src', 'data:image/jpeg;base64,' + window.btoa(imgChunks));
+
+    });*/
+
 
 
     socket.on('showNothing', function (questionArray, tdId, indx) {
@@ -225,7 +243,7 @@
     });
 
 
-    //Antwort in Tabelle eintragen
+    /**Antwort in Tabelle eintragen**/
     function answerStart(answerArray, tdId, indx) {
         document.getElementById(tdId).innerHTML = answerArray[indx];
 
@@ -273,7 +291,7 @@
     }
 
 
-    //Blaue Namensfelder werden befüllt
+    /**Blaue Namensfelder werden befüllt**/
     function fillNameFields(playerArray2) {
         i = 0;
         console.log("hmmm");
@@ -314,6 +332,8 @@
 <div><h1 id="heins">Wer ist dran?</h1></div>
 <div id="erster">
     <h3 id="erster-text"> ... </h3>
+    <!-- BilderÜbertragun-->
+    <img id="img-stream2" src ="" />
 </div>
 
 
@@ -379,30 +399,10 @@
 
 
 </div>
-<!--<ul>
-    <li><a href="#bild1"><img src="bild1_klein.jpg"/></a></li>
-    <li><a href="#bild2"><img src="bild1_klein.jpg"/></a></li>
-    <li><a href="#bild3"><img src="bild1_klein.jpg"/></a></li>
-</ul>
 
-<ul class="lightbox">
-    <li id="bild1"><a href="#start"><img src="bild1.jpg"/></a></li>
-    <li id="bild2"><a href="#start"><img src="bild1.jpg"/></a></li>
-    <li id="bild3"><a href="#start"><img src="bild1.jpg"/></a></li>
-</ul>
--->
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
+
+
+
 <br/>
 <br/>
 <br/>

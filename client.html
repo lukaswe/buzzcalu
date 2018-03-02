@@ -18,8 +18,10 @@
     var obj = {},
         socket = io.connect(),
       //  socket = io.connect(),
-        mystorage = localStorage;
-        ich = {};
+        mystorage = localStorage,
+        ich = {},
+
+        currColor;
     //Daten vom Server empfangen bzw
 
 
@@ -105,7 +107,7 @@
         mystorage.clear();
         //  keyName: Name des Eintrags
         // keyValue: string mit zu speicherndem Eintrag
-        location.reload();
+     //   location.reload();
         //document.getElementById("buzzerBtn").style = "visibility:visible;";
         //$('#subheading').text("Sei bereit, " + obj.nickname + "!");
 
@@ -177,7 +179,8 @@
 
     });
 
-    var currColor;
+
+
 
     function changeColor(colorName) {
         document.body.style.backgroundColor = colorName;

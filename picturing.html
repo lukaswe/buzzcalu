@@ -15,11 +15,21 @@
     <h3 id="erster-text"> ... </h3>
     <h1> Wie viele hier anwesenden Hochzeitsgäste waren bereits mit Christian zusammen in der 1. Klasse? </h1>
 
-    <img src="/pictures/1klasse.jpg" alt="1.Klasse" />
-
+    <!--<img src="/pictures/1klasse.jpg" alt="1.Klasse" />-->
+    <img id="img-stream2" src ="" />
 </figure>
 <script>
-    var socket = io();
+    var socket = io(),
+        imgChunks = [];
+
+    socket.on('img-chunk', function (chunk) {
+        var img = document.getElementById('img-stream2');
+        imgChunks.push(chunk);
+        console.log("Image loading");
+        img.setAttribute('src', 'data:image/jpeg;base64,' + window.btoa(imgChunks));
+
+    });
+
 
     socket.on('fastest player', function (player) {
         //document.getElementById("erster-text").innerHTML = player;

@@ -14,13 +14,18 @@ var io = require('socket.io')(http);
 var x = 0;
 var erster;
 var playerArray = [],
- clientArray = [];
+    clientArray = [];
 var ids = [],
     currentQuestionObj,
-    fastestPlayer={};
-var playerObject = {},
+    fastestPlayer = {},
+ fs = require('fs'),
+ path = require('path'),
+ playerObject = {},
+    readStream = fs.createReadStream(path.resolve(__dirname, './pictures/1klasse.jpg'), {
+    encoding: 'binary'
+}), chunks = [], delay = 0;
 
-    answerArray = [
+var answerArray = [
         //100
         "Glücksrad",
         "Damit sie sich von den Kellnern unterscheiden",
@@ -56,7 +61,8 @@ var playerObject = {},
             "picture": 1,
             "erledigt": 0
         },
-        {   <!-- Conny Frage -->
+        {
+            <!-- Conny Frage -->
             "id": 1,
             "text": "Warum tragen die Herren auf dem Wiener Opernball weiße Fliegen?",
             "pkte": 100,
@@ -84,7 +90,8 @@ var playerObject = {},
             "picture": 0,
             "erledigt": 0
         },
-        {   <!--Schätzfrage-->
+        {
+            <!--Schätzfrage-->
             "id": 4,
             "text": "Wie viele Flügel haben Fliegen?",
             "pkte": 100,
@@ -103,7 +110,8 @@ var playerObject = {},
             "picture": 0,
             "erledigt": 0
         },
-        {    <!-- Conny Frage -->
+        {
+            <!-- Conny Frage -->
             "id": 6,
             "text": "Wer war als Tontechniker für die Ich bin ein Berliner-Rede von John F. Kennedy verantwortlich ?",
             "pkte": 200,
@@ -129,9 +137,10 @@ var playerObject = {},
             "picture": 0,
             "erledigt": 0
         },
-        {   <!--Schätzfrage-->
-            "id":9,
-                "text": "In welcher europäischen Stadt gibt es die meisten Brücken?",
+        {
+            <!--Schätzfrage-->
+            "id": 9,
+            "text": "In welcher europäischen Stadt gibt es die meisten Brücken?",
             "pkte": 200,
             "val": 0,
             "superquestion": 0,
@@ -140,7 +149,7 @@ var playerObject = {},
         },
 
         {
-            "id":10,
+            "id": 10,
             "text": "Was hat das Münchener Oktoberfest im Gegensatz zu anderen Volksfesten zu bieten?",
             "pkte": 300,
             "val": 0,
@@ -148,8 +157,9 @@ var playerObject = {},
             "picture": 0,
             "erledigt": 0
         },
-        {    <!-- Conny Frage -->
-            "id":11,
+        {
+            <!-- Conny Frage -->
+            "id": 11,
             "text": "Wovon bekommen wir die meiste radioaktive Strahlung ab?",
             "pkte": 300,
             "val": 0,
@@ -159,7 +169,7 @@ var playerObject = {},
         },
         {
             <!-- Christian Frage -->
-            "id":12,
+            "id": 12,
             "text": "Wie viele der hier anwesenden Hochzeitsgäste waren bereits mit Christian zusammen in der 1. Klasse?",
             "pkte": 300,
             "val": 0,
@@ -168,7 +178,7 @@ var playerObject = {},
             "erledigt": 0
         },
         {
-            "id":13,
+            "id": 13,
             "text": "Was bekam man beim weltweit ersten Münzautomat für sein Geld?",
             "pkte": 300,
             "val": 0,
@@ -178,16 +188,17 @@ var playerObject = {},
         },
 
 
-        {   <!--Schätzfrage-->
-            "id":14,
-                "text": "Warum berichteten im August 2004 weltweit einige Zeitungen darüber, dass eine 13-jährige in China raucht und Passanten um Zigaretten anbettelt?",
+        {
+            <!--Schätzfrage-->
+            "id": 14,
+            "text": "Warum berichteten im August 2004 weltweit einige Zeitungen darüber, dass eine 13-jährige in China raucht und Passanten um Zigaretten anbettelt?",
             "pkte": 300,
             "val": 0, "superquestion": 0,
             "picture": 0, "erledigt": 0
         },
 
         {
-            "id":15,
+            "id": 15,
             "text": "Papst Franziskus ist Ehrenmitglied des Fußballvereins ...?",
             "pkte": 400,
             "val": 0,
@@ -195,8 +206,9 @@ var playerObject = {},
             "picture": 0,
             "erledigt": 0
         },
-        {    <!-- Conny Frage -->
-            "id":16,
+        {
+            <!-- Conny Frage -->
+            "id": 16,
             "text": "1999 sprach man vom Jahr-2000-Problem. Man befürchtete, dass zum Jahrtausendwechsel sämtliche Computer verrückt spielen. Tatsächlich gab es aber ein ganz anderes Jahr-2000-Problem, aber wo?",
             "pkte": 400,
             "val": 0,
@@ -206,7 +218,7 @@ var playerObject = {},
         },
         {
             <!-- Christian Frage -->
-            "id":17,
+            "id": 17,
             "text": "Am 21. Dezember 1992 kam ein Mann aus North Carolina auf mysteriöse Weise ums Leben nachdem sein Telefon klingelte. Was war passiert?",
             "pkte": 400,
             "val": 0,
@@ -215,7 +227,7 @@ var playerObject = {},
             "erledigt": 0
         },
         {
-            "id":18,
+            "id": 18,
             "text": "Wie hoch ist die Höchstleistung eines durchschnittlichen Pferdes in PS?",
             "pkte": 400,
             "val": 0,
@@ -223,8 +235,9 @@ var playerObject = {},
             "picture": 0,
             "erledigt": 0
         },
-        {   <!--Schätzfrage-->
-            "id":19,
+        {
+            <!--Schätzfrage-->
+            "id": 19,
             "text": "Seit der deutschen Wiedervereinigung sind gigantische Beträge von West- nach Ostdeutschland geflossen, aber wieviel ist das, wenn man den gesamten Betrag durch die Einwohnerzahl Westdeutschlands teilt? Wieviel hat also quasi jeder einzelne Westdeutsche (bis 2013) in die neuen Bundesländer gezahlt??",
             "pkte": 400,
             "val": 0,
@@ -345,9 +358,11 @@ io.on('connection', function (client) {
                     if (player.id === playerid) {
                         console.log("player ist in playerArray");
                         io.emit('reconnectPlayer', player);
-                        io.emit('emptyReloadLocalstorage');
+                        //io.emit('emptyReloadLocalstorage');
                         // io.emit('reconnectNotPlayer', playerArray);
                         //io.emit('playerList', player, playerArray);
+                    }else{
+                        alert("Nicht in SpielerListe");
                     }
                 });
             }
@@ -359,7 +374,7 @@ io.on('connection', function (client) {
             }
         });
 
-        client.on('reconnectNotPlayer',function(id){
+        client.on('reconnectNotPlayer', function (id) {
             console.log("reconnectNotPlayer");
             console.log("reconnectNotPlayer id: " + id);
             console.log("clientArray.length: " + clientArray.length);
@@ -372,14 +387,17 @@ io.on('connection', function (client) {
                     }
 
                 })
-            }else{console.log("Client noch nicht registriert.");}
+            } else {
+                console.log("Client noch nicht registriert.");
+                io.emit('emptyLocalstorage');
+            }
 
         });
 
-        client.on('register', function(){
+        client.on('register', function () {
 
             var iid = client.id;
-            console.log("register iid: "+ iid);
+            console.log("register iid: " + iid);
             clientArray.push(iid);
             io.emit('register', iid);
             io.emit('questionArrayStorage', questionArray);
@@ -390,7 +408,7 @@ io.on('connection', function (client) {
         //Clients verbinden sich
         client.on('createPlayer', function (nickname) {
             console.log("createPlayer", nickname);
-            if(nickname !== null) {
+            if (nickname !== null) {
                 console.log("Client.id in createPlayer:  " + client.id);
                 playerObject = ({"id": client.id, 'nickname': nickname, "pkte": 0, "gameColor": "white"});
 
@@ -455,13 +473,15 @@ io.on('connection', function (client) {
 
 
                     }
-                }else{console.log("ungültiger Mitspieler.");}
+                } else {
+                    console.log("ungültiger Mitspieler.");
+                }
             });
         });
 
         var tdId;
         var indx;
-        client.on('showQuestion', function(tdId2) {
+        client.on('showQuestion', function (tdId2) {
             tdId = tdId2;
             console.log("tdId2 vorne: " + tdId2);
 
@@ -480,22 +500,39 @@ io.on('connection', function (client) {
                 //     socket.emit('showNothing', questionArray, tdId2, indx);
                 //     document.getElementById(tdId).innerHTML = "erledigt";
                 // } else {
-                    if (questionArray[indx].superquestion === 1) {
-                        console.log("superquestion");
-                        io.emit('showSuperQuestion', questionArray, tdId2, indx);
-                        questionArray[indx].erledigt = 1;
-                    } else if (questionArray[indx].picture === 1) {
-                        console.log("picture");
-                        io.emit('showPicture', questionArray, tdId2, indx);
-                        questionArray[indx].erledigt = 1;
-                    } else {
-                        console.log("normale Frage");
-                        io.emit('showQuestion', questionArray, tdId2, indx);
-                        questionArray[indx].erledigt = 1;
-                    }
+                if (questionArray[indx].superquestion === 1) {
+                    console.log("superquestion");
+                    io.emit('showSuperQuestion', questionArray, tdId2, indx);
+                    questionArray[indx].erledigt = 1;
+                } else if (questionArray[indx].picture === 1) {
+                    console.log("picture");
+                    /**Bildübertragung**/
+
+                    readStream.on('readable', function () {
+                        console.log("Image Loading");
+                    });
+                    readStream.on('data', function (chunk) {
+                        chunks.push(chunk);
+                        console.log(" Sending Image ");
+                        io.emit('showPicture', questionArray, tdId2, indx, chunk);
+                        // io.emit('img-chunk', chunk);
+                    });
+
+                    readStream.on('end', function () {
+                        console.log("Image loaded");
+                    });
+                    /**Bildübertragung Ende**/
+                    //io.emit('showPicture', questionArray, tdId2, indx, chunk);
+                   // io.emit('img-chunk');
+                    questionArray[indx].erledigt = 1;
+                } else {
+                    console.log("normale Frage");
+                    io.emit('showQuestion', questionArray, tdId2, indx);
+                    questionArray[indx].erledigt = 1;
+                }
                 //}
                 currentQuestionObj = questionArray[indx];
-              //  questionArray[indx].val += 1;
+                //  questionArray[indx].val += 1;
                 //questionArray[indx].erledigt = 1;
             } else {
                 console.log("Die Frage ist schon erledigt.")
@@ -512,7 +549,7 @@ io.on('connection', function (client) {
                     player.pkte += currentQuestionObj.pkte;
                     console.log("schnellster Spieler, this.playerArray: " + playerArray[0].nickname);
                     io.emit('trueAnswer', player, playerArray, answerArray, tdId, indx, questionArray);
-                  //  $('#schnellster-text').text("...");
+                    //  $('#schnellster-text').text("...");
                 }
             });
             x = 0;
@@ -529,15 +566,15 @@ io.on('connection', function (client) {
         });
 
 
-        client.on('wrongAnswer', function (fastestPlayer ) {
-            console.log("in wrongAnswer, playerArray[0].nickname:  " +fastestPlayer.id);
+        client.on('wrongAnswer', function (fastestPlayer) {
+            console.log("in wrongAnswer, playerArray[0].nickname:  " + fastestPlayer.id);
             //schnellster.pkte -= fragenPunkte;
             playerArray.forEach(function (player) {
                 if (fastestPlayer.id === player.id) {
                     player.pkte -= currentQuestionObj.pkte;
                     console.log("in wrongAnswer, playerpkte:  " + player.pkte);
                     io.emit('wrongAnswer', player, playerArray);
-                }else{
+                } else {
                     alert("irgendwas läuft schief.");
                 }
             });
@@ -551,8 +588,6 @@ io.on('connection', function (client) {
             io.emit('backToOverview', playerArray);
 
         });
-
-
 
 
         client.on('showNothing', function (questionArray, tdId, indx) {
