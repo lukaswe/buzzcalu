@@ -29,10 +29,10 @@
         if (mystorage.getItem('id') !== null) {
             console.log("reconnection: ", mystorage.getItem('id'));
             var id = mystorage.getItem('id');
-            socket.emit('reconnectNotPlayer', id);
+            socket.emit('reconnectNotPlayerOverview', id);
         } else {
-            console.log("Register");
-            socket.emit('register');
+            console.log("registerOverview");
+            socket.emit('registerOverview');
 
         }
         /* if (mystorage.getItem('playerArrayStorage') !== null){
@@ -50,12 +50,12 @@
 
     });
 
-    socket.on('register', function (id) {
+    socket.on('registerOverview', function (id) {
         console.log('id: ', id);
         mystorage.setItem('id', id);
     });
 
-    socket.on('emptyLocalstorage', function () {
+    socket.on('emptyLocalstorageOverview', function () {
         console.log("Localstorage wird gelöscht");
         mystorage.clear();
         //location.reload();
@@ -63,7 +63,7 @@
     });
 
 
-    socket.on('reconnectNotPlayer', function (playerArray, questionArray, tdId, indx) {
+    socket.on('reconnectNotPlayerOverview', function (playerArray, questionArray, tdId, indx) {
         //Array mit Spielern füllen
         //playerArray = playerArray7;
         console.log('reconnected & playerarray: ' + playerArray[0]);
@@ -109,6 +109,7 @@
         prevTdId = tdId;
         console.log('prevTdiDi: ' + prevTdId);
         fillNameFields(playerArray);
+        $('#erster-text').text("Wer ist dran?");
 
         /*for (y = 0; y < 15; y++) {
 
@@ -120,7 +121,7 @@
         //  document.getElementById('grayout').style="display: none";
     });
 
-    socket.on('giveUp', function (player, playerArray5, answerArray) {
+    socket.on('giveUp', function (player, playerArray5, answerArray, tdId, indx) {
         playerArray = playerArray5;
         //   console.log("[tdId]:   " + [tdId]);
         //   console.log("answerArray[tdId]:   " + answerArray[indx].text);
@@ -128,19 +129,20 @@
         prevTdId = tdId;
         console.log('prevTdiDi: ' + prevTdId);
         fillNameFields(playerArray);
-        $('#erster-text').text("...");
+        $('#erster-text').text("Wer ist dran?");
         document.getElementById('grayout').style = "display: none";
     });
 
 
-    socket.on('wrongAnswer', function (player, playerArray9, answerArray) {
+    socket.on('wrongAnswer', function (player, playerArray9, tdId, indx) {
         playerArray = playerArray9;
         //playerArray.forEach(function (player) {
         //   if (schnellster.nickname == player.nickname) {
         //       console.log("player.pkte: " + player.pkte);
         //  player.pkte = schnellster.pkte;
-        $('#erster-text').text("...");
+        $('#erster-text').text("Wer ist dran?");
         fillNameFields(playerArray9);
+
         //    }
 
         // });
@@ -257,11 +259,12 @@
         //   console.log("question2: " + questionArray[indx].text);
         //   console.log("tdId:: " + tdId);
 
-        document.getElementById(tdId).innerHTML = questionArray[indx].text;
+        document.getElementById('questionSpaceBoxId').innerHTML = questionArray[indx].text;
+       // document.getElementById(tdId).innerHTML = questionArray[indx].text;
         /** letztes Fragenfeld leeren**/
         questionArray.forEach(function (question) {
             if (question.erledigt === 1) {
-                console.log('Diese Frage ist schon beantwortet: ' + question);
+                console.log(question.text + "erledigt mit nummer: "+ question.id +'Diese Frage ist schon beantwortet: ' );
                 document.getElementById('question' + question.id).innerHTML = '';
             }
 
@@ -329,13 +332,21 @@
 </div>
 -->
 
-<div><h1 id="heins">Wer ist dran?</h1></div>
-<div id="erster">
-    <h3 id="erster-text"> ... </h3>
-    <!-- BilderÜbertragun-->
-    <img id="img-stream2" src ="" />
-</div>
+<!--<div><h1 id="heins">Wer ist dran?</h1></div>-->
+<!--<div id="erster">-->
+<!--<div><h1 id="heins">Wer ist dran?</h1></div>-->
+<!--<div id="erster">-->
+    <!--<h3 id="erster-text"> ... </h3>-->
+    <!--&lt;!&ndash; BilderÜbertragun&ndash;&gt;-->
+    <!--<img id="img-stream2" src ="" />-->
+<!--</div>-->
 
+    <!--<div id="erster">-->
+    <div id="erster">
+        <h3 id="erster-text"> Wer ist dran? </h3>
+        <!-- BilderÜbertragun-->
+        <img id="img-stream2" src ="" />
+    </div>
 
 <!--Fragen Tabelle-->
 
@@ -402,11 +413,10 @@
 
 
 
+<div class="questionSpace-css" id=questionSpaceId>
+    <div class="questionSpaceBox-css" id="questionSpaceBoxId"></div>
 
-<br/>
-<br/>
-<br/>
-
+</div>
 
 <!-- beigetretene Spieler Anzeige -->
 <div class="playerNameContainer" id=playerNameContainerId>

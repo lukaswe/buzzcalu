@@ -17,7 +17,7 @@
 <script>
     var obj = {},
         socket = io.connect(),
-      //  socket = io.connect(),
+        //  socket = io.connect(),
         mystorage = localStorage,
         ich = {},
 
@@ -25,13 +25,13 @@
     //Daten vom Server empfangen bzw
 
 
-   $(document).ready(function () {
+    $(document).ready(function () {
 
-       console.log("ready(function)", mystorage.getItem('id'));
+        console.log("ready(function)", mystorage.getItem('id'));
         if (mystorage.getItem('id') !== null) {
-        console.log('und überhautp: ' + mystorage.getItem('id'));
+            console.log('und überhautp: ' + mystorage.getItem('id'));
             console.log("reconnnnect: ");
-        //    socket.emit('reconnect');
+            //    socket.emit('reconnect');
             reconnect();
             // socket.emit('reconnect', obj);
         } else {
@@ -39,23 +39,23 @@
         }
     });
 
-   /* socket.on('emptyReloadLocalstorage',function(){
-        mystorage.clear();
-        console.log("mystorage wird geleert.");
-    });*/
 
     socket.on('reconnectPlayer', function (player) {
-        console.log("User ist reconnected" + player.nickname);
-        buttonVisibility();
-        $('#subheading').text("Du bist bereits als: " + player.nickname + " eingeloggt, also sei bereit, " + mystorage.getItem('nickname') + "!");
-
+        console.log(player.id);
+        console.log(mystorage.getItem('id'));
+        if (player.id == mystorage.getItem('id')) {
+            console.log("User ist reconnected" + player.nickname);
+            buttonVisibility();
+            $('#subheading').text("Du bist bereits als: " + mystorage.getItem('playerName') + " eingeloggt, also sei bereit, " + mystorage.getItem('playerName') + "!");
+        }
     });
+
     function reconnect() {
         buttonVisibility();
-        $('#subheading').text("Du bist bereits als: " + mystorage.getItem('playerName') + " eingeloggt, also sei bereit, " + mystorage.getItem('nickname') + "!");
+        $('#subheading').text("Du bist bereits als: " + mystorage.getItem('playerName') + " eingeloggt, also sei bereit, " + mystorage.getItem('playerName') + "!");
         var id2 = mystorage.getItem('id');
         console.log("reconnect ID: " + id2);
-      //  console.log("PlayerObject: " + playerObject.nickname + ", " + playerObject.id + ", " + playerObject.color + ", " + playerObject.pkte);
+        //  console.log("PlayerObject: " + playerObject.nickname + ", " + playerObject.id + ", " + playerObject.color + ", " + playerObject.pkte);
 
         socket.emit('reconnectPlayer', id2);
     }
@@ -63,33 +63,34 @@
     function save_name() {
 
         if (mystorage.getItem('nickname') != null) {
-          //  reconnect();
-            console.log("ist schol");
+            //  reconnect();
+            console.log("ist schon");
         } else {
 
-
-                //console.log("Neuanmeldung, als: " + $('#username').val());
-                document.getElementById("username").disabled = true;
-                document.getElementById("username").style = "visibility:hidden;";
-                document.getElementById("submit-btn").disabled = true;
-                document.getElementById("submit-btn").style = "visibility:hidden;";
-              //  obj = ({"id": mystorage.getItem('id'), 'nickname': $('#username').val(), "pkte": 0, "gameColor": "white"});
-             //   mystorage.setItem('obj', JSON.stringify(obj));
-                mystorage.setItem('playerName', $('#username').val());
-
-              //  console.log("obej: " + obj.id);
+            //console.log("Neuanmeldung, als: " + $('#username').val());
+            document.getElementById("username").disabled = true;
+            document.getElementById("username").style = "visibility:hidden;";
+            document.getElementById("submit-btn").disabled = true;
+            document.getElementById("submit-btn").style = "visibility:hidden;";
+            //  obj = ({"id": mystorage.getItem('id'), 'nickname': $('#username').val(), "pkte": 0, "gameColor": "white"});
+            //   mystorage.setItem('obj', JSON.stringify(obj));
+            mystorage.setItem('playerName', $('#username').val());
+            var id = Math.random();
+            console.log('id: ' + id);
+            mystorage.setItem('id', id);
+            //  console.log("obej: " + obj.id);
             //console.log("mystoragegetitem: "+mystorage.getItem('obj'));
 
 
-
-                socket.emit('createPlayer', $('#username').val() ); //Former 'set nickname'
-        //    });
+            socket.emit('createPlayer', $('#username').val(), id); //Former 'set nickname'
+            //    });
             // var myJSON = JSON.stringify(obj);
         }
 
     };
 
-    socket.on('getPlayerObject', function (druecker, drueckerArray, questionArray) {});
+    socket.on('getPlayerObject', function (druecker, drueckerArray, questionArray) {
+    });
 
 
     function buttonVisibility() {
@@ -107,41 +108,56 @@
         mystorage.clear();
         //  keyName: Name des Eintrags
         // keyValue: string mit zu speicherndem Eintrag
-     //   location.reload();
+        location.reload();
         //document.getElementById("buzzerBtn").style = "visibility:visible;";
         //$('#subheading').text("Sei bereit, " + obj.nickname + "!");
 
     });
 
     socket.on('playerList', function (playerObject, playerArray) {
-        mystorage.setItem('id', playerObject.id); //speichern eines Eintrags mit 2 Werten.
-        //  keyName: Name des Eintrags
-        // keyValue: string mit zu speicherndem Eintrag
-        console.log("PlayerObject: " + playerObject.nickname + ", " +playerObject.id + ", " + playerObject.color + ", " + playerObject.pkte);
-        document.getElementById("buzzerBtn").style = "visibility:visible;";
-        $('#subheading').text("Sei bereit, " + playerObject.nickname + "!");
+        playerArray.forEach(function (playa) {
+            if (mystorage.getItem('playerName') == playa.nickname) {
+               // mystorage.setItem('id', playerObject.id); //speichern eines Eintrags mit 2 Werten.
+
+
+                //  keyName: Name des Eintrags
+                // keyValue: string mit zu speicherndem Eintrag
+                // console.log("PlayerObject: " + playerObject.nickname + ", " +playerObject.id + ", " + playerObject.color + ", " + playerObject.pkte);
+                document.getElementById("buzzerBtn").style = "visibility:visible;";
+                $('#subheading').text("Sei bereit, " + playerObject.nickname + "!");
+
+            } else {
+                console.log("war schon");
+                document.getElementById("buzzerBtn").style = "visibility:visible;";
+                $('#subheading').text("Sei bereit, " + mystorage.getItem('playerName') + "!");
+            }
+        });
     });
 
 
     socket.on('fastest player', function (player) {
+        console.log("meine id in fastest: "+ mystorage.getItem('id'));
 
-        console.log("fastest player funzt: " + player.nickname);
+        console.log("Der fastest player lautet: " + player.nickname);
+        console.log("Der fastest player id lautet: " + player.id);
         //BuzzerBtn ausgrauen, um ihn nur einmal drücken zu können.
         $('#buzzerBtn').prop('disabled', true);
 
-
-        console.log("ich.nickname: " + player.nickname);
-        if (player.nickname === player.nickname) {
+        console.log("ich.nickname: " + mystorage.getItem('playerName'));
+        if (mystorage.getItem('playerName') == player.nickname) {
             $('#buzz-text').text("Glückwunsch, Du bist dran!");
+            console.log("Glückwunsch, Du bist dran!");
             changeColor('green');
         }
         else {
             $('#buzz-text').text("Zu Langsam, " + player.nickname + " ist dran!");
+            console.log("Zu Langsam,");
             changeColor('grey');
         }
     });
 
     socket.on('trueAnswer', function (druecker, drueckerArray, questionArray) {
+        console.log("meine id in true: "+ mystorage.getItem('id'));
         console.log(druecker.nickname + " kriegt Punkte!!");
         $('#buzzerBtn').prop('disabled', true);
         changeColor('white');
@@ -153,6 +169,7 @@
     });
 
     socket.on('wrongAnswer', function (druecker, drueckerArray) {
+        console.log("meine id in false: "+ mystorage.getItem('id'));
         console.log(druecker.nickname + " kriegt leider keine Punkte!!");
         $('#buzzerBtn').prop('disabled', false);
         //Buzzer wieder disablen
@@ -180,8 +197,6 @@
     });
 
 
-
-
     function changeColor(colorName) {
         document.body.style.backgroundColor = colorName;
         currColor = colorName;
@@ -190,7 +205,8 @@
 
     function send_buzz() {
         console.log("send_buzz Test: " + mystorage.getItem('id'));
-        socket.emit('send_buzz',  mystorage.getItem('id'));
+
+        socket.emit('send_buzz', mystorage.getItem('id'));
     }
     ;
 
@@ -214,16 +230,18 @@
             Save Name
         </button>
     </div>
-    <div id="submit" style="visibility:hidden;">
-        <h1 id="buzz-text">Be Ready ###</h1>
-        <button id="buzzerBtn"
-                onclick="send_buzz()"
-                type="button" disabled>
 
-            Buzz!
-        </button>
+</div>
 
-    </div>
+<div id="submit" style="visibility:hidden;">
+    <h1 id="buzz-text">Be Ready ###</h1>
+    <button id="buzzerBtn"
+            onclick="send_buzz()"
+            type="button" disabled>
+
+        Buzz!
+    </button>
+
 </div>
 
 <!--<form action="">

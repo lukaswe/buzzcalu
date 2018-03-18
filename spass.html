@@ -47,10 +47,7 @@
         height: 100%;
     }
 
-    body {
-        font-family: 'Fjalla One', sans-serif;
-        background: linear-gradient(to bottom, #405166 0%, #656f6f 100%);
-    }
+
 
     .container {
         transform: translate(-50%, -50%);
@@ -230,7 +227,9 @@
         window.setTimeout(" animation()", 89500);
         window.setTimeout(" animation()", 81500);
         window.setTimeout("stop()",90500);
-        window.setTimeout(" window.location.replace('http://localhost:3000/overview')", 96000);
+       // window.setTimeout(" window.location.replace('http://localhost:3000/overview')", 96000);
+        window.setTimeout(" window.location.assign('/overview')", 96000);
+
 
     });
 

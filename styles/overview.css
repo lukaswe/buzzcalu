@@ -1,6 +1,4 @@
-body{
-    background-color: white;
-}
+
 
 /*Hintergrund abdunklung*/
 
@@ -44,6 +42,63 @@ ul.lightbox li:target a {
     opacity: 0.5;
     z-index: 9999;
 }
+
+.questionSpace-css{
+    position: fixed;
+    left: 0px;
+    bottom: 110px;
+    height: 100px;
+    width: 100%;
+
+    background-color: grey;
+/*    background: #000066;
+   !* For browsers that do not support gradients *!
+    background: -webkit-linear-gradient(left top, #CC9900, #996600);
+    !* For Safari 5.1 to 6.0 *!
+    background: -o-linear-gradient(bottom right, #CC9900, #996600);
+    !* For Opera 11.1 to 12.0 *!
+    background: -moz-linear-gradient(bottom right, #CC9900, #996600);
+    !* For Firefox 3.6 to 15 *!
+    background: linear-gradient(to bottom right, #CC9900, #996600);*/
+    /* Standard syntax */
+    z-index: -47;
+}
+
+.questionSpaceBox-css{
+   /* -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+      box-sizing: content-box;*/
+    float: left;
+    position: fixed;
+    left: 20%;
+    width: 60%;
+
+
+     /*  visibility: hidden;*/
+
+    /*            left: 0px;
+                bottom: 0px;
+                height: 64px;*/
+    width: 40%;
+    margin: 20px;
+    padding: 20px;
+    /*  overflow: hidden;*/
+    /*   border: 5px solid;*/
+    -webkit-border-radius: 12px;
+    border: 5px solid #000000;
+    border-radius: 5px;
+    font: normal 16px/1 Arial, Helvetica, sans-serif;
+    color: rgba(0, 0, 0, 1);
+    text-align: center;
+    -o-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+    /* background: #22a5d8;*/
+    -webkit-box-shadow: 1px 1px 1px 0 rgba(0, 0, 0, 0.3);
+    box-shadow: 1px 1px 1px 0 rgba(0, 0, 0, 0.3);
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+    background-color:white;
+}
+
 
 .questionBoxes-css{
     transition: width 1s, height 1s, margin-top 1s, margin-left 1s;
@@ -264,7 +319,9 @@ td{
     z-index: 10;
     background-color: #F0F0F0;
 }
-
+body {
+    background: linear-gradient(to bottom, #405166 0%, #656f6f 100%);
+}
 #logo_Jeopardy {
     width: 30%;
     margin: 1em 1em 1em 1em;
@@ -416,7 +473,8 @@ p:hover {
 
 table {
     color: black;
-    width: 100%;
+/*   visibility: hidden;*/
+    width: 85%;
     border: 1px solid #000000;
     background-color: #996600;
     background: #000066;

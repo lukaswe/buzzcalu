@@ -71,6 +71,10 @@ form button {
 }
 */
 
+buzzerBtn{
+    background-color: yellow;
+}
+
 #UserInterface {
     color: #000000;
     width: 100%;
@@ -79,7 +83,14 @@ form button {
     margin: -1em -1em -1em -1em;
     padding: 1em 1em 1em 1em;
     z-index: 10;
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215;
     background-color: #F0F0F0;
+    unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF;
+}
+
+body {
+    font-family: 'Fjalla One', sans-serif;
+    background: linear-gradient(to bottom, #405166 0%, #656f6f 100%);
 }
 
 #logo_Jeopardy {
@@ -138,7 +149,16 @@ button {
     font-family: -apple-system, 'Raleway', '.SFNSText-Regular', 'Arimo', 'FreeSans', 'Oxygen', 'Nimbus Sans L', 'Liberation Sans', 'Helvetica Neue LT Std', 'Helvetica', 'Arial', 'ITCKorinnaW03-Kursiv', sans-serif;
     margin: 1em 1em 1em 1em;
 }
-
+buzzerbutton{
+    color: #00bb00;
+    font-family: -apple-system, 'Raleway', '.SFNSText-Regular', 'Arimo', 'FreeSans', 'Oxygen', 'Nimbus Sans L', 'Liberation Sans', 'Helvetica Neue LT Std', 'Helvetica', 'Arial', 'ITCKorinnaW03-Kursiv', sans-serif;
+    margin: 1em 1em 1em 1em;
+}
+buzzerbutton2{
+    color: #00bb00;
+    font-family: -apple-system, 'Raleway', '.SFNSText-Regular', 'Arimo', 'FreeSans', 'Oxygen', 'Nimbus Sans L', 'Liberation Sans', 'Helvetica Neue LT Std', 'Helvetica', 'Arial', 'ITCKorinnaW03-Kursiv', sans-serif;
+    margin: 1em 1em 1em 1em;
+}
 
 #submit {
     /* position: absolute;*/

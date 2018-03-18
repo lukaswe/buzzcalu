@@ -182,46 +182,47 @@
         if(mystorage.getItem('id')!== null){
             console.log("reconnection mit :  " +mystorage.getItem('id'));
             var id = mystorage.getItem('id');
-            socket.emit('reconnectNotPlayer', id);
+            socket.emit('reconnectNotPlayerGamemaster', id);
         }else{
-            socket.emit('register');
-            console.log("register");//socket.emit('register');
+            socket.emit('registerGamemaster');
+            console.log("registerGamemaster");//socket.emit('register');
+
         }
+
     });
 
-    socket.on('emptyReloadLocalstorage',function(){
+   /* socket.on('emptyReloadLocalstorage',function(){
         mystorage.clear();
         console.log("mystorage wird geleert.");
 
-    });
+    });*/
 
-    socket.on('register', function(id){
+    socket.on('registerGamemaster', function(id, questionArray){
         console.log('id: ',id);
-       mystorage.setItem('id', id);
+        mystorage.setItem('id', id);
+        questionStart(questionArray);
     });
 
-    socket.on('reconnectNotPlayer', function (playerArray, questionArray) {
+    socket.on('reconnectNotPlayerGamemaster', function (playerArray, questionArray) {
      if (playerArray !== null) {
     //     console.log('reconnected & playerarray[0]: ' + playerArray[0].nickname);
-
+         console.log("Bis in reconnectNotPlayerGamemaster geschafft");
+         console.log("playerArray.length: " + playerArray.length);
          start(playerArray);
          questionStart(questionArray);
 
      }else{console.log("Wir sind warum auch immer in reconnectNotPlayer");}
     });
 
-    socket.on('emptyLocalstorage', function () {
+    /*socket.on('emptyLocalstorageGamemaster', function () {
         console.log("Localstorage wird gelöscht");
         mystorage.clear();
+        socket.emit('registerGamemaster');
+
       //  location.reload();
       //  socket.emit('register');
-    });
+    });*/
 
-    socket.on('questionArrayStorage',function(questionArray){
-       // console.log(questionArray[0]);
-        mystorage.setItem('questionArrayStorage', JSON.stringify(questionArray));
-        questionStart(questionArray);
-    });
 
     /**Client-Server Kommunikation**/
 
@@ -230,7 +231,7 @@
     //Clients verbinden sich
     socket.on('playerList', function (playerObject, playerArray2) {
         //Array mit Spielern füllen
-        mystorage.setItem('playerArrayStorage', JSON.stringify(playerArray2));
+      //  mystorage.setItem('playerArrayStorage', JSON.stringify(playerArray2));
         console.log(playerObject.nickname + " just connected!");
         start(playerArray2);
 
@@ -280,13 +281,13 @@
         questionStart(questionArray);
     });
 
-    socket.on('giveUp', function (playerArray, questionArray) {
+    socket.on('giveUp', function (player, playerArray, questionArray, tdId, indx) {
      //   document.getElementById(tdId).innerHTML = "erledigt";
         //schnellster = playa;
         start(playerArray);
     });
 
-    socket.on('wrongAnswer', function (player, playerArray9) {
+    socket.on('wrongAnswer', function (player, playerArray9, tdId, indx) {
         playerArray = playerArray9;
         start(playerArray);
         console.log("socket on wrongArray, playerArray9:  " + playerArray9[0].nickname);
@@ -372,7 +373,8 @@
     /**Function on click auf die Tabelle**/
     function showQuestion(tdId2) {
         console.log("tdId2: " + tdId2);
-        socket.emit('showQuestion', tdId2)
+        socket.emit('showQuestion', tdId2);
+
         document.getElementById("rightAnswer").disabled = true;
         document.getElementById("wrongAnswer").disabled = true;
     };
@@ -406,36 +408,7 @@
         mystorage.setItem('questionArrayStorage',JSON.stringify( questionArray));
     }*/
 
-  /*  function showPicture(tdId2) {
-        console.log("tdId2: " + tdId2);
-        socket.emit('showPicture', tdId2)
-        console.log("showPicture");
-        document.getElementById("rightAnswer").disabled = true;
-        document.getElementById("wrongAnswer").disabled = true;
 
-       /!* var questionArray = JSON.parse(mystorage.getItem('questionArrayStorage'));
-        tdId = tdId2;
-        /!**Hier anzahl der fragen anpassen**!/
-        //for (var anzahlDerFragen = 0; anzahlDerFragen < 16; anzahlDerFragen ++) {
-        if (tdId.length < 10) {
-            indx = tdId2.substring(tdId2.length - 1, tdId2.length);
-        } else {
-            indx = tdId2.substring(tdId2.length - 2, tdId2.length);
-        }
-
-        //NICht nur show question sondern auch BuzzerEnablen
-
-        if (questionArray[indx].val % 2 === 1) {
-            socket.emit('showNothing', questionArray, tdId2, indx);
-            document.getElementById(tdId).innerHTML = "erledigt";
-        } else {
-            socket.emit('showPicture', questionArray, tdId2, indx);
-        }
-        currentQuestionObj = questionArray[indx];
-        questionArray[indx].val += 1;
-       mystorage.setItem('questionArrayStorage',JSON.stringify(questionArray));
-*!/
-    }*/
 
     socket.on('showQuestion', function (questionArray, tdId2, indx2) {
         console.log(" showQuestion ");

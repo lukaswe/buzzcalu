@@ -12,18 +12,20 @@ var io = require('socket.io')(http);
 */
 
 var x = 0;
+var z = 0;
 var erster;
 var playerArray = [],
-    clientArray = [];
+    gamemasterArray = [],
+    overviewArray = [];
 var ids = [],
     currentQuestionObj,
     fastestPlayer = {},
- fs = require('fs'),
- path = require('path'),
- playerObject = {},
+    fs = require('fs'),
+    path = require('path'),
+    playerObject = {},
     readStream = fs.createReadStream(path.resolve(__dirname, './pictures/1klasse.jpg'), {
-    encoding: 'binary'
-}), chunks = [], delay = 0;
+        encoding: 'binary'
+    }), chunks = [], delay = 0;
 
 var answerArray = [
         //100
@@ -193,8 +195,10 @@ var answerArray = [
             "id": 14,
             "text": "Warum berichteten im August 2004 weltweit einige Zeitungen darüber, dass eine 13-jährige in China raucht und Passanten um Zigaretten anbettelt?",
             "pkte": 300,
-            "val": 0, "superquestion": 0,
-            "picture": 0, "erledigt": 0
+            "val": 0,
+            "superquestion": 0,
+            "picture": 0,
+            "erledigt": 0
         },
 
         {
@@ -355,87 +359,133 @@ io.on('connection', function (client) {
             console.log("reconnectPlayer");
             if (playerArray.length !== 0) {
                 playerArray.forEach(function (player) {
-                    if (player.id === playerid) {
+                    console.log("olayerarray player in reconnectPlayer: " + player.nickname + ", id: " + player.id + "playerid: " + playerid);
+                    if (player.id != playerid) { //MUSS != sein, sonst bugts rum.
+                        console.log("Nicht in SpielerListe");
+                    } else {
                         console.log("player ist in playerArray");
                         io.emit('reconnectPlayer', player);
                         //io.emit('emptyReloadLocalstorage');
                         // io.emit('reconnectNotPlayer', playerArray);
                         //io.emit('playerList', player, playerArray);
-                    }else{
-                        alert("Nicht in SpielerListe");
                     }
                 });
             }
             else {
                 console.log("reconnectPlayer hat playerArray größe 0 ");
-                clientArray = [];
+                //  clientArray = [];
                 io.emit('emptyLocalstorage');
 
             }
         });
 
-        client.on('reconnectNotPlayer', function (id) {
+        client.on('reconnectNotPlayerOverview', function (id) {
             console.log("reconnectNotPlayer");
             console.log("reconnectNotPlayer id: " + id);
-            console.log("clientArray.length: " + clientArray.length);
-            if (clientArray.length > 0) {
-                clientArray.forEach(function (clientid) {
+            console.log("clientArray.length: " + overviewArray.length);
+            if (overviewArray.length > 0) {
+                overviewArray.forEach(function (clientid) {
                     console.log('client.id: ' + clientid);
-                    if (clientid === id) {
-                        console.log('reconnectNotPlayer');
-                        io.emit('reconnectNotPlayer', playerArray, questionArray, tdId, indx);
+                    if (clientid == id) {
+                        console.log('reconnectNotPlayerOverview ist im array');
+                        io.emit('reconnectNotPlayerOverview', playerArray, questionArray, tdId, indx);
                     }
 
                 })
             } else {
                 console.log("Client noch nicht registriert.");
-                io.emit('emptyLocalstorage');
+                io.emit('emptyLocalstorageOverview');
+            }
+        });
+
+
+        client.on('reconnectNotPlayerGamemaster', function (id) {
+            console.log("reconnectNotPlayerGamemaster");
+            console.log("reconnectNotPlayerGamemaster id: " + id);
+            console.log("gamemasterArray.length: " + gamemasterArray.length);
+            if (gamemasterArray.length == 0) {
+
+                var iid = client.id;
+                console.log("register iid: " + iid);
+                gamemasterArray.push(iid);
+                console.log("gamemasterArray.length: " + gamemasterArray.length);
+                io.emit('registerGamemaster', iid, questionArray);
+            } else {
+                gamemasterArray.forEach(function (gamemaster) {
+                    console.log("gamemaster: " + gamemaster);
+                    if (gamemaster == id) {
+                        console.log('id: ' + id);
+                        console.log('reconnectNotPlayerGamemaster ist im array');
+                        io.emit('reconnectNotPlayerGamemaster', playerArray, questionArray, tdId, indx);
+
+                    } else {
+                        console.log("Client noch nicht registriert.");
+                        var iid = client.id;
+                        console.log("register iid: " + iid);
+                        gamemasterArray.push(iid);
+                        console.log("clientArray.length: " + gamemasterArray.length);
+                        io.emit('registerGamemaster', iid, questionArray);
+                        //  io.emit('emptyLocalstorageGamemaster');
+                    }
+                })
             }
 
         });
 
-        client.on('register', function () {
+        client.on('registerOverview', function () {
 
             var iid = client.id;
             console.log("register iid: " + iid);
-            clientArray.push(iid);
-            io.emit('register', iid);
-            io.emit('questionArrayStorage', questionArray);
+            overviewArray.push(iid);
+            console.log("clientArray.length: " + overviewArray.length);
+            io.emit('registerOverview', iid);
+            //   io.emit('questionArrayStorageOverview', questionArray);
+
+        });
+        client.on('registerGamemaster', function () {
+
+            var iid = client.id;
+            console.log("register iid: " + iid);
+            gamemasterArray.push(iid);
+            console.log("gamemasterArray.length: " + gamemasterArray.length);
+            io.emit('registerGamemaster', iid, questionArray);
+            //  io.emit('questionArrayStorage', questionArray);
 
         });
 
 
         //Clients verbinden sich
-        client.on('createPlayer', function (nickname) {
-            console.log("createPlayer", nickname);
+        client.on('createPlayer', function (nickname, id) {
+            console.log("createPlayer: ", nickname);
             if (nickname !== null) {
-                console.log("Client.id in createPlayer:  " + client.id);
-                playerObject = ({"id": client.id, 'nickname': nickname, "pkte": 0, "gameColor": "white"});
+                //console.log("Client.id in createPlayer:  " + client.id);
+                console.log("Client.id in createPlayer:  " + id);
+                playerObject = ({"id": id, 'nickname': nickname, "pkte": 0, "gameColor": "white"});
+                console.log("z: " + z);
 
-                var z = 0;
                 while (z < (playerArray.length + 1)) {
 
-                    if (z === 0) {
+                    if (z == 0) {
                         playerObject.color = "green";
                         z++;
                         break;
                         //nicknameObj.id = z;
-                    } else if (z === 1) {
+                    } else if (z == 1) {
                         playerObject.color = "red";
                         // nicknameObj.id = z;
                         z++;
                         break;
-                    } else if (z === 2) {
+                    } else if (z == 2) {
                         playerObject.color = "blue";
                         // nicknameObj.id = z;
                         z++;
                         break;
-                    } else if (z === 3) {
+                    } else if (z == 3) {
                         playerObject.color = "yellow";
                         // nicknameObj.id = z;
                         z++;
                         break;
-                    } else if (z === 4) {
+                    } else if (z == 4) {
                         playerObject.color = "purple";
                         //  nicknameObj.id = z;
                         z++;
@@ -444,47 +494,96 @@ io.on('connection', function (client) {
                         console.log("Kritischer Fehler!")
                     }
 
-                    console.log("nicknameobj: " + nicknameObj.color + ",  nicknameObj.id: " + nicknameObj.id);
+                    console.log("nicknameobj: " + playerObject.color + ",  playerObject.id: " + playerObject.id);
                     z++
                 }
                 playerArray.push(playerObject);
                 //Blaue Felder im Overview füllen und gamemaster Spielerliste erstellen
                 io.emit('playerList', playerObject, playerArray);
+            } else {
+                console.log("nickname nicht gesetzt");
             }
         });
 
 
 //schnellster Buzzer wird ermittelt und an die CLients geschickt
         client.on('send_buzz', function (id) {
-            playerArray.forEach(function (player) {
-                if (player.id === id) {
+            var boo = false;
+            console.log("x: " + x);
+            x += 1;
+            console.log("x1: " + x);
+            if (x == 1) {
+                playerArray.forEach(function (player) {
 
-                    //buzzer = JSON.parse(buzzer);
-                    console.log("test2 " + id);
-                    console.log('message: ' + x);
-                    x += 1;
-                    if (x === 1) {
-                        erster = player;
-                        //client.buzzer = buzzer;
-                        console.log('message3: ' + player);
-                        console.log('message4: ' + player.nickname);
-                        io.emit('fastest player', player);
-                        fastestPlayer = player;
+                   // while (boo = false) {
+                        console.log("player.id in sendbuzz: " + player.id);
+                        console.log("id: " + id);
+                        if (player.id == id) {
 
+                            //buzzer = JSON.parse(buzzer);
+                            console.log("test2 " + id);
+                            console.log("player.id in sendbuzz test3: " + player.id);
+                            console.log('message: ' + x);
 
-                    }
-                } else {
-                    console.log("ungültiger Mitspieler.");
-                }
-            });
+                            erster = player;
+                            //client.buzzer = buzzer;
+                            console.log('message3: ' + player);
+                            console.log('message4: ' + player.nickname);
+                            io.emit('fastest player', player);
+                            fastestPlayer = player;
+//                            boo = true;
+
+                        }
+                        else {
+  //                          console.log("ungültiger Mitspieler.");
+                        }
+                  //  }
+                });
+            }
         });
+
+
+        /*
+        //schnellster Buzzer wird ermittelt und an die CLients geschickt
+                client.on('send_buzz', function (id) {
+                    var boo = false;
+                    playerArray.forEach(function (player) {
+
+                        while (boo = false) {
+                            console.log("player.id: " + player.id);
+                            console.log("id: " + id);
+                            if (player.id == id) {
+
+                                //buzzer = JSON.parse(buzzer);
+                                console.log("test2 " + id);
+                                console.log('message: ' + x);
+                                x += 1;
+                                if (x == 1) {
+                                    erster = player;
+                                    //client.buzzer = buzzer;
+                                    console.log('message3: ' + player);
+                                    console.log('message4: ' + player.nickname);
+                                    io.emit('fastest player', player);
+                                    fastestPlayer = player;
+                                    boo = true;
+
+                                }
+                            } else {
+                                console.log("ungültiger Mitspieler.");
+                            }
+                        }
+                    });
+                });
+        */
 
         var tdId;
         var indx;
         client.on('showQuestion', function (tdId2) {
+            x = 0;
+            //  console.log("clientArray Länge in showquestion: " + clientArray.length);
             tdId = tdId2;
             console.log("tdId2 vorne: " + tdId2);
-
+            console.log("oplayerarray.length in showquestion: " + playerArray.length);
             /**Hier anzahl der fragen anpassen**/
             //for (var anzahlDerFragen = 0; anzahlDerFragen < 16; anzahlDerFragen ++) {
             if (tdId.length < 10) {
@@ -493,18 +592,18 @@ io.on('connection', function (client) {
                 indx = tdId2.substring(tdId2.length - 2, tdId2.length);
             }
 
-            if (questionArray[indx].erledigt === 0) {
+            if (questionArray[indx].erledigt == 0) {
                 //Frage als erledigt markieren.
 
                 // if (questionArray[indx].val % 2 === 1) {
                 //     socket.emit('showNothing', questionArray, tdId2, indx);
                 //     document.getElementById(tdId).innerHTML = "erledigt";
                 // } else {
-                if (questionArray[indx].superquestion === 1) {
+                if (questionArray[indx].superquestion == 1) {
                     console.log("superquestion");
                     io.emit('showSuperQuestion', questionArray, tdId2, indx);
                     questionArray[indx].erledigt = 1;
-                } else if (questionArray[indx].picture === 1) {
+                } else if (questionArray[indx].picture == 1) {
                     console.log("picture");
                     /**Bildübertragung**/
 
@@ -523,7 +622,7 @@ io.on('connection', function (client) {
                     });
                     /**Bildübertragung Ende**/
                     //io.emit('showPicture', questionArray, tdId2, indx, chunk);
-                   // io.emit('img-chunk');
+                    // io.emit('img-chunk');
                     questionArray[indx].erledigt = 1;
                 } else {
                     console.log("normale Frage");
@@ -545,9 +644,9 @@ io.on('connection', function (client) {
             console.log("in trueAnswer, schnellster: " + fastestPlayer.nickname);
 
             playerArray.forEach(function (player) {
-                if (fastestPlayer.nickname === player.nickname) {
+                if (fastestPlayer.id == player.id) {
                     player.pkte += currentQuestionObj.pkte;
-                    console.log("schnellster Spieler, this.playerArray: " + playerArray[0].nickname);
+                    console.log("schnellster Spieler, this.playerArray: " + player.nickname);
                     io.emit('trueAnswer', player, playerArray, answerArray, tdId, indx, questionArray);
                     //  $('#schnellster-text').text("...");
                 }
@@ -561,7 +660,7 @@ io.on('connection', function (client) {
             // socket.emit('showNothing', questionArray, tdId, indx);
 
 
-            io.emit('giveUp', playerArray, answerArray);
+            io.emit('giveUp', player, playerArray, answerArray, tdId, indx);
             x = 0;
         });
 
@@ -569,17 +668,25 @@ io.on('connection', function (client) {
         client.on('wrongAnswer', function (fastestPlayer) {
             console.log("in wrongAnswer, playerArray[0].nickname:  " + fastestPlayer.id);
             //schnellster.pkte -= fragenPunkte;
+            var boo = false;
+
             playerArray.forEach(function (player) {
-                if (fastestPlayer.id === player.id) {
-                    player.pkte -= currentQuestionObj.pkte;
-                    console.log("in wrongAnswer, playerpkte:  " + player.pkte);
-                    io.emit('wrongAnswer', player, playerArray);
-                } else {
-                    alert("irgendwas läuft schief.");
-                }
+                //while (boo == false) {
+                    console.log("player.id: " + player.id);
+                    console.log("fastestPlayer.id: " + fastestPlayer.id);
+                    if (fastestPlayer.id == player.id) {
+                        player.pkte -= currentQuestionObj.pkte;
+                        console.log("in wrongAnswer, playerpkte:  " + player.pkte);
+                        io.emit('wrongAnswer', player, playerArray, tdId, indx);
+                        boo = true;
+                    } else {
+                       // console.log("irgendwas läuft schief.");
+                    }
+             //   }
             });
 
             x = 0;
+
 
         });
 
