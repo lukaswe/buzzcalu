@@ -117,7 +117,7 @@
     socket.on('playerList', function (playerObject, playerArray) {
         playerArray.forEach(function (playa) {
             if (mystorage.getItem('playerName') == playa.nickname) {
-               // mystorage.setItem('id', playerObject.id); //speichern eines Eintrags mit 2 Werten.
+                // mystorage.setItem('id', playerObject.id); //speichern eines Eintrags mit 2 Werten.
 
 
                 //  keyName: Name des Eintrags
@@ -136,28 +136,31 @@
 
 
     socket.on('fastest player', function (player) {
-        console.log("meine id in fastest: "+ mystorage.getItem('id'));
+        $('#buzzerBtn').css('background-color', 'grey');
+        console.log("meine id in fastest: " + mystorage.getItem('id'));
 
         console.log("Der fastest player lautet: " + player.nickname);
         console.log("Der fastest player id lautet: " + player.id);
         //BuzzerBtn ausgrauen, um ihn nur einmal drücken zu können.
-        $('#buzzerBtn').prop('disabled', true);
+
 
         console.log("ich.nickname: " + mystorage.getItem('playerName'));
         if (mystorage.getItem('playerName') == player.nickname) {
+            $('body').css('background', 'green');
             $('#buzz-text').text("Glückwunsch, Du bist dran!");
             console.log("Glückwunsch, Du bist dran!");
             changeColor('green');
         }
         else {
             $('#buzz-text').text("Zu Langsam, " + player.nickname + " ist dran!");
+            $('body').css('background', 'red');
             console.log("Zu Langsam,");
             changeColor('grey');
         }
     });
 
     socket.on('trueAnswer', function (druecker, drueckerArray, questionArray) {
-        console.log("meine id in true: "+ mystorage.getItem('id'));
+        console.log("meine id in true: " + mystorage.getItem('id'));
         console.log(druecker.nickname + " kriegt Punkte!!");
         $('#buzzerBtn').prop('disabled', true);
         changeColor('white');
@@ -169,7 +172,7 @@
     });
 
     socket.on('wrongAnswer', function (druecker, drueckerArray) {
-        console.log("meine id in false: "+ mystorage.getItem('id'));
+        console.log("meine id in false: " + mystorage.getItem('id'));
         console.log(druecker.nickname + " kriegt leider keine Punkte!!");
         $('#buzzerBtn').prop('disabled', false);
         //Buzzer wieder disablen
@@ -179,7 +182,7 @@
     //Buzzer wieder enablen!
     socket.on('showQuestion', function (questionArray5, tdId5, indx5) {
         $('#buzzerBtn').prop('disabled', false);
-
+        $('#buzzerBtn').css('background-color', 'red');
         $('#buzz-text').text("Sei bereit, " + $('#username').val() + "!");
 
     });
@@ -205,7 +208,8 @@
 
     function send_buzz() {
         console.log("send_buzz Test: " + mystorage.getItem('id'));
-
+        $('#buzzerBtn').prop('disabled', true);
+        document.getElementById("submit2").style.color = "grey";
         socket.emit('send_buzz', mystorage.getItem('id'));
     }
     ;
@@ -216,24 +220,55 @@
 <body>
 
 
-<div id="UserInterface">
-    <img id="logo_Jeopardy" src="graphics/gold_buzzcalu.png">
-    <!--<img id="logo_Jeopardy" src="https://www.jeopardy.com/Assets/jeopardy/images/global/logo_jeopardy.png">-->
-    <p id="subheading">
-        Bitte Namen eingeben:
-    </p>
-    <input id="username" type="text" name="username" placeholder="Username">
-    <br/>
+<div id="clientsite">
 
     <div id="submit">
-        <button id="submit-btn" onclick="save_name()" type="button">
-            Save Name
-        </button>
+        <!--    <img id="logo_Jeopardy" src="graphics/gold_buzzcalu.png">-->
+        <!--<img id="logo_Jeopardy" src="https://www.jeopardy.com/Assets/jeopardy/images/global/logo_jeopardy.png">-->
+
+        <p id="subheading">
+            Bitte Namen eingeben:
+        </p>
+        <input id="username" type="text" name="username" placeholder="Username">
+
+
+    <button id="submit-btn" onclick="save_name()"  type="button">
+        Save Name
+    </button>
     </div>
+    <div id="submit2" style="visibility:hidden;">
+
+        <!--<div id="submit2" style="visibility:hidden;">-->
+
+        <h1 id="buzz-text" ></h1>
+        <button id="buzzerBtn"
+                onclick="send_buzz()"
+                type="button" disabled>
+
+            Buzz!
+        </button>
+
+    </div>
+</div>
+<!--
+
+
+<div id="UserInterface">
+<p id="subheading">
+    Bitte Namen eingeben:
+</p>
+<input id="username" type="text" name="username" placeholder="Username">
+<br/>
+
+<div id="submit">
+    <button id="submit-btn" onclick="save_name()" type="button">
+        Save Name
+    </button>
+</div>
 
 </div>
 
-<div id="submit" style="visibility:hidden;">
+<div id="submit2" >
     <h1 id="buzz-text">Be Ready ###</h1>
     <button id="buzzerBtn"
             onclick="send_buzz()"
@@ -244,7 +279,9 @@
 
 </div>
 
-<!--<form action="">
+
+
+<form action="">
     <div id="UserInterface">
 
         <h1 id="subheading">Bitte Namen eingeben</h1>

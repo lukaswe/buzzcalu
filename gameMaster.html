@@ -15,175 +15,175 @@
     var playerArray = [],
         buzz = false,
         fragenPunkte = 100,
-      //  questionArray = [],
+        //  questionArray = [],
         tdId = 100,
         mystorage = localStorage;
 
     //Für Bilder im .text Feld "Bild" eingeben. Auf Großschreibung achten!
-   /* questionArray = [
-        {
+    /* questionArray = [
+         {
 
-            "text": "An welcher Gameshow nahm Angela Merkel einst teil?",
-            "pkte": 100,
-            "val": 0, "superquestion": 0,
-            "picture": 1, "erledigt": 0
-        },
-        {
-            "text": "Warum tragen die Herren auf dem Wiener Opernball weiße Fliegen?",
-            "pkte": 100,
-            "val": 0,
-            "superquestion": 0,
-            "picture": 0,
-            "erledigt": 0
-        },
-        {
-            <!-- Christian Frage -->
-            "text": "Haben Fliegen Flügel5?",
-            "pkte": 100,
-            "val": 0,
-            "superquestion": 0,
-            "picture": 0,
-            "erledigt": 0
-        },
-        {
-            "text": "Haben Fliegen Flügel?",
-            "pkte": 100,
-            "val": 0,
-            "superquestion": 0,
-            "picture": 0,
-            "erledigt": 0
-        },
-        {
-            "text": "Haben Fliegen Flügel?",
-            "pkte": 100,
-            "val": 0,
-            "superquestion": 0,
-            "picture": 0,
-            "erledigt": 0
-        },
+             "text": "An welcher Gameshow nahm Angela Merkel einst teil?",
+             "pkte": 100,
+             "val": 0, "superquestion": 0,
+             "picture": 1, "erledigt": 0
+         },
+         {
+             "text": "Warum tragen die Herren auf dem Wiener Opernball weiße Fliegen?",
+             "pkte": 100,
+             "val": 0,
+             "superquestion": 0,
+             "picture": 0,
+             "erledigt": 0
+         },
+         {
+             <!-- Christian Frage -->
+             "text": "Haben Fliegen Flügel5?",
+             "pkte": 100,
+             "val": 0,
+             "superquestion": 0,
+             "picture": 0,
+             "erledigt": 0
+         },
+         {
+             "text": "Haben Fliegen Flügel?",
+             "pkte": 100,
+             "val": 0,
+             "superquestion": 0,
+             "picture": 0,
+             "erledigt": 0
+         },
+         {
+             "text": "Haben Fliegen Flügel?",
+             "pkte": 100,
+             "val": 0,
+             "superquestion": 0,
+             "picture": 0,
+             "erledigt": 0
+         },
 
-        {
-            "text": "Wie viele Golfbälle liegen auf dem Mond?",
-            "pkte": 200, "val": 0, "superquestion": 1,
-            "picture": 0,
-            "erledigt": 0
-        },
-        {
-            "text": "Wer war als Tontechniker für die Ich bin ein Berliner-Rede von John F. Kennedy verantwortlich ?",
-            "pkte": 200,
-            "val": 0,
-            "superquestion": 0,
-            "picture": 0, "erledigt": 0
-        },
-        {
-            <!-- Christian Frage -->
-            "text": "Haben Fliegen Flügel?",
-            "pkte": 200, "val": 0, "superquestion": 0,
-            "picture": 0,
-            "erledigt": 0
-        },
-        {
-            "text": "Haben Fliegen Flügel?",
-            "pkte": 200,
-            "val": 0,
-            "superquestion": 0,
-            "picture": 0,
-            "erledigt": 0
-        },
-        {
-            "text": "Haben Fliegen Flügel?",
-            "pkte": 200,
-            "val": 0,
-            "superquestion": 0,
-            "picture": 0,
-            "erledigt": 0
-        },
+         {
+             "text": "Wie viele Golfbälle liegen auf dem Mond?",
+             "pkte": 200, "val": 0, "superquestion": 1,
+             "picture": 0,
+             "erledigt": 0
+         },
+         {
+             "text": "Wer war als Tontechniker für die Ich bin ein Berliner-Rede von John F. Kennedy verantwortlich ?",
+             "pkte": 200,
+             "val": 0,
+             "superquestion": 0,
+             "picture": 0, "erledigt": 0
+         },
+         {
+             <!-- Christian Frage -->
+             "text": "Haben Fliegen Flügel?",
+             "pkte": 200, "val": 0, "superquestion": 0,
+             "picture": 0,
+             "erledigt": 0
+         },
+         {
+             "text": "Haben Fliegen Flügel?",
+             "pkte": 200,
+             "val": 0,
+             "superquestion": 0,
+             "picture": 0,
+             "erledigt": 0
+         },
+         {
+             "text": "Haben Fliegen Flügel?",
+             "pkte": 200,
+             "val": 0,
+             "superquestion": 0,
+             "picture": 0,
+             "erledigt": 0
+         },
 
-        {
-            "text": "Was hat das Münchener Oktoberfest im Gegensatz zu anderen Volksfesten zu bieten?",
-            "pkte": 300,
-            "val": 0,
-            "superquestion": 0,
-            "picture": 0,
-            "erledigt": 0
-        },
-        {
-            "text": "Haben Fliegen Flügel?",
-            "pkte": 300, "val": 0, "superquestion": 0,
-            "picture": 0, "erledigt": 0
-        },
-        {
-            <!-- Christian Frage -->
-            "text": "Wie viele der hier anwesenden Hochzeitsgäste waren bereits mit Christian zusammen in der 1. Klasse?",
-            "pkte": 300,
-            "val": 0,
-            "superquestion": 0,
-            "picture": 1,
-            "erledigt": 0
-        },
-        {
-            "text": "Was zur Hölle?",
-            "pkte": 300,
-            "val": 0, "superquestion": 0,
-            "picture": 0, "erledigt": 0
-        },
+         {
+             "text": "Was hat das Münchener Oktoberfest im Gegensatz zu anderen Volksfesten zu bieten?",
+             "pkte": 300,
+             "val": 0,
+             "superquestion": 0,
+             "picture": 0,
+             "erledigt": 0
+         },
+         {
+             "text": "Haben Fliegen Flügel?",
+             "pkte": 300, "val": 0, "superquestion": 0,
+             "picture": 0, "erledigt": 0
+         },
+         {
+             <!-- Christian Frage -->
+             "text": "Wie viele der hier anwesenden Hochzeitsgäste waren bereits mit Christian zusammen in der 1. Klasse?",
+             "pkte": 300,
+             "val": 0,
+             "superquestion": 0,
+             "picture": 1,
+             "erledigt": 0
+         },
+         {
+             "text": "Was zur Hölle?",
+             "pkte": 300,
+             "val": 0, "superquestion": 0,
+             "picture": 0, "erledigt": 0
+         },
 
 
-        {
-            "text": "Was zur Hölle?",
-            "pkte": 300,
-            "val": 0, "superquestion": 0,
-            "picture": 0, "erledigt": 0
-        },
+         {
+             "text": "Was zur Hölle?",
+             "pkte": 300,
+             "val": 0, "superquestion": 0,
+             "picture": 0, "erledigt": 0
+         },
 
-        {
-            "text": "Bild",
-            "pkte": 400,
-            "val": 0,
-            "superquestion": 0,
-            "picture": 0,
-            "erledigt": 0
-        },
-        {
-            "text": "Haben Fliegen Flügel?",
-            "pkte": 400, "val": 0,
-            "superquestion": 0,
-            "picture": 0,
-            "erledigt": 0
-        },
-        {
-            <!-- Christian Frage -->
-            "text": "Papst Franziskus ist Ehrenmitglied des Fußballvereins ...?",
-            "pkte": 400,
-            "val": 0,
-            "superquestion": 0,
-            "picture": 0,
-            "erledigt": 0
-        },
-        {
-            "text": "Was zur Hölle?",
-            "pkte": 400,
-            "val": 0,
-            "superquestion": 0,
-            "picture": 0,
-            "erledigt": 0
-        },
-        {
-            "text": "Was zur Hölle2?",
-            "pkte": 400,
-            "val": 0,
-            "superquestion": 0,
-            "picture": 0,
-            "erledigt": 0
-        }];*/
+         {
+             "text": "Bild",
+             "pkte": 400,
+             "val": 0,
+             "superquestion": 0,
+             "picture": 0,
+             "erledigt": 0
+         },
+         {
+             "text": "Haben Fliegen Flügel?",
+             "pkte": 400, "val": 0,
+             "superquestion": 0,
+             "picture": 0,
+             "erledigt": 0
+         },
+         {
+             <!-- Christian Frage -->
+             "text": "Papst Franziskus ist Ehrenmitglied des Fußballvereins ...?",
+             "pkte": 400,
+             "val": 0,
+             "superquestion": 0,
+             "picture": 0,
+             "erledigt": 0
+         },
+         {
+             "text": "Was zur Hölle?",
+             "pkte": 400,
+             "val": 0,
+             "superquestion": 0,
+             "picture": 0,
+             "erledigt": 0
+         },
+         {
+             "text": "Was zur Hölle2?",
+             "pkte": 400,
+             "val": 0,
+             "superquestion": 0,
+             "picture": 0,
+             "erledigt": 0
+         }];*/
 
 
     $(document).ready(function () {
-        if(mystorage.getItem('id')!== null){
-            console.log("reconnection mit :  " +mystorage.getItem('id'));
+        if (mystorage.getItem('id') !== null) {
+            console.log("reconnection mit :  " + mystorage.getItem('id'));
             var id = mystorage.getItem('id');
             socket.emit('reconnectNotPlayerGamemaster', id);
-        }else{
+        } else {
             socket.emit('registerGamemaster');
             console.log("registerGamemaster");//socket.emit('register');
 
@@ -191,27 +191,29 @@
 
     });
 
-   /* socket.on('emptyReloadLocalstorage',function(){
-        mystorage.clear();
-        console.log("mystorage wird geleert.");
+    /* socket.on('emptyReloadLocalstorage',function(){
+         mystorage.clear();
+         console.log("mystorage wird geleert.");
 
-    });*/
+     });*/
 
-    socket.on('registerGamemaster', function(id, questionArray){
-        console.log('id: ',id);
+    socket.on('registerGamemaster', function (id, questionArray, answerArray) {
+        console.log('id: ', id);
         mystorage.setItem('id', id);
-        questionStart(questionArray);
+        questionStart(questionArray, answerArray);
     });
 
-    socket.on('reconnectNotPlayerGamemaster', function (playerArray, questionArray) {
-     if (playerArray !== null) {
-    //     console.log('reconnected & playerarray[0]: ' + playerArray[0].nickname);
-         console.log("Bis in reconnectNotPlayerGamemaster geschafft");
-         console.log("playerArray.length: " + playerArray.length);
-         start(playerArray);
-         questionStart(questionArray);
+    socket.on('reconnectNotPlayerGamemaster', function (playerArray, questionArray, tdId, indx, answerArray) {
+        if (playerArray !== null) {
+            //     console.log('reconnected & playerarray[0]: ' + playerArray[0].nickname);
+            console.log("Bis in reconnectNotPlayerGamemaster geschafft");
+            console.log("playerArray.length: " + playerArray.length);
+            start(playerArray);
+            questionStart(questionArray, answerArray);
 
-     }else{console.log("Wir sind warum auch immer in reconnectNotPlayer");}
+        } else {
+            console.log("Wir sind warum auch immer in reconnectNotPlayer");
+        }
     });
 
     /*socket.on('emptyLocalstorageGamemaster', function () {
@@ -231,7 +233,7 @@
     //Clients verbinden sich
     socket.on('playerList', function (playerObject, playerArray2) {
         //Array mit Spielern füllen
-      //  mystorage.setItem('playerArrayStorage', JSON.stringify(playerArray2));
+        //  mystorage.setItem('playerArrayStorage', JSON.stringify(playerArray2));
         console.log(playerObject.nickname + " just connected!");
         start(playerArray2);
 
@@ -249,7 +251,7 @@
 
     /**Seitenspezifische Funktionalitäten**/
     function trueAnswer() {
-       socket.emit('trueAnswer', schnellster);
+        socket.emit('trueAnswer', schnellster);
         $("#schnellster-text").text(schnellster.nickname);
         document.getElementById("rightAnswer").disabled = true;
         document.getElementById("wrongAnswer").disabled = true;
@@ -257,7 +259,7 @@
     }
 
     function giveUp() {
-       socket.emit('giveUp')
+        socket.emit('giveUp')
 
         $('#schnellster-text').text("Niemand.");
         document.getElementById("rightAnswer").disabled = true;
@@ -267,7 +269,7 @@
     function wrongAnswer() {
         socket.emit('wrongAnswer', schnellster);
 
-       // mystorage.setItem('playerArrayStorage', JSON.stringify(playerArray2));
+        // mystorage.setItem('playerArrayStorage', JSON.stringify(playerArray2));
         $('#schnellster-text').text("...");
         document.getElementById("rightAnswer").disabled = true;
         document.getElementById("wrongAnswer").disabled = true;
@@ -275,14 +277,14 @@
     }
     ;
 
-    socket.on('trueAnswer', function (winner, playerArray, answerArray,tdId, indx, questionArray) {
+    socket.on('trueAnswer', function (winner, playerArray, answerArray, tdId, indx, questionArray) {
         schnellster = winner;
         start(playerArray);
-        questionStart(questionArray);
+        questionStart(questionArray, answerArray);
     });
 
     socket.on('giveUp', function (player, playerArray, questionArray, tdId, indx) {
-     //   document.getElementById(tdId).innerHTML = "erledigt";
+        //   document.getElementById(tdId).innerHTML = "erledigt";
         //schnellster = playa;
         start(playerArray);
     });
@@ -303,7 +305,7 @@
     }
 
     //Spieler in Tabelle eintragen
-    function renderRows(tbody,playerArray) {
+    function renderRows(tbody, playerArray) {
         tbody.innerHTML = '';
 
         //console.log("playerArray: " + playerArray);
@@ -349,20 +351,19 @@
     }
 
 
-
-/**Fragen einfüllen**/
-    function questionStart(questionArray) {
+    /**Fragen einfüllen**/
+    function questionStart(questionArray, answerArray) {
         // socket.emit('questionStart', questionArray);
-    console.log("questionstart wird ausgeführt")
-    console.log("question in uestionstart: " + questionArray[0]);
+        console.log("questionstart wird ausgeführt")
+        console.log("question in uestionstart: " + questionArray[0]);
         var j = 0;
-      //  var questionArray = JSON.parse(mystorage.getItem('questionArrayStorage'));
+        //  var questionArray = JSON.parse(mystorage.getItem('questionArrayStorage'));
         questionArray.forEach(function (question) {
-           // console.log("question: " + question.text);
-
-            $('#question' + [j]).text(question.text);
-            if(question.erledigt === 1){
+            // console.log("question: " + question.text);
+            $('#question' + [j]).text(question.text + "    ... Antwort:   " + answerArray[j]);
+            if (question.erledigt === 1) {
                 $('#question' + [j]).text("erledigt");
+                $('#question' + [j]).css('background-color', 'grey');
             }
             //    document.getElementById("question" + [j]).style = "visibility:visible;";
             j++;
@@ -373,41 +374,42 @@
     /**Function on click auf die Tabelle**/
     function showQuestion(tdId2) {
         console.log("tdId2: " + tdId2);
+        $('#' + [tdId2]).css('background-color', 'red');
         socket.emit('showQuestion', tdId2);
+
 
         document.getElementById("rightAnswer").disabled = true;
         document.getElementById("wrongAnswer").disabled = true;
     };
-   /* function showQuestion(tdId2) {
-        var questionArray = JSON.parse(mystorage.getItem('questionArrayStorage'));
-        tdId = tdId2;
-        /!**Hier anzahl der fragen anpassen**!/
-        //for (var anzahlDerFragen = 0; anzahlDerFragen < 16; anzahlDerFragen ++) {
-        if (tdId.length < 10) {
-            indx = tdId2.substring(tdId2.length - 1, tdId2.length);
-        } else {
-            indx = tdId2.substring(tdId2.length - 2, tdId2.length);
-        }
+    /* function showQuestion(tdId2) {
+         var questionArray = JSON.parse(mystorage.getItem('questionArrayStorage'));
+         tdId = tdId2;
+         /!**Hier anzahl der fragen anpassen**!/
+         //for (var anzahlDerFragen = 0; anzahlDerFragen < 16; anzahlDerFragen ++) {
+         if (tdId.length < 10) {
+             indx = tdId2.substring(tdId2.length - 1, tdId2.length);
+         } else {
+             indx = tdId2.substring(tdId2.length - 2, tdId2.length);
+         }
 
-        //NICht nur show question sondern auch BuzzerEnablen
+         //NICht nur show question sondern auch BuzzerEnablen
 
-//        console.log("this.questionArray.val: " + questionArray[indx].val);
-        if (questionArray[indx].erledigt == 0) {
-            if (questionArray[indx].val % 2 == 1) {
-                socket.emit('showNothing', questionArray, tdId2, indx);
-                document.getElementById(tdId).innerHTML = "erledigt";
-            } else {
-                socket.emit('showQuestion', questionArray, tdId2, indx);
-            }
-            currentQuestionObj = questionArray[indx];
-            questionArray[indx].val += 1;
-            questionArray[indx].erledigt = 1;
-        } else {
-            console.log("Die Frage ist schon erledigt.")
-        }
-        mystorage.setItem('questionArrayStorage',JSON.stringify( questionArray));
-    }*/
-
+ //        console.log("this.questionArray.val: " + questionArray[indx].val);
+         if (questionArray[indx].erledigt == 0) {
+             if (questionArray[indx].val % 2 == 1) {
+                 socket.emit('showNothing', questionArray, tdId2, indx);
+                 document.getElementById(tdId).innerHTML = "erledigt";
+             } else {
+                 socket.emit('showQuestion', questionArray, tdId2, indx);
+             }
+             currentQuestionObj = questionArray[indx];
+             questionArray[indx].val += 1;
+             questionArray[indx].erledigt = 1;
+         } else {
+             console.log("Die Frage ist schon erledigt.")
+         }
+         mystorage.setItem('questionArrayStorage',JSON.stringify( questionArray));
+     }*/
 
 
     socket.on('showQuestion', function (questionArray, tdId2, indx2) {
@@ -425,41 +427,68 @@
 </script>
 <body>
 
+<div class=Kopf>
+    <!--Teilnehmer Tabelle-->
+    <div class="col-lg-5" >
+        <h1 id="heins">Wer ist dabei?</h1>
+        <table id="playerTable" class="dataList table">
+            <thead>
+            <tr>
+                <th style="padding-right: 40px">Name</th>
+                <th style="padding-right: 40px">Punktzahl</th>
+                <th style="padding-right: 40px">Farbe</th>
+                <th style="padding-right: 40px">Kick it</th>
 
-<!--Teilnehmer Tabelle-->
-<div><h1 id="heins">Wer ist dabei?</h1></div>
-<div class="col-lg-5" style="margin-left: 10px">
+                <!--  <th style="padding-right: 25px">xoxo</th>
+                  <th style="padding-right: 25px"></th>-->
 
-    <table id="playerTable" class="dataList table">
-        <thead>
-        <tr>
-            <th style="padding-right: 40px">Name</th>
-            <th style="padding-right: 40px">Punktzahl</th>
-            <th style="padding-right: 40px">Farbe</th>
-            <th style="padding-right: 40px">Kick it</th>
+            </tr>
+            </thead>
+            <tbody id="ctbody">
+            <tr>
+                <td style="padding-right: 60px"></td>
+                <td style="padding-right: 80px"></td>
+                <td style="padding-right: 80px"></td>
+                <!--   <td style="padding-right: 25px"></td>
+                   <td style="padding-right: 25px"></td>-->
 
-            <!--  <th style="padding-right: 25px">xoxo</th>
-              <th style="padding-right: 25px"></th>-->
-
-        </tr>
-        </thead>
-        <tbody id="ctbody">
-        <tr>
-            <td style="padding-right: 60px"></td>
-            <td style="padding-right: 80px"></td>
-            <td style="padding-right: 80px"></td>
-            <!--   <td style="padding-right: 25px"></td>
-               <td style="padding-right: 25px"></td>-->
-
-        </tr>
+            </tr>
 
 
-        </tbody>
+            </tbody>
 
-        <!-- Placeholder -->
-    </table>
+            <!-- Placeholder -->
+        </table>
+        <h3 id="schnellster-text"> ... </h3>
+    </div>
 
+
+
+
+    <!--<form action="">
+      <input id="m" autocomplete="off" /><br>-->
+    <div class="answbtns">
+        <button
+                type="button"
+                id="rightAnswer"
+                onclick="trueAnswer()">Right
+        </button>
+        <br>
+
+        <button
+                type="button"
+                id="wrongAnswer"
+                onclick="wrongAnswer()">Wrong
+        </button>
+        <br>
+        <button
+                type="button"
+                id="giveUp"
+                onclick="giveUp()">Give Up
+        </button>
+    </div>
 </div>
+
 <!--Fragen Tabelle-->
 <div class="questionContainer2-css">
 
@@ -518,38 +547,8 @@
 </div>
 
 
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
 
-<div id="schnellster">
-    <h3 id="schnellster-text"> ... </h3>
-</div>
 
-<!--<form action="">
-  <input id="m" autocomplete="off" /><br>-->
-<button class="answbtn-css"
-        type="button"
-        id="rightAnswer"
-        onclick="trueAnswer()">Right
-</button>
-<br>
-
-<button class="answbtn-css"
-        type="button"
-        id="wrongAnswer"
-        onclick="wrongAnswer()">Wrong
-</button>
-<br>
-<button class="answbtn-css"
-        type="button"
-        id="giveUp"
-        onclick="giveUp()">Give Up
-</button>
-<br>
 <!--<button type = "submit">Buzz!</button>
 </form>-->
 

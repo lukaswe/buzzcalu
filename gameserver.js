@@ -29,17 +29,19 @@ var ids = [],
 
 var answerArray = [
         //100
-        "Glücksrad",
+        "Nein",
         "Damit sie sich von den Kellnern unterscheiden",
         "Paris", // Christian Frage
         "James Bond",
         "Zwei",
+
         //200
         "Schokolade",
         "Peter Lustig",
         "durch Feuchtigkeit", // Christian Frage
         "Der Mann ist gar nicht dick, sondern nur groß. - Der Ukrainer \"Leonid Stadnik\" ist mit 2,53 Meter Körpergröße und Schuhgröße 64 wahrscheinlich größte Mensch der Welt.",
         "Hamburg",
+
         //300
         "Flohzirkus",
         "Die meiste radioaktive Strahlung stammt aus der Erde und war schon immer da. Der Weltraum ist die zweitstärkste Strahlungsquelle.",
@@ -52,11 +54,19 @@ var answerArray = [
         "Auf Friedhöfen gab es ein Jahr-2000-Problem. Auf vielen Friedhöfen war es üblich, dass bei Doppelgräbern immer auch gleich der Name und die ersten beiden Ziffern (\"19\") des Sterbejahres vom noch lebenden Partner in den Grabstein eingemeiselt wurden, doch einige davon haben den Jahrtausendwechsel überlebt, und die hatten dann ein falsches Datum auf Ihrem späteren Grabstein.",
         "Er griff versehentlich neben den Hörer. Ken Charles Barger, 47, aus North Carolina schoss sich versehentlich in den Kopf, als er, durch einen nächtlichen Anruf geweckt, statt nach dem Telefon nach seiner 38.er Smith & Wesson griff.", // Christian Frage
         "Ein Pferd hat eine Höchstleistung von über 10 PS. Kurzfristig kann ein Pferd ungefähr 12 PS leisten. Die Dauerleistung liegt allerdings bei etwa einem PS.",
-        "Es sind mehr als 5000 € pro Einwohner! Es sind sogar sehr viel mehr!"],
+        "Es sind mehr als 5000 € pro Einwohner! Es sind sogar sehr viel mehr!",
+        //500
+        "3,1 Kilometer",
+        "Herr Hutzel",
+        "20",
+        "Kochen",
+        "1 Paar",
+    ],
+
     questionArray = [
         {
             "id": 0,
-            "text": "An welcher Gameshow nahm Angela Merkel einst teil?",
+            "text": "Sind Conny und Christian auf die gleiche Konfession getauft?",
             "pkte": 100,
             "val": 0,
             "superquestion": 0,
@@ -64,7 +74,6 @@ var answerArray = [
             "erledigt": 0
         },
         {
-            <!-- Conny Frage -->
             "id": 1,
             "text": "Warum tragen die Herren auf dem Wiener Opernball weiße Fliegen?",
             "pkte": 100,
@@ -248,6 +257,53 @@ var answerArray = [
             "superquestion": 0,
             "picture": 0,
             "erledigt": 0
+        },
+        {
+            "id": 20,
+            "text": "Sind Conny und Christian auf die gleiche Konfession getauft?",
+            "pkte": 500,
+            "val": 0,
+            "superquestion": 0,
+            "picture": 1,
+            "erledigt": 0
+        },
+        {
+            "id": 21,
+            "text": "Warum tragen die Herren auf dem Wiener Opernball weiße Fliegen?",
+            "pkte": 500,
+            "val": 0,
+            "superquestion": 0,
+            "picture": 0,
+            "erledigt": 0
+        },
+        {
+            <!-- Christian Frage -->
+            "id": 22,
+            "text": "Wie lautet die Hauptstadt von Frankreich?",
+            "pkte": 500,
+            "val": 0,
+            "superquestion": 0,
+            "picture": 0,
+            "erledigt": 0
+        },
+        {
+            "id": 23,
+            "text": "Welcher Agent steht im Zusammenhang mit der \"Lizenz zum Töten\"",
+            "pkte": 500,
+            "val": 0,
+            "superquestion": 0,
+            "picture": 0,
+            "erledigt": 0
+        },
+        {
+            <!--Schätzfrage-->
+            "id": 24,
+            "text": "Wie viele Flügel haben Fliegen?",
+            "pkte": 500,
+            "val": 0,
+            "superquestion": 0,
+            "picture": 0,
+            "erledigt": 0
         }];
 
 
@@ -409,14 +465,14 @@ io.on('connection', function (client) {
                 console.log("register iid: " + iid);
                 gamemasterArray.push(iid);
                 console.log("gamemasterArray.length: " + gamemasterArray.length);
-                io.emit('registerGamemaster', iid, questionArray);
+                io.emit('registerGamemaster', iid, questionArray, answerArray);
             } else {
                 gamemasterArray.forEach(function (gamemaster) {
                     console.log("gamemaster: " + gamemaster);
                     if (gamemaster == id) {
                         console.log('id: ' + id);
                         console.log('reconnectNotPlayerGamemaster ist im array');
-                        io.emit('reconnectNotPlayerGamemaster', playerArray, questionArray, tdId, indx);
+                        io.emit('reconnectNotPlayerGamemaster', playerArray, questionArray, tdId, indx, answerArray);
 
                     } else {
                         console.log("Client noch nicht registriert.");
@@ -424,7 +480,7 @@ io.on('connection', function (client) {
                         console.log("register iid: " + iid);
                         gamemasterArray.push(iid);
                         console.log("clientArray.length: " + gamemasterArray.length);
-                        io.emit('registerGamemaster', iid, questionArray);
+                        io.emit('registerGamemaster', iid, questionArray, answerArray);
                         //  io.emit('emptyLocalstorageGamemaster');
                     }
                 })
