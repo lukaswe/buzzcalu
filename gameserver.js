@@ -716,7 +716,7 @@ io.on('connection', function (client) {
             // socket.emit('showNothing', questionArray, tdId, indx);
 
 
-            io.emit('giveUp', player, playerArray, answerArray, tdId, indx);
+            io.emit('giveUp', playerArray, answerArray, tdId, indx);
             x = 0;
         });
 

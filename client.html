@@ -138,7 +138,7 @@
     socket.on('fastest player', function (player) {
         $('#buzzerBtn').css('background-color', 'grey');
         console.log("meine id in fastest: " + mystorage.getItem('id'));
-
+        $('body').css("background", "linear-gradient(to bottom, #405166 0%, #656f6f 100%)");
         console.log("Der fastest player lautet: " + player.nickname);
         console.log("Der fastest player id lautet: " + player.id);
         //BuzzerBtn ausgrauen, um ihn nur einmal drücken zu können.
@@ -163,11 +163,13 @@
         console.log("meine id in true: " + mystorage.getItem('id'));
         console.log(druecker.nickname + " kriegt Punkte!!");
         $('#buzzerBtn').prop('disabled', true);
+        $('body').css("background", "linear-gradient(to bottom, #405166 0%, #656f6f 100%)");
         changeColor('white');
     });
-    socket.on('giveUp', function (druecker, drueckerArray, questionArray) {
+    socket.on('giveUp', function (drueckerArray, questionArray) {
         console.log("Niemand kriegt Punkte!!");
         $('#buzzerBtn').prop('disabled', true);
+        $('body').css("background", "linear-gradient(to bottom, #405166 0%, #656f6f 100%)");
         changeColor('white');
     });
 
@@ -175,26 +177,32 @@
         console.log("meine id in false: " + mystorage.getItem('id'));
         console.log(druecker.nickname + " kriegt leider keine Punkte!!");
         $('#buzzerBtn').prop('disabled', false);
+        $('#buzzerBtn').css('background-color', 'red');
+        $('body').css("background", "linear-gradient(to bottom, #405166 0%, #656f6f 100%)");
         //Buzzer wieder disablen
         changeColor('white');
+
     });
 
     //Buzzer wieder enablen!
     socket.on('showQuestion', function (questionArray5, tdId5, indx5) {
         $('#buzzerBtn').prop('disabled', false);
         $('#buzzerBtn').css('background-color', 'red');
+        $('body').css("background", "linear-gradient(to bottom, #405166 0%, #656f6f 100%)");
         $('#buzz-text').text("Sei bereit, " + $('#username').val() + "!");
 
     });
 
     socket.on('showPicture', function (questionArray5, tdId5, indx5) {
         $('#buzzerBtn').prop('disabled', false);
+        $('#buzzerBtn').css('background-color', 'red');
         $('#buzz-text').text("Sei bereit, " + $('#username').val() + "!");
 
     });
 
     socket.on('showSuperQuestion', function (questionArray5, tdId5, indx5) {
         $('#buzzerBtn').prop('disabled', false);
+        $('#buzzerBtn').css('background-color', 'red');
         $('#buzz-text').text("Sei bereit, " + $('#username').val() + "!");
 
     });
