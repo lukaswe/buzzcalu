@@ -5,23 +5,24 @@
 
 }
 .col-lg-5{
+    border: 5px solid;
     float: left;
     position: relative;
     margin-left: 10px;
-    width: 50%;
+    width: 48%;
 }
 
 .answbtns{
     float: right;
-    margin-right: 10px;
     position: relative;
     cursor: pointer;
     border: 5px solid;
-    width: 50%;
+    width: 48%;
 
 
 }
-button{
+.buttons{
+    position: relative;
     width: 30%;
     float: left;
     border: 5px solid;

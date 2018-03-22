@@ -246,7 +246,7 @@
         buzz = true;
         document.getElementById("rightAnswer").disabled = false;
         document.getElementById("wrongAnswer").disabled = false;
-
+        pause();
     });
 
     /**Seitenspezifische Funktionalitäten**/
@@ -273,6 +273,7 @@
         $('#schnellster-text').text("...");
         document.getElementById("rightAnswer").disabled = true;
         document.getElementById("wrongAnswer").disabled = true;
+        play();
 
     }
     ;
@@ -376,11 +377,19 @@
         console.log("tdId2: " + tdId2);
         $('#' + [tdId2]).css('background-color', 'red');
         socket.emit('showQuestion', tdId2);
-
+        play();
 
         document.getElementById("rightAnswer").disabled = true;
         document.getElementById("wrongAnswer").disabled = true;
+        disableQuestions();
     };
+
+    function disableQuestions(){
+        console.log('disable');
+        for(var i = 0 ; i<=24; i++) {
+            $('#question0').prop('disabled',true);
+        };
+    }
     /* function showQuestion(tdId2) {
          var questionArray = JSON.parse(mystorage.getItem('questionArrayStorage'));
          tdId = tdId2;
@@ -424,9 +433,23 @@
         console.log(" showSuperQuestion ");
     });
 
+    function play(){
+        var audio = document.getElementById("audio");
+        audio.play();
+    }
+
+        function pause(){
+            var audio = document.getElementById("audio");
+            audio.pause();
+            audio.currentTime = 0;
+    }
+
+
 </script>
 <body>
-
+<input type="button" value="PLAY"  onclick="play()">
+<input type="button" value="PAUSE"  onclick="pause()">
+<audio id="audio" src="/JeopardyTheme.mp3" ></audio>
 <div class=Kopf>
     <!--Teilnehmer Tabelle-->
     <div class="col-lg-5" >
@@ -468,20 +491,20 @@
     <!--<form action="">
       <input id="m" autocomplete="off" /><br>-->
     <div class="answbtns">
-        <button
+        <button class = 'buttons'
                 type="button"
                 id="rightAnswer"
                 onclick="trueAnswer()">Right
         </button>
         <br>
 
-        <button
+        <button class = 'buttons'
                 type="button"
                 id="wrongAnswer"
                 onclick="wrongAnswer()">Wrong
         </button>
         <br>
-        <button
+        <button class = 'buttons'
                 type="button"
                 id="giveUp"
                 onclick="giveUp()">Give Up
@@ -507,8 +530,8 @@
         <tr>
 
             <!--  <td class="questionBoxes-css" id="question-text0" style="visibility:hidden;">Question</td>-->
-            <td class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question0">100</td>
-            <td class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question1">100</td>
+            <td type="button" class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question0">100</td>
+            <td type="button" class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question1">100</td>
             <td class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question2">100</td>
             <td class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question3">100</td>
             <td class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question4">100</td>
@@ -537,6 +560,15 @@
 
 
         </tr>
+        <tr>
+            <td class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question20">500</td>
+            <td class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question21">500</td>
+            <td class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question22">500</td>
+            <td class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question23">500</td>
+            <td class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question24">500</td>
+
+
+        </tr>
 
 
         </tbody>
@@ -549,8 +581,8 @@
 
 
 
+
 <!--<button type = "submit">Buzz!</button>
 </form>-->
 
-</body>
-</html>
+

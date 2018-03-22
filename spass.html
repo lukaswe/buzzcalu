@@ -5,7 +5,6 @@
 <title>BuzzCaLu spass Screen</title>
 <script src="/socket.io/socket.io.js"></script>
 <script>  //import TimelineMax from 'gsap';
-
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.2/TweenMax.min.js"></script>
 <script src="libraries/jquery-3.2.1.min.js"></script>
@@ -19,6 +18,12 @@
     it should be noted that while Swiss 911 may be the font used for the dollary values
     on the board, these days the category titles are rendered with Helvetica Inserat LT,
     and Univers LT 75 Black is the font used to display the players’ scores.*/
+
+    body {
+        font-family: 'Fjalla One', sans-serif;
+        background: linear-gradient(to bottom, #405166 0%, #656f6f 100%);
+
+    }
     @font-face {
         font-family: 'Fjalla One';
         font-style: normal;
@@ -26,7 +31,6 @@
         src: local('Fjalla One'), local('FjallaOne-Regular'), url(https://fonts.gstatic.com/s/fjallaone/v4/SHXJdWnWW6HDq-6DpcG8PwsYbbCjybiHxArTLjt7FRU.woff2) format('woff2');
         unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF;
     }
-
     /* latin */
     @font-face {
         font-family: 'Fjalla One';
@@ -35,29 +39,23 @@
         src: local('Fjalla One'), local('FjallaOne-Regular'), url(https://fonts.gstatic.com/s/fjallaone/v4/rxxXUYj4oZ6Q5oDJFtEd6gzyDMXhdD8sAj6OAJTFsBI.woff2) format('woff2');
         unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215;
     }
-
     /*   #grad{
        background: linear-gradient(to bottom, #405166 0%,#656f6f 100%);}
        red: #e55643 ;
        $green: #2b9f5e;
        $yellow: #f1c83c;
        $shadow: #533d4a;*/
-
     html {
         height: 100%;
     }
-
-
-
     .container {
         transform: translate(-50%, -50%);
         top: 50%;
         left: 50%;
         display: block;
         position: absolute;
-        max-width: 225px;
+        max-width: 350px;
     }
-
     .button {
         float: left;
         position: relative;
@@ -82,14 +80,12 @@
         visibility: visible;
         cursor: pointer;
     }
-
     span {
         transform: skew(-10deg);
         display: block;
         float: left;
         text-shadow: #533d4a 1px 1px, #533d4a 2px 2px, #533d4a 3px 3px, #533d4a 4px 4px;
     }
-
     h1 {
         color: #fff;
         text-transform: uppercase;
@@ -99,7 +95,6 @@
         letter-spacing: 2px;
         visibility: hidden;
     }
-
     .title {
         transform: translateX(-50%) rotate(-10deg);
         display: block;
@@ -107,7 +102,6 @@
         left: 50%;
         position: relative;
     }
-
     span {
         /*Neigung*/
         transform: skew(-10deg);
@@ -118,58 +112,47 @@
         min-height: 10px;
         position: relative;
     }
-
     .title:nth-child(1) {
         color: #e55643;
     }
-
     .title :nth-child(2) {
         color: #2b9f5e;
     }
-
+    .title:nth-child(4) {
+        color: #e55643;
+    }
     .title:nth-child(8) {
         color: #2b9f5e;;
     }
-
 </style>
 <script>
     //Lettering
     (function ($) {
         function injector(t, splitter, klass, after) {
             var text = t.text()
-                    , a = text.split(splitter)
-                    , inject = '';
+                , a = text.split(splitter)
+                , inject = '';
             if (a.length) {
                 $(a).each(function (i, item) {
                     inject += '<span class="' + klass + (i + 1) + '" aria-hidden="true">' + item + '</span>' + after;
                 });
                 t.attr('aria-label', text)
-                        .empty()
-                        .append(inject)
-
+                    .empty()
+                    .append(inject)
             }
         }
-
-
         var methods = {
             init: function () {
-
                 return this.each(function () {
                     injector($(this), '', 'char', '');
                 });
-
             },
-
             words: function () {
-
                 return this.each(function () {
                     injector($(this), ' ', 'word', ' ');
                 });
-
             },
-
             lines: function () {
-
                 return this.each(function () {
                     var r = "eefec303079ad17405c889e092e105b0";
                     // Because it's hard to split a <br/> tag consistently across browsers,
@@ -178,10 +161,8 @@
                     // md5 hash string, it will fail because you're being ridiculous.
                     injector($(this).children("br").replaceWith(r).end(), r, 'line', '');
                 });
-
             }
         };
-
         $.fn.lettering = function (method) {
             // Method calling logic
             if (method && methods[method]) {
@@ -192,50 +173,48 @@
             $.error('Method ' + method + ' does not exist on jQuery.lettering');
             return this;
         };
-
     })(jQuery);
-
     $(document).ready(function () {
         $(".title").lettering();
         $(".button").lettering();
         $(".button2").lettering();
     }, 2000);
-
     var i = 0 ;
     $(document).ready(function () {
-
-        window.setTimeout(" animation()", 10500);
-        window.setTimeout(" animation()", 11500);
+        window.setTimeout(" animation()", 11300);
+        window.setTimeout(" animation()", 13500);
         //window.setTimeout(" animation()", 13500);
-        //window.setTimeout(" animation()", 15500);
+        window.setTimeout(" animation()", 15500);
         //window.setTimeout(" animation()", 17500);
         window.setTimeout(" animation()", 19500);
         //window.setTimeout(" animation()", 21500);
-        //window.setTimeout(" animation()", 23500);
+        window.setTimeout(" animation()", 23500);
         //window.setTimeout(" animation()", 25500);
         window.setTimeout(" animation()", 27500);
         window.setTimeout(" animation()", 29500);
         //window.setTimeout(" animation()", 31500);
-        //window.setTimeout(" animation()", 33500);
+        window.setTimeout(" animation()", 33500);
         //window.setTimeout(" animation()", 35500);
         window.setTimeout(" animation()", 37500);
-        window.setTimeout(" animation()", 39500);
+
         window.setTimeout(" animation()", 41500);
-        window.setTimeout(" animation()", 69500);
-        window.setTimeout(" animation()", 61500);
-
-        window.setTimeout(" animation()", 89500);
+        window.setTimeout(" animation()", 49500);
+        window.setTimeout(" animation()", 57500);
+        window.setTimeout(" animation()", 65500);
+        window.setTimeout(" animation()", 73500);
         window.setTimeout(" animation()", 81500);
-        window.setTimeout("stop()",90500);
-       // window.setTimeout(" window.location.replace('http://localhost:3000/overview')", 96000);
-        window.setTimeout(" window.location.assign('/overview')", 96000);
-
-
+        window.setTimeout(" animation()", 89500);
+        window.setTimeout(" animation()", 97500);
+        window.setTimeout(" animation()", 105500);
+        window.setTimeout(" animation()", 113500);
+        window.setTimeout(" animation()", 121500);
+        window.setTimeout(" animation()", 128500);
+        window.setTimeout(" animation()", 136500);
+        window.setTimeout(" animation()", 144500);
+        window.setTimeout(" animation()", 152500);
+        // window.setTimeout(" window.location.replace('http://localhost:3000/overview')", 96000);
+        window.setTimeout(" window.location.assign('/overview')", 220000);
     });
-
-
-
-
     /*   $('.button').click(function() {
      animation();
      });
@@ -244,40 +223,36 @@
         // method to be executed;
         animation();
     }, 8000);*/
-
-
-        function animation() {
-            document.getElementById("h1Id").style.visibility = "visible";
-            console.log("animation klappt");
-            var title1 = new TimelineMax();
-            title1.to(".button", 0, {visibility: 'hidden', opacity: 0})
-            title1.to(".button2", 0, {visibility: 'hidden', opacity: 0})
-            title1.staggerFromTo(".title span", 0.5,
-                    {ease: Back.easeOut.config(100.7), opacity: 0, bottom: -80},
-                    {ease: Back.easeOut.config(12.7), opacity: 1, bottom: 0}, 0.93);
-            title1.to(".button", 0.2, {visibility: 'visible', opacity: 1})
-            title1.to(".button2", 0.2, {visibility: 'visible', opacity: 1})
-
-        }
-
-
-
+    function animation() {
+        document.getElementById("h1Id").style.visibility = "visible";
+        console.log("animation klappt");
+        var title1 = new TimelineMax();
+        title1.to(".button", 0, {visibility: 'hidden', opacity: 0})
+        title1.to(".button2", 0, {visibility: 'hidden', opacity: 0})
+        title1.staggerFromTo(".title span", 0.5,
+            {ease: Back.easeOut.config(100.7), opacity: 0, bottom: -80},
+            {ease: Back.easeOut.config(12.7), opacity: 1, bottom: 0}, 0.93);
+        title1.to(".button", 0.2, {visibility: 'visible', opacity: 1})
+        title1.to(".button2", 0.2, {visibility: 'visible', opacity: 1})
+    }
 </script>
 <body>
 <section class="container">
     <h1 id="h1Id">
-        <span class="title">Caro&Lukas präsentieren:</span>
-        <span class="title">BuzzCaLu</span>
-        <span class="title">in der Conny&Christian Edition</span>
+        <span class="title">Caro & Lukas </span>
+        <span class="title"> präsentieren:</span>
+        <span class="title">BuzzCaLu in der</span>
+        <span class="title">Conny & Christian </span>
+        <span class="title">    Edition</span>
     </h1>
 
-   <!-- <div class="button" onclick="setInterval()">restart</div>-->
+    <!-- <div class="button" onclick="setInterval()">restart</div>-->
 
 </section>
 
 
 
-<div class="button3" onclick="window.location.replace('http://localhost:3000/overview')">Spiel starten</div>
+<div class="button3" onclick=" window.location.assign('/overview')">Spiel starten</div>
 <iframe visibility="hidden" width="0" height="0" src="https://www.youtube.com/embed/eNkvxqGmscY?autoplay=1&loop=1&playlist=eNkvxqGmscY" frameborder="0" allowfullscreen></iframe>
 <!--<iframe width="560" height="315" src="http://www.youtube.com/embed/BtEkzZoUCpw?autoplay=1&loop=1&playlist=BtEkzZoUCpw" frameborder="0" allowfullscreen></iframe>-->
 

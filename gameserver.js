@@ -386,8 +386,8 @@ app.get('/graphics/gold_buzzcalu.png', function (req, res) {
     res.sendFile(__dirname + '/graphics/gold_buzzcalu.png');
 });
 
-app.get('/bild1_klein.jpg', function (req, res) {
-    res.sendFile(__dirname + '/bild1_klein.jpg');
+app.get('/JeopardyTheme.mp3', function (req, res) {
+    res.sendFile(__dirname + '/JeopardyTheme.mp3');
 });
 app.get('/bild1.jpg', function (req, res) {
     res.sendFile(__dirname + '/bild1.jpg');

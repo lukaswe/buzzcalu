@@ -3,3 +3,7 @@ playerArray[nicknameObj
 .nickname
 .color
 ]
+
+color: #e55643
+#2b9f5e
+#2b9f5e
