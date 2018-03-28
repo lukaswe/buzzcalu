@@ -151,10 +151,11 @@
     });
 
     socket.on('showTable', function () {
-
+        $('#richtig-text').text("...");
         $("body").toggleClass("question-active");
         $("body").toggleClass("question-inactive");
         $("body").toggleClass("answer-inactive");
+
 
 
     });

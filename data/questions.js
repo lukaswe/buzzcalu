@@ -5,12 +5,12 @@ module.exports = [
         "pkte": 100,
         "val": 0,
         "superquestion": 0,
-        "picture": 1,
+        "picture": 0,
         "erledigt": 0
     },
     {
         "id": 1,
-        "text": "Warum tragen die Herren auf dem Wiener Opernball weiße Fliegen?",
+        "text": "Wie viele Klassenstufen lagen zwischen Conny und Christian?",
         "pkte": 100,
         "val": 0,
         "superquestion": 0,
@@ -18,9 +18,9 @@ module.exports = [
         "erledigt": 0
     },
     {
-        <!-- Christian Frage -->
+        <!-- Hobbies Frage -->
         "id": 2,
-        "text": "Wie lautet die Hauptstadt von Frankreich?",
+        "text": "Welche Firma ermöglichte es Conny, ihr kulinarisches Hobby mit einem Nebenjob zu verbinden?",
         "pkte": 100,
         "val": 0,
         "superquestion": 0,
@@ -29,7 +29,7 @@ module.exports = [
     },
     {
         "id": 3,
-        "text": "Welcher Agent steht im Zusammenhang mit der \"Lizenz zum Töten\"",
+        "text": "Bei welcher Art von Veranstaltung lernten sich Conny und Christian kennen?",
         "pkte": 100,
         "val": 0,
         "superquestion": 0,
@@ -39,7 +39,7 @@ module.exports = [
     {
         <!--Schätzfrage-->
         "id": 4,
-        "text": "Wie viele Flügel haben Fliegen?",
+        "text": "Wie viele Kinder unter 2 sind heute auf der Hochzeit anwesend?",
         "pkte": 100,
         "val": 0,
         "superquestion": 0,
@@ -49,7 +49,7 @@ module.exports = [
 
     {
         "id": 5,
-        "text": "Welches der unten genannten Lebensmittel enthält am meisten Eisen? - Rindfleich, -Spinar, -Schokolade",
+        "text": "Mit welcher Serie lernte Conny schon in frühen Jahren mit ihrer Schwester Englisch?",
         "pkte": 200,
         "val": 0,
         "superquestion": 0,
@@ -57,9 +57,9 @@ module.exports = [
         "erledigt": 0
     },
     {
-        <!-- Conny Frage -->
+        <!-- Schulzeit Frage -->
         "id": 6,
-        "text": "Wer war als Tontechniker für die Ich bin ein Berliner-Rede von John F. Kennedy verantwortlich ?",
+        "text": "Welchen Studiengang hat Christian erfogreich abgeschlossen?",
         "pkte": 200,
         "val": 0,
         "superquestion": 0,
@@ -67,16 +67,16 @@ module.exports = [
         "erledigt": 0
     },
     {
-        <!-- Christian Frage -->
+        <!-- Hobbies Frage -->
         "id": 7,
-        "text": "Wodurch \"trocknet\" Sekundenkleber?",
+        "text": "Christian lässt gerne laufen: In welcher Sportart trainiert(e) er eine Mannschaft?",
         "pkte": 200, "val": 0, "superquestion": 0,
         "picture": 0,
         "erledigt": 0
     },
     {
         "id": 8,
-        "text": "Warum macht ein Ukrainer namens \"Leonid Stadnik\" keine Diät, obwohl er 210 kg wiegt?",
+        "text": "Auf der Couch hat Christian das sagen! Was war die erste Sci-Fy Serie , Für welche  er sie begeistern konnte?",
         "pkte": 200,
         "val": 0,
         "superquestion": 0,
@@ -86,7 +86,7 @@ module.exports = [
     {
         <!--Schätzfrage-->
         "id": 9,
-        "text": "In welcher europäischen Stadt gibt es die meisten Brücken?",
+        "text": "Wie viele Theaterproduktionen hat Conny an der RS-Dettelbach mitgemacht?",
         "pkte": 200,
         "val": 0,
         "superquestion": 0,
@@ -96,7 +96,7 @@ module.exports = [
 
     {
         "id": 10,
-        "text": "Was hat das Münchener Oktoberfest im Gegensatz zu anderen Volksfesten zu bieten?",
+        "text": "Wie viele Cousins und Cousinen haben Conny und Christian zusammen in Summe?",
         "pkte": 300,
         "val": 0,
         "superquestion": 0,
@@ -104,9 +104,9 @@ module.exports = [
         "erledigt": 0
     },
     {
-        <!-- Conny Frage -->
+        <!-- Schulzeit Frage -->
         "id": 11,
-        "text": "Wovon bekommen wir die meiste radioaktive Strahlung ab?",
+        "text": "In welchen Fächern hat Conny einen akademischen Abschluss?",
         "pkte": 300,
         "val": 0,
         "superquestion": 0,
@@ -114,18 +114,18 @@ module.exports = [
         "erledigt": 0
     },
     {
-        <!-- Christian Frage -->
+        <!-- Hobbies Frage -->
         "id": 12,
-        "text": "Wie viele der hier anwesenden Hochzeitsgäste waren bereits mit Christian zusammen in der 1. Klasse?",
+        "text": "Aus welchem Land bekommen die Grundlers regelmäßig Päckchen?",
         "pkte": 300,
         "val": 0,
         "superquestion": 0,
-        "picture": 1,
+        "picture": 0,
         "erledigt": 0
     },
     {
         "id": 13,
-        "text": "Was bekam man beim weltweit ersten Münzautomat für sein Geld?",
+        "text": "Welche Farbe hatte das Kleid an der Veranstaltung, bei der sich Conny und Christian kennen lernten?",
         "pkte": 300,
         "val": 0,
         "superquestion": 0,
@@ -137,7 +137,7 @@ module.exports = [
     {
         <!--Schätzfrage-->
         "id": 14,
-        "text": "Warum berichteten im August 2004 weltweit einige Zeitungen darüber, dass eine 13-jährige in China raucht und Passanten um Zigaretten anbettelt?",
+        "text": "Welche Schichtdicke kann Christians 3D Drucker minimal drucken?",
         "pkte": 300,
         "val": 0,
         "superquestion": 0,
@@ -147,7 +147,7 @@ module.exports = [
 
     {
         "id": 15,
-        "text": "Papst Franziskus ist Ehrenmitglied des Fußballvereins ...?",
+        "text": "Haben Conny und Christian bis zum 4. Grad gemeinsame Verwandte?",
         "pkte": 400,
         "val": 0,
         "superquestion": 0,
@@ -155,9 +155,9 @@ module.exports = [
         "erledigt": 0
     },
     {
-        <!-- Conny Frage -->
+        <!-- Schulzeit Frage -->
         "id": 16,
-        "text": "1999 sprach man vom Jahr-2000-Problem. Man befürchtete, dass zum Jahrtausendwechsel sämtliche Computer verrückt spielen. Tatsächlich gab es aber ein ganz anderes Jahr-2000-Problem, aber wo?",
+        "text": "Wie viele der hier anwesenden Hochzeitsgäste waren bereits mit Christian zusammen in der 1. Klasse?",
         "pkte": 400,
         "val": 0,
         "superquestion": 0,
@@ -165,9 +165,9 @@ module.exports = [
         "erledigt": 0
     },
     {
-        <!-- Christian Frage -->
+        <!-- Hobbies Frage -->
         "id": 17,
-        "text": "Am 21. Dezember 1992 kam ein Mann aus North Carolina auf mysteriöse Weise ums Leben nachdem sein Telefon klingelte. Was war passiert?",
+        "text": "Wer stand der kleinen Hexe Conny als Rabe Abraxas in Schwarzer Skiunterwäsche und großem Schnabel zur Seite?",
         "pkte": 400,
         "val": 0,
         "superquestion": 0,
@@ -176,7 +176,7 @@ module.exports = [
     },
     {
         "id": 18,
-        "text": "Wie hoch ist die Höchstleistung eines durchschnittlichen Pferdes in PS?",
+        "text": "Seit wie vielen Monaten sind Conny und Christian inzwischen zusammen? (+/– 1",
         "pkte": 400,
         "val": 0,
         "superquestion": 0,
@@ -186,7 +186,7 @@ module.exports = [
     {
         <!--Schätzfrage-->
         "id": 19,
-        "text": "Seit der deutschen Wiedervereinigung sind gigantische Beträge von West- nach Ostdeutschland geflossen, aber wieviel ist das, wenn man den gesamten Betrag durch die Einwohnerzahl Westdeutschlands teilt? Wieviel hat also quasi jeder einzelne Westdeutsche (bis 2013) in die neuen Bundesländer gezahlt??",
+        "text": "Wie viele Umdrehungen pro Minute schafft Connys Thermomix?",
         "pkte": 400,
         "val": 0,
         "superquestion": 0,
@@ -195,7 +195,7 @@ module.exports = [
     },
     {
         "id": 20,
-        "text": "Sind Conny und Christian auf die gleiche Konfession getauft?",
+        "text": " Luftlinie! Wie weit sind Connys und Christians Elternhäuser auseinander?",
         "pkte": 500,
         "val": 0,
         "superquestion": 0,
@@ -204,7 +204,7 @@ module.exports = [
     },
     {
         "id": 21,
-        "text": "Warum tragen die Herren auf dem Wiener Opernball weiße Fliegen?",
+        "text": "Welcher Lehrer prägte den Spruch „Geh‘ heim zur Mama auf die Bäume und spiel‘ mit Kokosnüssen?“,
         "pkte": 500,
         "val": 0,
         "superquestion": 0,
@@ -212,9 +212,9 @@ module.exports = [
         "erledigt": 0
     },
     {
-        <!-- Christian Frage -->
+        <!-- Hobbies Frage -->
         "id": 22,
-        "text": "Wie lautet die Hauptstadt von Frankreich?",
+        "text": "Wie viele James Bond DVD's besitzt Christian?",
         "pkte": 500,
         "val": 0,
         "superquestion": 0,
@@ -223,7 +223,7 @@ module.exports = [
     },
     {
         "id": 23,
-        "text": "Welcher Agent steht im Zusammenhang mit der \"Lizenz zum Töten\"",
+        "text": " Wozu haben Conny und Christian sich bei Ihrem einzigen richtigen Date verabredet?",
         "pkte": 500,
         "val": 0,
         "superquestion": 0,
@@ -233,7 +233,7 @@ module.exports = [
     {
         <!--Schätzfrage-->
         "id": 24,
-        "text": "Wie viele Flügel haben Fliegen?",
+        "text": "Wie viel Paar Sportschuhe hatten Conny und Christian am Nachmittag des 19. März vor ihrem Schuhregal am Hauseingang stehen?",
         "pkte": 500,
         "val": 0,
         "superquestion": 0,

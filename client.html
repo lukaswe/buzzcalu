@@ -67,13 +67,8 @@
             console.log("ist schon");
         } else {
 
-            //console.log("Neuanmeldung, als: " + $('#username').val());
-            document.getElementById("username").disabled = true;
-            document.getElementById("username").style = "visibility:hidden;";
-            document.getElementById("submit-btn").disabled = true;
-            document.getElementById("submit-btn").style = "visibility:hidden;";
-            //  obj = ({"id": mystorage.getItem('id'), 'nickname': $('#username').val(), "pkte": 0, "gameColor": "white"});
-            //   mystorage.setItem('obj', JSON.stringify(obj));
+            buttonVisibility();
+
             mystorage.setItem('playerName', $('#username').val());
             var id = Math.random();
             console.log('id: ' + id);
@@ -89,17 +84,19 @@
 
     };
 
-    socket.on('getPlayerObject', function (druecker, drueckerArray, questionArray) {
-    });
-
 
     function buttonVisibility() {
-        document.getElementById("username").disabled = true;
-        document.getElementById("username").style = "visibility:hidden;";
-        document.getElementById("submit-btn").disabled = true;
+        $('#username').prop('disabled', true);
+        $('#username').hide();
+        $('#submit-btn').prop('disabled', true);
+        $('#submit-btn').hide();
+        $('#buzzerBtn').show();
+        // document.getElementById("username").disabled = true;
+        // document.getElementById("username").style = "visibility:hidden;";
+        // document.getElementById("submit-btn").disabled = true;
         //   document.getElementById("subheading").style = "visibility:hidden;";
-        document.getElementById("submit-btn").style = "visibility:hidden;";
-        document.getElementById("buzzerBtn").style = "visibility:visible;";
+        // document.getElementById("submit-btn").style = "visibility:hidden;";
+        // document.getElementById("buzzerBtn").style = "visibility:visible;";
     }
 
 
@@ -117,13 +114,9 @@
     socket.on('playerList', function (playerObject, playerArray) {
         playerArray.forEach(function (playa) {
             if (mystorage.getItem('playerName') == playa.nickname) {
-                // mystorage.setItem('id', playerObject.id); //speichern eines Eintrags mit 2 Werten.
+                // mystorage.setItem('id', playerObject.id); //speichern eines Eintrags mit 2 Werten
 
-
-                //  keyName: Name des Eintrags
-                // keyValue: string mit zu speicherndem Eintrag
-                // console.log("PlayerObject: " + playerObject.nickname + ", " +playerObject.id + ", " + playerObject.color + ", " + playerObject.pkte);
-                document.getElementById("buzzerBtn").style = "visibility:visible;";
+          //      document.getElementById("buzzerBtn").style = "visibility:visible;";
                 $('#subheading').text("Sei bereit, " + playerObject.nickname + "!");
 
             } else {
