@@ -4,11 +4,16 @@
     <meta charset="UTF-8">
     <title>BuzzCaLu Overview Screen</title>
     <script src="/socket.io/socket.io.js"></script>
-    <script src="libraries/jquery-3.2.1.min.js"></script>
-    <script src="libraries/jquery.blink.js"></script>
-    <link href="styles/overview.css" type="text/css" rel="stylesheet">
-    <script src="libraries/zoomooz-master/jquery.zoomooz.js"></script>
-
+    <script src="../libraries/jquery-3.2.1.min.js"></script>
+    <script src="../libraries/jquery.blink.js"></script>
+    <link href="/styles/overview.css" type="text/css" rel="stylesheet">
+    <link href="/styles/animate.css" type="text/css" rel="stylesheet">
+    <script src="../libraries/zoomooz-master/jquery.zoomooz.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 
 <script>
@@ -21,7 +26,7 @@
         tdId = 0,
         indx = 0,
         prevTdId = 0,
-        imgChunks=[],
+        imgChunks = [],
         mystorage = localStorage;
 
 
@@ -41,6 +46,9 @@
              fillNameFields(playerArray);
          //    document.getElementById('grayout').style = "display: none";
          }else{alert("leer");}*/
+        $("body").toggleClass("question-inactive");
+        $("body").toggleClass("answer-inactive");
+
     });
 
 
@@ -71,8 +79,9 @@
         //  mystorage.setItem('playerArrayStorage', JSON.stringify(playerArray));
         //questionStartReconnect(questionArray);
         console.log("tdId:" + tdId + ", indx:" + indx);
-        if (tdId !== null){
-        questionStart2(questionArray, tdId, indx);}
+        if (tdId !== null) {
+            questionStart2(questionArray, tdId, indx);
+        }
 
         fillNameFields(playerArray);
         //window.location.reload();
@@ -99,27 +108,22 @@
     });
 
 
-    socket.on('trueAnswer', function (player, playerArray5, answerArray, tdId, indx) {
+    socket.on('trueAnswer', function (player, playerArray5, answerArray, tdId, indx, questionArray) {
         var img = document.getElementById('img-stream2');
         playerArray = playerArray5;
         //   console.log("[tdId]:   " + [tdId]);
         //   console.log("answerArray[tdId]:   " + answerArray[indx].text);
-        img.setAttribute('src', "");
+        // img.setAttribute('src', ""); Falls doch foto, wieder uncommenten
         answerStart(answerArray, tdId, indx);
         prevTdId = tdId;
         console.log('prevTdiDi: ' + prevTdId);
         fillNameFields(playerArray);
-        $('#erster-text').text("Wer ist dran?");
-
-        /*for (y = 0; y < 15; y++) {
-
-         document.getElementById("question" + y).style.height = 150 + "px";
-         document.getElementById("question" + y).style.width = 25 + "%";
-
-         }*/
-        //$('#question23').click();
-        //  document.getElementById('grayout').style="display: none";
+        $('#erster-text').text("...");
+        $('#richtig-text').text("Richtig!");
+        emptyLastQuestionInTable(questionArray);
     });
+
+
 
     socket.on('giveUp', function (playerArray5, answerArray, tdId, indx) {
         playerArray = playerArray5;
@@ -129,8 +133,8 @@
         prevTdId = tdId;
         console.log('prevTdiDi: ' + prevTdId);
         fillNameFields(playerArray);
-        $('#erster-text').text("Wer ist dran?");
-        document.getElementById('grayout').style = "display: none";
+        $('#erster-text').text("Niemand.");
+        emptyLastQuestionInTable(questionArray);
     });
 
 
@@ -141,11 +145,18 @@
         //       console.log("player.pkte: " + player.pkte);
         //  player.pkte = schnellster.pkte;
         $('#erster-text').text("Wer ist dran?");
+        $('#richtig-text').text("Falsch!");
         fillNameFields(playerArray9);
 
-        //    }
+    });
 
-        // });
+    socket.on('showTable', function () {
+
+        $("body").toggleClass("question-active");
+        $("body").toggleClass("question-inactive");
+        $("body").toggleClass("answer-inactive");
+
+
     });
 
 
@@ -159,7 +170,7 @@
         console.log('prevTdiDi: ' + prevTdId);
         fillNameFields(playerArray);
 
-        document.getElementById('grayout').style = "display: none";
+        // document.getElementById('grayout').style = "display: none";
     });
 
     socket.on('fastest player', function (player) {
@@ -177,16 +188,11 @@
 
 
     socket.on('showQuestion', function (questionArray, tdId2, indx2) {
-        //tdId = tdId2;
         console.log("tdId2: " + tdId2);
-        // console.log("qA: " + questionArray[indx].text);
-        // if (questionArray[indx].text == "Bild") {
-        //    bildStart(questionArray, tdId, indx);
-        // } else {
 
-        //   console.log("this.questionArray.val " + questionArray[indx].val);
+        $('#richtig-text').text("...");
+        $('#answer-text').text("...");
         questionStart2(questionArray, tdId2, indx2);
-        // }
     });
 
 
@@ -205,36 +211,26 @@
         //console.log("this.questionArray.val" + questionArray[indx].val);
         questionStart2(questionArray, tdId, indx);
     });
+
     /**BildübertragunG**/
     socket.on('showPicture', function (questionArray, tdId2, indx2, chunk) {
         var img = document.getElementById('img-stream2');
         imgChunks.push(chunk);
         console.log("Image loading");
         img.setAttribute('src', 'data:image/jpeg;base64,' + window.btoa(imgChunks));
-       /* que = '#question' + indx2;
-        console.log("$(que:)" + que);
+        /* que = '#question' + indx2;
+         console.log("$(que:)" + que);
 
-        tdId = tdId2;
-        indx = indx2;
-        if (prevTdId != 0) {
-            document.getElementById(prevTdId).innerHTML = '';
-        }*/
+         tdId = tdId2;
+         indx = indx2;
+         if (prevTdId != 0) {
+             document.getElementById(prevTdId).innerHTML = '';
+         }*/
         console.log("showPicture!!!");
         questionStart2(questionArray, tdId2, indx2);
-    //<img src="/pictures/1klasse.jpg" alt="1.Klasse" />
-       // window.location.assign('/picturing')
+        //<img src="/pictures/1klasse.jpg" alt="1.Klasse" />
+        // window.location.assign('/picturing')
     });
-
-
-    /*socket.on('img-chunk', function (chunk) {
-        var img = document.getElementById('img-stream2');
-        imgChunks.push(chunk);
-        console.log("Image loading");
-        img.setAttribute('src', 'data:image/jpeg;base64,' + window.btoa(imgChunks));
-
-    });*/
-
-
 
     socket.on('showNothing', function (questionArray, tdId, indx) {
         console.log("qA: " + questionArray[indx].text + " , " + questionArray[indx].val);
@@ -247,51 +243,37 @@
 
     /**Antwort in Tabelle eintragen**/
     function answerStart(answerArray, tdId, indx) {
-        document.getElementById(tdId).innerHTML = answerArray[indx];
+        // document.getElementById('questionSpaceBoxId').innerHTML = answerArray[indx];
+        $('#answer-text').text(answerArray[indx]);
 
     }
 
     /** Frage in Tabelle eintragen **/
     function questionStart2(questionArray, tdId, indx) {
-        //  console.log("j: " + this.j);
-        // var question = questionArray[indx];
-        // console.log("question: " + question.text);
-        //   console.log("question2: " + questionArray[indx].text);
-        //   console.log("tdId:: " + tdId);
 
-        document.getElementById('questionSpaceBoxId').innerHTML = questionArray[indx].text;
-       // document.getElementById(tdId).innerHTML = questionArray[indx].text;
+        // document.getElementById('questionSpaceBoxId').innerHTML = questionArray[indx].text;
+        $('#questionSpaceBoxId').text(questionArray[indx].text);
+
+        $("body").toggleClass("question-active");
+        console.log("  $(body).toggleClass(question-inactive);");
+        $("body").toggleClass("question-inactive");
+        $("body").toggleClass("answer-inactive");
+
+    }
+
+    function emptyLastQuestionInTable(questionArray) {
         /** letztes Fragenfeld leeren**/
         questionArray.forEach(function (question) {
             if (question.erledigt === 1) {
-                console.log(question.text + "erledigt mit nummer: "+ question.id +'Diese Frage ist schon beantwortet: ' );
+                console.log(question.text + "erledigt mit nummer: " + question.id + 'Diese Frage ist schon beantwortet: ');
+                // $('#question' + question.id.text(""));
                 document.getElementById('question' + question.id).innerHTML = '';
             }
 
             // document.getElementById('question'+question.id).innerHTML = question.text;
         });
-
     }
 
-    function questionStartReconnect(questionArray) {
-        //  console.log("j: " + this.j);
-        // var question = questionArray[indx];
-        // console.log("question: " + question.text);
-        //   console.log("question2: " + questionArray[indx].text);
-        //   console.log("tdId:: " + tdId);
-
-        /** letztes Fragenfeld leeren**/
-        questionArray.forEach(function (question) {
-
-            if (question.erledigt === 1) {
-                console.log("erledigte Fragen im questionStartReconnect: " + question.text);
-                document.getElementById('question' + question.id).innerHTML = '';
-            }
-        });
-        //  document.getElementById(tdId).innerHTML = question.text;
-
-
-    }
 
 
     /**Blaue Namensfelder werden befüllt**/
@@ -299,10 +281,11 @@
         i = 0;
         console.log("hmmm");
         playerArray2.forEach(function (player) {
-            $('#player' + i + '-name').text(player.nickname + '    ' + player.pkte);
+            $('#player' + i + '-name').text(player.nickname);
+            $('#player' + i + '-pkte').text(player.pkte);
 
             document.getElementById("player" + i + "-name").style = "visibility:visible";
-            document.getElementById("player" + i + "-name").style.backgroundColor = player.color;
+            // document.getElementById("player" + i + "-name").style.backgroundColor = player.color;
 
             i += 1;
         });
@@ -310,49 +293,43 @@
     }
 
 
-
 </script>
 
 
 <body>
-<!--<div id="grayout" style="display: none;"></div>-->
 
-<!--<a href="#" id=grayout onclick="$('#grayout').toggle(900); return false;">GrayOut</a>-->
-<!--Zoom Classen-->
-<!--
-<div class="zoomViewport">
-    <div class="zoomContainer">
-
-        <div class="zoomTarget" data-closeclick="true data-targetsize="1" id="question20">100</div>
-        <div class="zoomTarget" data-closeclick="true data-targetsize="1" id="question21">100</div>
-        <div class="zoomTarget" data-closeclick="true data-targetsize="1" id="question22">100</div>
-        <div class="zoomTarget" data-closeclick="true data-targetsize="1" id="question23">100</div>
-
+<div class="container mt-5 ml-5 pl-5">
+    <div class="row mt-5 ml-5">
+        <div class="col-sm-6">
+            <div class="row">
+                <div class="col-sm-6">
+                    <h3>Wer ist dran? </h3></div>
+                <div class="col-sm-6">
+                    <h3 id="erster-text"> ... </h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="row">
+                <div class="col-sm-6">
+                    <h3>Die Antwort ist: </h3></div>
+                <div class="col-sm-6">
+                    <h3 id="richtig-text"> ...</h3>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
--->
 
-<!--<div><h1 id="heins">Wer ist dran?</h1></div>-->
-<!--<div id="erster">-->
-<!--<div><h1 id="heins">Wer ist dran?</h1></div>-->
-<!--<div id="erster">-->
-    <!--<h3 id="erster-text"> ... </h3>-->
-    <!--&lt;!&ndash; BilderÜbertragun&ndash;&gt;-->
-    <!--<img id="img-stream2" src ="" />-->
-<!--</div>-->
-<div class="obererBereich">
-    <!--<div id="erster">-->
-    <div class="erster">
-        <h3 >Wer ist dran? </h3>
-        <h3 id="erster-text"> ... </h3>
-        <!-- BilderÜbertragun-->
-        <img id="img-stream2" src ="" />
-    </div>
+
+<!-- BilderÜbertragun-->
+<!--<img id="img-stream2" src=""/>-->
+</div>
 
 <!--Fragen Tabelle-->
 
-
-    <table id="playerTable" class="tableContainer-css">
+<div class="container mt-5 ml-5 pl-5">
+    <table id="playerTable" class="table question-table animated zoomInDown ">
         <thead>
         <tr>
             <th>Familie</th>
@@ -367,10 +344,6 @@
         <tbody id="ctbody">
         <tr>
 
-            <!--   <td class="zoomTarget" id="question0">100</td>
-             <td class="zoomTarget" id="question1">100</td>
-             <td class="zoomTarget" id="question2">100</td>
-             <td class="zoomTarget" id="question3">100</td>-->
             <td class="questionBoxes-css" id="question0">100</td>
             <td class="questionBoxes-css" id="question1">100</td>
             <td class="questionBoxes-css" id="question2">100</td>
@@ -416,26 +389,71 @@
         </tbody>
 
     </table>
-
-
 </div>
 
 
+<div class="container  mt-5 ml-5 pl-5">
+    <div class="questionSpaceBox-css animated zoomInDown ">
+        <div class="row">
+            <div class="col-sm-12 questionBoxes-css" id="questionSpaceBoxId">
 
+            </div>
 
-    <div class="questionSpaceBox-css" id="questionSpaceBoxId"></div>
+            <div class="col-sm-2">
+            </div>
 
+        </div>
+    </div>
+</div>
 
+<div class="container pt-5 mt-5">
+    <div class="answerField">
+        <div class="row">
+            <div class="col-lg-1">
+
+            </div>
+            <div class="col-lg-11" style="font-size: 25px">
+                <div id="answer-text">
+                    ...
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- beigetretene Spieler Anzeige -->
 <div class="playerNameContainer" id=playerNameContainerId>
-    <div class="playerNameBoxes-css" id="player0-name">Enjoy</div>
-    <div class="playerNameBoxes-css" id="player1-name">Enjoy</div>
-    <div class="playerNameBoxes-css" id="player2-name">Enjoy</div>
-    <div class="playerNameBoxes-css" id="player3-name">Enjoy</div>
-    <div class="playerNameBoxes-css" id="player4-name">Enjoy</div>
-</div>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-2">
 
+                <div class="playerNameBoxes-css" id="player0-name">Mitspieler1</div>
+                <div class="playerNameBoxes2-css" id="player0-pkte">0</div>
+            </div>
+            <div class="col-sm-2">
+                <div class="playerNameBoxes-css" id="player1-name">Mitspieler2</div>
+                <div class="playerNameBoxes2-css" id="player1-pkte">0</div>
+            </div>
+            <div class="col-sm-2">
+                <div class="playerNameBoxes-css" id="player2-name">Mitspieler3</div>
+                <div class="playerNameBoxes2-css" id="player2-pkte">0</div>
+            </div>
+            <div class="col-sm-2">
+                <div class="playerNameBoxes-css" id="player3-name">Mitspieler4</div>
+                <div class="playerNameBoxes2-css" id="player3-pkte">0</div>
+            </div>
+            <div class="col-sm-2">
+                <div class="playerNameBoxes-css" id="player4-name">Mitspieler5</div>
+                <div class="playerNameBoxes2-css" id="player4-pkte">0</div>
+            </div>
+            <div class="col-sm-2">
+                <div class="playerNameBoxes-css" id="player5-name">Mitspieler6</div>
+                <div class="playerNameBoxes2-css" id="player5-pkte">0</div>
+            </div>
+
+        </div>
+    </div>
+</div>
 
 </body>
 </html>

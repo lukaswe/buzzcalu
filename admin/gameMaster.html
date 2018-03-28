@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <title>BuzzCaLu GameMaster Screen</title>
     <script src="/socket.io/socket.io.js"></script>
-    <script src="libraries/jquery-3.2.1.min.js"></script>
-    <link href="public/styles/gameMaster.css" type="text/css" rel="stylesheet">
+    <script src="/libraries/jquery-3.2.1.min.js"></script>
+    <link href="/styles/gameMaster.css" type="text/css" rel="stylesheet">
 </head>
 
 
@@ -260,7 +260,7 @@
 
     function giveUp() {
         socket.emit('giveUp')
-
+        pause();
         $('#schnellster-text').text("Niemand.");
         document.getElementById("rightAnswer").disabled = true;
         document.getElementById("wrongAnswer").disabled = true;
@@ -277,6 +277,10 @@
 
     }
     ;
+
+    function showTable(){
+        socket.emit('showTable');
+    }
 
     socket.on('trueAnswer', function (winner, playerArray, answerArray, tdId, indx, questionArray) {
         schnellster = winner;
@@ -384,41 +388,13 @@
         disableQuestions();
     };
 
-    function disableQuestions(){
+    function disableQuestions() {
         console.log('disable');
-        for(var i = 0 ; i<=24; i++) {
-            $('#question0').prop('disabled',true);
-        };
+        for (var i = 0; i <= 24; i++) {
+            $('#question0').prop('disabled', true);
+        }
+        ;
     }
-    /* function showQuestion(tdId2) {
-         var questionArray = JSON.parse(mystorage.getItem('questionArrayStorage'));
-         tdId = tdId2;
-         /!**Hier anzahl der fragen anpassen**!/
-         //for (var anzahlDerFragen = 0; anzahlDerFragen < 16; anzahlDerFragen ++) {
-         if (tdId.length < 10) {
-             indx = tdId2.substring(tdId2.length - 1, tdId2.length);
-         } else {
-             indx = tdId2.substring(tdId2.length - 2, tdId2.length);
-         }
-
-         //NICht nur show question sondern auch BuzzerEnablen
-
- //        console.log("this.questionArray.val: " + questionArray[indx].val);
-         if (questionArray[indx].erledigt == 0) {
-             if (questionArray[indx].val % 2 == 1) {
-                 socket.emit('showNothing', questionArray, tdId2, indx);
-                 document.getElementById(tdId).innerHTML = "erledigt";
-             } else {
-                 socket.emit('showQuestion', questionArray, tdId2, indx);
-             }
-             currentQuestionObj = questionArray[indx];
-             questionArray[indx].val += 1;
-             questionArray[indx].erledigt = 1;
-         } else {
-             console.log("Die Frage ist schon erledigt.")
-         }
-         mystorage.setItem('questionArrayStorage',JSON.stringify( questionArray));
-     }*/
 
 
     socket.on('showQuestion', function (questionArray, tdId2, indx2) {
@@ -433,156 +409,243 @@
         console.log(" showSuperQuestion ");
     });
 
-    function play(){
+    // Audio Wiedergabe
+    function play() {
         var audio = document.getElementById("audio");
         audio.play();
     }
 
-        function pause(){
-            var audio = document.getElementById("audio");
-            audio.pause();
-            audio.currentTime = 0;
+    function pause() {
+        var audio = document.getElementById("audio");
+        audio.pause();
+        audio.currentTime = 0;
     }
 
 
 </script>
 <body>
-<input type="button" value="PLAY"  onclick="play()">
-<input type="button" value="PAUSE"  onclick="pause()">
-<audio id="audio" src="/JeopardyTheme.mp3" ></audio>
-<div class=Kopf>
-    <!--Teilnehmer Tabelle-->
-    <div class="col-lg-5" >
-        <h1 id="heins">Wer ist dabei?</h1>
-        <table id="playerTable" class="dataList table">
-            <thead>
-            <tr>
-                <th style="padding-right: 40px">Name</th>
-                <th style="padding-right: 40px">Punktzahl</th>
-                <th style="padding-right: 40px">Farbe</th>
-                <th style="padding-right: 40px">Kick it</th>
+<!--<input type="button" value="PLAY" onclick="play()">-->
+<!--<input type="button" value="PAUSE" onclick="pause()">-->
+<audio id="audio" src="/JeopardyTheme.mp3"></audio>
+<div class="container-fluid">
+    <div class="row">
 
-                <!--  <th style="padding-right: 25px">xoxo</th>
-                  <th style="padding-right: 25px"></th>-->
+        <!--<div class=Kopf>-->
+        <!--Teilnehmer Tabelle-->
+        <div class="col-lg-6">
+            <h1 id="heins">Wer ist dabei?</h1>
+            <table id="playerTable">
+                <thead>
+                <tr>
+                    <th style="padding-right: 40px">Name</th>
+                    <th style="padding-right: 40px">Punktzahl</th>
+                    <th style="padding-right: 40px">Farbe</th>
+                    <th style="padding-right: 40px">Kick it</th>
 
-            </tr>
-            </thead>
-            <tbody id="ctbody">
-            <tr>
-                <td style="padding-right: 60px"></td>
-                <td style="padding-right: 80px"></td>
-                <td style="padding-right: 80px"></td>
-                <!--   <td style="padding-right: 25px"></td>
-                   <td style="padding-right: 25px"></td>-->
+                    <!--  <th style="padding-right: 25px">xoxo</th>
+                      <th style="padding-right: 25px"></th>-->
 
-            </tr>
+                </tr>
+                </thead>
+                <tbody id="ctbody">
+                <tr>
+                    <td style="padding-right: 60px"></td>
+                    <td style="padding-right: 80px"></td>
+                    <td style="padding-right: 80px"></td>
+                    <!--   <td style="padding-right: 25px"></td>
+                       <td style="padding-right: 25px"></td>-->
 
-
-            </tbody>
-
-            <!-- Placeholder -->
-        </table>
-        <h3 id="schnellster-text"> ... </h3>
-    </div>
+                </tr>
 
 
+                </tbody>
 
+                <!-- Placeholder -->
+            </table>
+            <h3> schnellster: </h3>
+            <h3 id="schnellster-text"> ... </h3>
+        </div>
 
-    <!--<form action="">
-      <input id="m" autocomplete="off" /><br>-->
-    <div class="answbtns">
-        <button class = 'buttons'
-                type="button"
-                id="rightAnswer"
-                onclick="trueAnswer()">Right
-        </button>
-        <br>
+        <div class="col-sm-6">
 
-        <button class = 'buttons'
-                type="button"
-                id="wrongAnswer"
-                onclick="wrongAnswer()">Wrong
-        </button>
-        <br>
-        <button class = 'buttons'
-                type="button"
-                id="giveUp"
-                onclick="giveUp()">Give Up
-        </button>
+            <!--<form action="">
+              <input id="m" autocomplete="off" /><br>-->
+
+            <div class="row">
+                <div class="col-sm-3">
+                    <!--<div class="answbtns">-->
+                    <button class='buttons'
+                            type="button"
+                            id="rightAnswer"
+                            onclick="trueAnswer()">Right
+                    </button>
+                    <br>
+                </div>
+                <div class="col-sm-3">
+                    <button class='buttons'
+                            type="button"
+                            id="wrongAnswer"
+                            onclick="wrongAnswer()">Wrong
+                    </button>
+                    <br>
+                </div>
+                <div class="col-sm-3">
+                    <button class='buttons'
+                            type="button"
+                            id="giveUp"
+                            onclick="giveUp()">Give Up
+                    </button>
+                </div>
+                <div class="col-sm-3">
+                    <button class='buttons'
+                            type="button"
+                            id="showTable"
+                            onclick="showTable()">showTable
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
+<!--</div><div class=Kopf>-->
+<!--&lt;!&ndash;Teilnehmer Tabelle&ndash;&gt;-->
+<!--<div class="col-lg-5" >-->
+<!--<h1 id="heins">Wer ist dabei?</h1>-->
+<!--<table id="playerTable" class="dataList table">-->
+<!--<thead>-->
+<!--<tr>-->
+<!--<th style="padding-right: 40px">Name</th>-->
+<!--<th style="padding-right: 40px">Punktzahl</th>-->
+<!--<th style="padding-right: 40px">Farbe</th>-->
+<!--<th style="padding-right: 40px">Kick it</th>-->
+
+<!--&lt;!&ndash;  <th style="padding-right: 25px">xoxo</th>-->
+<!--<th style="padding-right: 25px"></th>&ndash;&gt;-->
+
+<!--</tr>-->
+<!--</thead>-->
+<!--<tbody id="ctbody">-->
+<!--<tr>-->
+<!--<td style="padding-right: 60px"></td>-->
+<!--<td style="padding-right: 80px"></td>-->
+<!--<td style="padding-right: 80px"></td>-->
+<!--&lt;!&ndash;   <td style="padding-right: 25px"></td>-->
+<!--<td style="padding-right: 25px"></td>&ndash;&gt;-->
+
+<!--</tr>-->
+
+
+<!--</tbody>-->
+
+<!--&lt;!&ndash; Placeholder &ndash;&gt;-->
+<!--</table>-->
+<!--<h3 id="schnellster-text"> ... </h3>-->
+<!--</div>-->
+
+
+<!--&lt;!&ndash;<form action="">-->
+<!--<input id="m" autocomplete="off" /><br>&ndash;&gt;-->
+<!--<div class="answbtns">-->
+<!--<button class = 'buttons'-->
+<!--type="button"-->
+<!--id="rightAnswer"-->
+<!--onclick="trueAnswer()">Right-->
+<!--</button>-->
+<!--<br>-->
+
+<!--<button class = 'buttons'-->
+<!--type="button"-->
+<!--id="wrongAnswer"-->
+<!--onclick="wrongAnswer()">Wrong-->
+<!--</button>-->
+<!--<br>-->
+<!--<button class = 'buttons'-->
+<!--type="button"-->
+<!--id="giveUp"-->
+<!--onclick="giveUp()">Give Up-->
+<!--</button>-->
+<!--</div>-->
+<!--</div>-->
 
 <!--Fragen Tabelle-->
-<div class="questionContainer2-css">
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12">
+            <!--<div class="questionContainer2-css">-->
 
-    <table id="questionTable" class="questionUeberschrift-css">
-        <thead>
-        <tr>
-            <th style="padding-left: 25px">Familie</th>
-            <th style="padding-left: 25px">Schulzeit</th>
-            <th style="padding-left: 25px">Hobbies</th>
-            <th style="padding-left: 25px">Beziehung</th>
-            <th style="padding-left: 25px">Schätzfrage</th>
+                <table id="questionTable" class="questionUeberschrift-css">
+                    <thead>
+                    <tr>
+                        <th style="padding-left: 25px">Familie</th>
+                        <th style="padding-left: 25px">Schulzeit</th>
+                        <th style="padding-left: 25px">Hobbies</th>
+                        <th style="padding-left: 25px">Beziehung</th>
+                        <th style="padding-left: 25px">Schätzfrage</th>
 
-        </tr>
-        </thead>
-        <tbody id="ctbody2">
-        <tr>
+                    </tr>
+                    </thead>
+                    <tbody id="ctbody2">
+                    <tr>
 
-            <!--  <td class="questionBoxes-css" id="question-text0" style="visibility:hidden;">Question</td>-->
-            <td type="button" class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question0">100</td>
-            <td type="button" class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question1">100</td>
-            <td class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question2">100</td>
-            <td class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question3">100</td>
-            <td class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question4">100</td>
-        </tr>
-        <tr>
-            <td class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question5">200</td>
-            <td class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question6">200</td>
-            <td class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question7">200</td>
-            <td class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question8">200</td>
-            <td class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question9">200</td>
-        </tr>
-        <tr>
-            <td class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question10">300</td>
-            <td class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question11">300</td>
-            <td class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question12">300</td>
-            <td class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question13">300</td>
-            <td class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question14">300</td>
+                        <!--  <td class="questionBoxes-css" id="question-text0" style="visibility:hidden;">Question</td>-->
+                        <td type="button" class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question0">
+                            100
+                        </td>
+                        <td type="button" class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question1">
+                            100
+                        </td>
+                        <td class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question2">100</td>
+                        <td class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question3">100</td>
+                        <td class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question4">100</td>
+                    </tr>
+                    <tr>
+                        <td class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question5">200</td>
+                        <td class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question6">200</td>
+                        <td class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question7">200</td>
+                        <td class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question8">200</td>
+                        <td class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question9">200</td>
+                    </tr>
+                    <tr>
+                        <td class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question10">300</td>
+                        <td class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question11">300</td>
+                        <td class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question12">300</td>
+                        <td class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question13">300</td>
+                        <td class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question14">300</td>
 
-        </tr>
-        <tr>
-            <td class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question15">400</td>
-            <td class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question16">400</td>
-            <td class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question17">400</td>
-            <td class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question18">400</td>
-            <td class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question19">400</td>
-
-
-        </tr>
-        <tr>
-            <td class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question20">500</td>
-            <td class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question21">500</td>
-            <td class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question22">500</td>
-            <td class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question23">500</td>
-            <td class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question24">500</td>
+                    </tr>
+                    <tr>
+                        <td class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question15">400</td>
+                        <td class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question16">400</td>
+                        <td class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question17">400</td>
+                        <td class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question18">400</td>
+                        <td class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question19">400</td>
 
 
-        </tr>
+                    </tr>
+                    <tr>
+                        <td class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question20">500</td>
+                        <td class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question21">500</td>
+                        <td class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question22">500</td>
+                        <td class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question23">500</td>
+                        <td class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question24">500</td>
 
 
-        </tbody>
+                    </tr>
 
-        <!-- Placeholder -->
-    </table>
 
+                    </tbody>
+
+                    <!-- Placeholder -->
+                </table>
+
+            <!--</div>-->
+        </div>
+    </div>
 </div>
-
-
-
 
 
 <!--<button type = "submit">Buzz!</button>
-</form>--></body>
+</form>-->
+</body>
 
 

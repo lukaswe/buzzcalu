@@ -2,8 +2,8 @@
 
 body {
     font-family: 'Fjalla One', sans-serif;
-    background: linear-gradient(to bottom, #405166 0%, #656f6f 100%);
-
+    background: linear-gradient(to bottom, #405166 0%, #656f6f 100%) no-repeat center center fixed;
+    height: 100vh;
 }
 
 

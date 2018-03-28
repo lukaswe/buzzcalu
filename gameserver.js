@@ -1,8 +1,11 @@
 /**
  * Created by Caro on 07.09.17.
  */
+var express =require('express');
+var app = express();
 
-var app = require('express')();
+var basicAuth = require('basic-auth-connect');
+
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
 /*
@@ -61,250 +64,21 @@ var answerArray = [
         "20",
         "Kochen",
         "1 Paar",
-    ],
+    ];
 
-    questionArray = [
-        {
-            "id": 0,
-            "text": "Sind Conny und Christian auf die gleiche Konfession getauft?",
-            "pkte": 100,
-            "val": 0,
-            "superquestion": 0,
-            "picture": 1,
-            "erledigt": 0
-        },
-        {
-            "id": 1,
-            "text": "Warum tragen die Herren auf dem Wiener Opernball weiße Fliegen?",
-            "pkte": 100,
-            "val": 0,
-            "superquestion": 0,
-            "picture": 0,
-            "erledigt": 0
-        },
-        {
-            <!-- Christian Frage -->
-            "id": 2,
-            "text": "Wie lautet die Hauptstadt von Frankreich?",
-            "pkte": 100,
-            "val": 0,
-            "superquestion": 0,
-            "picture": 0,
-            "erledigt": 0
-        },
-        {
-            "id": 3,
-            "text": "Welcher Agent steht im Zusammenhang mit der \"Lizenz zum Töten\"",
-            "pkte": 100,
-            "val": 0,
-            "superquestion": 0,
-            "picture": 0,
-            "erledigt": 0
-        },
-        {
-            <!--Schätzfrage-->
-            "id": 4,
-            "text": "Wie viele Flügel haben Fliegen?",
-            "pkte": 100,
-            "val": 0,
-            "superquestion": 0,
-            "picture": 0,
-            "erledigt": 0
-        },
-
-        {
-            "id": 5,
-            "text": "Welches der unten genannten Lebensmittel enthält am meisten Eisen? - Rindfleich, -Spinar, -Schokolade",
-            "pkte": 200,
-            "val": 0,
-            "superquestion": 0,
-            "picture": 0,
-            "erledigt": 0
-        },
-        {
-            <!-- Conny Frage -->
-            "id": 6,
-            "text": "Wer war als Tontechniker für die Ich bin ein Berliner-Rede von John F. Kennedy verantwortlich ?",
-            "pkte": 200,
-            "val": 0,
-            "superquestion": 0,
-            "picture": 0,
-            "erledigt": 0
-        },
-        {
-            <!-- Christian Frage -->
-            "id": 7,
-            "text": "Wodurch \"trocknet\" Sekundenkleber?",
-            "pkte": 200, "val": 0, "superquestion": 0,
-            "picture": 0,
-            "erledigt": 0
-        },
-        {
-            "id": 8,
-            "text": "Warum macht ein Ukrainer namens \"Leonid Stadnik\" keine Diät, obwohl er 210 kg wiegt?",
-            "pkte": 200,
-            "val": 0,
-            "superquestion": 0,
-            "picture": 0,
-            "erledigt": 0
-        },
-        {
-            <!--Schätzfrage-->
-            "id": 9,
-            "text": "In welcher europäischen Stadt gibt es die meisten Brücken?",
-            "pkte": 200,
-            "val": 0,
-            "superquestion": 0,
-            "picture": 0,
-            "erledigt": 0
-        },
-
-        {
-            "id": 10,
-            "text": "Was hat das Münchener Oktoberfest im Gegensatz zu anderen Volksfesten zu bieten?",
-            "pkte": 300,
-            "val": 0,
-            "superquestion": 0,
-            "picture": 0,
-            "erledigt": 0
-        },
-        {
-            <!-- Conny Frage -->
-            "id": 11,
-            "text": "Wovon bekommen wir die meiste radioaktive Strahlung ab?",
-            "pkte": 300,
-            "val": 0,
-            "superquestion": 0,
-            "picture": 0,
-            "erledigt": 0
-        },
-        {
-            <!-- Christian Frage -->
-            "id": 12,
-            "text": "Wie viele der hier anwesenden Hochzeitsgäste waren bereits mit Christian zusammen in der 1. Klasse?",
-            "pkte": 300,
-            "val": 0,
-            "superquestion": 0,
-            "picture": 1,
-            "erledigt": 0
-        },
-        {
-            "id": 13,
-            "text": "Was bekam man beim weltweit ersten Münzautomat für sein Geld?",
-            "pkte": 300,
-            "val": 0,
-            "superquestion": 0,
-            "picture": 0,
-            "erledigt": 0
-        },
+   // var questionArray = [];
+   var questionArray = require('./data/querstions');
 
 
-        {
-            <!--Schätzfrage-->
-            "id": 14,
-            "text": "Warum berichteten im August 2004 weltweit einige Zeitungen darüber, dass eine 13-jährige in China raucht und Passanten um Zigaretten anbettelt?",
-            "pkte": 300,
-            "val": 0,
-            "superquestion": 0,
-            "picture": 0,
-            "erledigt": 0
-        },
 
-        {
-            "id": 15,
-            "text": "Papst Franziskus ist Ehrenmitglied des Fußballvereins ...?",
-            "pkte": 400,
-            "val": 0,
-            "superquestion": 0,
-            "picture": 0,
-            "erledigt": 0
-        },
-        {
-            <!-- Conny Frage -->
-            "id": 16,
-            "text": "1999 sprach man vom Jahr-2000-Problem. Man befürchtete, dass zum Jahrtausendwechsel sämtliche Computer verrückt spielen. Tatsächlich gab es aber ein ganz anderes Jahr-2000-Problem, aber wo?",
-            "pkte": 400,
-            "val": 0,
-            "superquestion": 0,
-            "picture": 0,
-            "erledigt": 0
-        },
-        {
-            <!-- Christian Frage -->
-            "id": 17,
-            "text": "Am 21. Dezember 1992 kam ein Mann aus North Carolina auf mysteriöse Weise ums Leben nachdem sein Telefon klingelte. Was war passiert?",
-            "pkte": 400,
-            "val": 0,
-            "superquestion": 0,
-            "picture": 0,
-            "erledigt": 0
-        },
-        {
-            "id": 18,
-            "text": "Wie hoch ist die Höchstleistung eines durchschnittlichen Pferdes in PS?",
-            "pkte": 400,
-            "val": 0,
-            "superquestion": 0,
-            "picture": 0,
-            "erledigt": 0
-        },
-        {
-            <!--Schätzfrage-->
-            "id": 19,
-            "text": "Seit der deutschen Wiedervereinigung sind gigantische Beträge von West- nach Ostdeutschland geflossen, aber wieviel ist das, wenn man den gesamten Betrag durch die Einwohnerzahl Westdeutschlands teilt? Wieviel hat also quasi jeder einzelne Westdeutsche (bis 2013) in die neuen Bundesländer gezahlt??",
-            "pkte": 400,
-            "val": 0,
-            "superquestion": 0,
-            "picture": 0,
-            "erledigt": 0
-        },
-        {
-            "id": 20,
-            "text": "Sind Conny und Christian auf die gleiche Konfession getauft?",
-            "pkte": 500,
-            "val": 0,
-            "superquestion": 0,
-            "picture": 1,
-            "erledigt": 0
-        },
-        {
-            "id": 21,
-            "text": "Warum tragen die Herren auf dem Wiener Opernball weiße Fliegen?",
-            "pkte": 500,
-            "val": 0,
-            "superquestion": 0,
-            "picture": 0,
-            "erledigt": 0
-        },
-        {
-            <!-- Christian Frage -->
-            "id": 22,
-            "text": "Wie lautet die Hauptstadt von Frankreich?",
-            "pkte": 500,
-            "val": 0,
-            "superquestion": 0,
-            "picture": 0,
-            "erledigt": 0
-        },
-        {
-            "id": 23,
-            "text": "Welcher Agent steht im Zusammenhang mit der \"Lizenz zum Töten\"",
-            "pkte": 500,
-            "val": 0,
-            "superquestion": 0,
-            "picture": 0,
-            "erledigt": 0
-        },
-        {
-            <!--Schätzfrage-->
-            "id": 24,
-            "text": "Wie viele Flügel haben Fliegen?",
-            "pkte": 500,
-            "val": 0,
-            "superquestion": 0,
-            "picture": 0,
-            "erledigt": 0
-        }];
+
+var router = express.Router();
+router.use(basicAuth('admin', 'test1234'));
+router.use(express.static('admin'));
+
+app.use(express.static('public'));
+app.use(express.static('js'));
+app.use('/admin/',router);
 
 
 app.get('/', function (req, res) {
@@ -315,11 +89,6 @@ app.get('/spass', function (req, res) {
     res.sendFile(__dirname + '/spass.html');
 });
 
-
-/**Html seiten einbinden**/
-app.get('/overview', function (req, res) {
-    res.sendFile(__dirname + '/overview.html');
-});
 
 app.get('/gamemaster', function (req, res) {
     res.sendFile(__dirname + '/gameMaster.html');
@@ -333,8 +102,9 @@ app.get('/picturing', function (req, res) {
     res.sendFile(__dirname + '/picturing.html');
 });
 
+
 /**zu html seiten zugehörige .css Dateien einbinden**/
-app.get('/styles/overview.css', function (req, res) {
+/*app.get('/styles/overview.css', function (req, res) {
     res.sendFile(__dirname + '/styles/overview.css');
 });
 
@@ -348,8 +118,13 @@ app.get('/styles/gameMaster.css', function (req, res) {
 app.get('/styles/picturing.css', function (req, res) {
     res.sendFile(__dirname + '/styles/picturing.css');
 });
+app.get('/styles/animate.css', function (req, res) {
+    res.sendFile(__dirname + '/styles/animate.css');
+});*/
+
 
 /**zu html seiten zugehörige .js Dateien einbinden**/
+/*
 app.get('/js/client.js', function (req, res) {
     res.sendFile(__dirname + '/js/client.js');
 });
@@ -359,6 +134,7 @@ app.get('/js/gameMaster.js', function (req, res) {
 app.get('/js/overview.js', function (req, res) {
     res.sendFile(__dirname + '/js/overview.js');
 });
+*/
 
 /**Libraries einbinden**/
 app.get('/libraries/zoomooz-master/jquery.zoomooz.js', function (req, res) {
@@ -720,6 +496,14 @@ io.on('connection', function (client) {
             x = 0;
         });
 
+        client.on('showTable', function () {
+
+            //var  schnellster2 = document.getElementById("schnellster-text").innerText();
+            // socket.emit('showNothing', questionArray, tdId, indx);
+
+
+            io.emit('showTable');
+        });
 
         client.on('wrongAnswer', function (fastestPlayer) {
             console.log("in wrongAnswer, playerArray[0].nickname:  " + fastestPlayer.id);
