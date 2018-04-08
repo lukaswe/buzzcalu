@@ -9,6 +9,9 @@
     <!--<script src="http://localhost:3000/node_modules/socket.io-client/dist/socket.io.js"></script>-->
     <!--<script src="/node_modules/socket.io-client/dist/socket.io.js"></script>-->
     <!--    <link href="styles/overview.css" rel="stylesheet">-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
     <script language="javascript" type="text/javascript" src="js/client.js"></script>
 
 </head>
@@ -90,13 +93,13 @@
         $('#username').hide();
         $('#submit-btn').prop('disabled', true);
         $('#submit-btn').hide();
-        $('#buzzerBtn').show();
+        // $('#buzzerBtn').show();
         // document.getElementById("username").disabled = true;
         // document.getElementById("username").style = "visibility:hidden;";
         // document.getElementById("submit-btn").disabled = true;
-        //   document.getElementById("subheading").style = "visibility:hidden;";
+          // document.getElementById("subheading").style = "visibility:hidden;";
         // document.getElementById("submit-btn").style = "visibility:hidden;";
-        // document.getElementById("buzzerBtn").style = "visibility:visible;";
+        document.getElementById("buzzerBtn").style = "visibility:visible;";
     }
 
 
@@ -116,7 +119,7 @@
             if (mystorage.getItem('playerName') == playa.nickname) {
                 // mystorage.setItem('id', playerObject.id); //speichern eines Eintrags mit 2 Werten
 
-          //      document.getElementById("buzzerBtn").style = "visibility:visible;";
+                //      document.getElementById("buzzerBtn").style = "visibility:visible;";
                 $('#subheading').text("Sei bereit, " + playerObject.nickname + "!");
 
             } else {
@@ -155,12 +158,14 @@
     socket.on('trueAnswer', function (druecker, drueckerArray, questionArray) {
         console.log("meine id in true: " + mystorage.getItem('id'));
         console.log(druecker.nickname + " kriegt Punkte!!");
+        $('#buzzerBtn').css('background-color', 'grey');
         $('#buzzerBtn').prop('disabled', true);
         $('body').css("background", "linear-gradient(to bottom, #405166 0%, #656f6f 100%)");
         changeColor('white');
     });
     socket.on('giveUp', function (drueckerArray, questionArray) {
         console.log("Niemand kriegt Punkte!!");
+        $('#buzzerBtn').css('background-color', 'grey');
         $('#buzzerBtn').prop('disabled', true);
         $('body').css("background", "linear-gradient(to bottom, #405166 0%, #656f6f 100%)");
         changeColor('white');
@@ -220,35 +225,40 @@
 
 <body>
 
-
-<div id="clientsite">
-
-    <div id="submit">
-        <!--    <img id="logo_Jeopardy" src="graphics/gold_buzzcalu.png">-->
-        <!--<img id="logo_Jeopardy" src="https://www.jeopardy.com/Assets/jeopardy/images/global/logo_jeopardy.png">-->
-
-        <p id="subheading">
-            Bitte Namen eingeben:
-        </p>
-        <input id="username" type="text" name="username" placeholder="Username">
+<div id="clientsite" class="container">
 
 
-    <button id="submit-btn" onclick="save_name()"  type="button">
-        Save Name
-    </button>
+    <div class="row ">
+
+        <div id="submit">
+            <!--    <img id="logo_Jeopardy" src="graphics/gold_buzzcalu.png">-->
+            <!--<img id="logo_Jeopardy" src="https://www.jeopardy.com/Assets/jeopardy/images/global/logo_jeopardy.png">-->
+
+            <div id="subheading">
+                Bitte Namen eingeben:
+            </div>
+            <input id="username" type="text" name="username" placeholder="Username">
+
+
+            <button id="submit-btn" onclick="save_name()" type="button">
+                Save Name
+            </button>
+        </div>
     </div>
-    <div id="submit2" style="visibility:hidden;">
+    <div class="row ml-2 mt-2 ">
+        <div id="submit2" style="visibility:hidden;">
 
-        <!--<div id="submit2" style="visibility:hidden;">-->
+            <!--<div id="submit2" style="visibility:hidden;">-->
 
-        <h1 id="buzz-text" ></h1>
-        <button id="buzzerBtn"
-                onclick="send_buzz()"
-                type="button" disabled>
+            <h1 id="buzz-text"></h1>
+            <button id="buzzerBtn"
+                    onclick="send_buzz()"
+                    type="button" disabled>
 
-            Buzz!
-        </button>
+                Buzz!
+            </button>
 
+        </div>
     </div>
 </div>
 <!--

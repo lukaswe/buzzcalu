@@ -6,6 +6,11 @@
     <script src="/socket.io/socket.io.js"></script>
     <script src="/libraries/jquery-3.2.1.min.js"></script>
     <link href="/styles/gameMaster.css" type="text/css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 
 
@@ -246,6 +251,8 @@
         buzz = true;
         document.getElementById("rightAnswer").disabled = false;
         document.getElementById("wrongAnswer").disabled = false;
+        document.getElementById("giveUp").disabled = false;
+        document.getElementById("showTable").disabled = true;
         pause();
     });
 
@@ -255,6 +262,8 @@
         $("#schnellster-text").text(schnellster.nickname);
         document.getElementById("rightAnswer").disabled = true;
         document.getElementById("wrongAnswer").disabled = true;
+        document.getElementById("giveUp").disabled = true;
+        document.getElementById("showTable").disabled = false;
 
     }
 
@@ -264,6 +273,8 @@
         $('#schnellster-text').text("Niemand.");
         document.getElementById("rightAnswer").disabled = true;
         document.getElementById("wrongAnswer").disabled = true;
+        document.getElementById("giveUp").disabled = true;
+        document.getElementById("showTable").disabled = false;
     }
 
     function wrongAnswer() {
@@ -273,12 +284,15 @@
         $('#schnellster-text').text("...");
         document.getElementById("rightAnswer").disabled = true;
         document.getElementById("wrongAnswer").disabled = true;
+        document.getElementById("giveUp").disabled = true;
+        document.getElementById("showTable").disabled = true;
         play();
 
     }
     ;
 
     function showTable(){
+        $('#schnellster-text').text("...");
         socket.emit('showTable');
     }
 
@@ -288,10 +302,11 @@
         questionStart(questionArray, answerArray);
     });
 
-    socket.on('giveUp', function (playerArray, questionArray, tdId, indx) {
+    socket.on('giveUp', function (playerArray, answerArray, tdId, indx, questionArray) {
         //   document.getElementById(tdId).innerHTML = "erledigt";
         //schnellster = playa;
         start(playerArray);
+        questionStart(questionArray, answerArray);
     });
 
     socket.on('wrongAnswer', function (player, playerArray9, tdId, indx) {
@@ -385,6 +400,8 @@
 
         document.getElementById("rightAnswer").disabled = true;
         document.getElementById("wrongAnswer").disabled = true;
+        document.getElementById("giveUp").disabled = false;
+        document.getElementById("showTable").disabled = true;
         disableQuestions();
     };
 
@@ -432,7 +449,7 @@
 
         <!--<div class=Kopf>-->
         <!--Teilnehmer Tabelle-->
-        <div class="col-lg-6">
+        <div class="col-sm-6">
             <h1 id="heins">Wer ist dabei?</h1>
             <table id="playerTable">
                 <thead>
@@ -474,7 +491,7 @@
             <div class="row">
                 <div class="col-sm-3">
                     <!--<div class="answbtns">-->
-                    <button class='buttons'
+                    <button class="btn btn-secondary"
                             type="button"
                             id="rightAnswer"
                             onclick="trueAnswer()">Right
@@ -482,7 +499,7 @@
                     <br>
                 </div>
                 <div class="col-sm-3">
-                    <button class='buttons'
+                    <button class='btn btn-secondary'
                             type="button"
                             id="wrongAnswer"
                             onclick="wrongAnswer()">Wrong
@@ -490,14 +507,14 @@
                     <br>
                 </div>
                 <div class="col-sm-3">
-                    <button class='buttons'
+                    <button class='btn btn-secondary'
                             type="button"
                             id="giveUp"
                             onclick="giveUp()">Give Up
                     </button>
                 </div>
                 <div class="col-sm-3">
-                    <button class='buttons'
+                    <button class='btn btn-secondary'
                             type="button"
                             id="showTable"
                             onclick="showTable()">showTable
@@ -507,65 +524,7 @@
         </div>
     </div>
 </div>
-<!--</div><div class=Kopf>-->
-<!--&lt;!&ndash;Teilnehmer Tabelle&ndash;&gt;-->
-<!--<div class="col-lg-5" >-->
-<!--<h1 id="heins">Wer ist dabei?</h1>-->
-<!--<table id="playerTable" class="dataList table">-->
-<!--<thead>-->
-<!--<tr>-->
-<!--<th style="padding-right: 40px">Name</th>-->
-<!--<th style="padding-right: 40px">Punktzahl</th>-->
-<!--<th style="padding-right: 40px">Farbe</th>-->
-<!--<th style="padding-right: 40px">Kick it</th>-->
 
-<!--&lt;!&ndash;  <th style="padding-right: 25px">xoxo</th>-->
-<!--<th style="padding-right: 25px"></th>&ndash;&gt;-->
-
-<!--</tr>-->
-<!--</thead>-->
-<!--<tbody id="ctbody">-->
-<!--<tr>-->
-<!--<td style="padding-right: 60px"></td>-->
-<!--<td style="padding-right: 80px"></td>-->
-<!--<td style="padding-right: 80px"></td>-->
-<!--&lt;!&ndash;   <td style="padding-right: 25px"></td>-->
-<!--<td style="padding-right: 25px"></td>&ndash;&gt;-->
-
-<!--</tr>-->
-
-
-<!--</tbody>-->
-
-<!--&lt;!&ndash; Placeholder &ndash;&gt;-->
-<!--</table>-->
-<!--<h3 id="schnellster-text"> ... </h3>-->
-<!--</div>-->
-
-
-<!--&lt;!&ndash;<form action="">-->
-<!--<input id="m" autocomplete="off" /><br>&ndash;&gt;-->
-<!--<div class="answbtns">-->
-<!--<button class = 'buttons'-->
-<!--type="button"-->
-<!--id="rightAnswer"-->
-<!--onclick="trueAnswer()">Right-->
-<!--</button>-->
-<!--<br>-->
-
-<!--<button class = 'buttons'-->
-<!--type="button"-->
-<!--id="wrongAnswer"-->
-<!--onclick="wrongAnswer()">Wrong-->
-<!--</button>-->
-<!--<br>-->
-<!--<button class = 'buttons'-->
-<!--type="button"-->
-<!--id="giveUp"-->
-<!--onclick="giveUp()">Give Up-->
-<!--</button>-->
-<!--</div>-->
-<!--</div>-->
 
 <!--Fragen Tabelle-->
 <div class="container-fluid">
@@ -588,12 +547,8 @@
                     <tr>
 
                         <!--  <td class="questionBoxes-css" id="question-text0" style="visibility:hidden;">Question</td>-->
-                        <td type="button" class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question0">
-                            100
-                        </td>
-                        <td type="button" class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question1">
-                            100
-                        </td>
+                        <td class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question0">100</td>
+                        <td class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question1">100</td>
                         <td class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question2">100</td>
                         <td class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question3">100</td>
                         <td class="questionBoxes2-css" onclick="showQuestion(this.id)" id="question4">100</td>

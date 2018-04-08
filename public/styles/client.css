@@ -9,8 +9,7 @@ body {
 
 #subheading {
     color: black;
-    margin: 0em 0em -1em 0em;
-    padding: 1em 1em 1.2em 1em;
+
     font-size: 1.2em;
     font-family: -apple-system, 'Raleway', '.SFNSText-Regular', 'Arimo', 'FreeSans', 'Oxygen', 'Nimbus Sans L', 'Liberation Sans', 'Helvetica Neue LT Std', 'Helvetica', 'Arial', 'ITCKorinnaW03-Kursiv', sans-serif;
     font-weight: bold;
@@ -39,11 +38,7 @@ input[type=text]:focus {
 
 
 
-div{
 
-    position:absolute;
-
-}
 button {
     font-family: -apple-system, 'Raleway', '.SFNSText-Regular', 'Arimo', 'FreeSans', 'Oxygen', 'Nimbus Sans L', 'Liberation Sans', 'Helvetica Neue LT Std', 'Helvetica', 'Arial', 'ITCKorinnaW03-Kursiv', sans-serif;
     margin: 1em 1em 1em 1em;

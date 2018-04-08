@@ -1,19 +1,21 @@
 <!doctype html>
 <html>
 <head>
+
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>BuzzCaLu Overview Screen</title>
     <script src="/socket.io/socket.io.js"></script>
     <script src="../libraries/jquery-3.2.1.min.js"></script>
     <script src="../libraries/jquery.blink.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
     <link href="/styles/overview.css" type="text/css" rel="stylesheet">
     <link href="/styles/animate.css" type="text/css" rel="stylesheet">
     <script src="../libraries/zoomooz-master/jquery.zoomooz.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+
 </head>
 
 <script>
@@ -124,8 +126,7 @@
     });
 
 
-
-    socket.on('giveUp', function (playerArray5, answerArray, tdId, indx) {
+    socket.on('giveUp', function (playerArray5, answerArray, tdId, indx, questionArray) {
         playerArray = playerArray5;
         //   console.log("[tdId]:   " + [tdId]);
         //   console.log("answerArray[tdId]:   " + answerArray[indx].text);
@@ -144,7 +145,7 @@
         //   if (schnellster.nickname == player.nickname) {
         //       console.log("player.pkte: " + player.pkte);
         //  player.pkte = schnellster.pkte;
-        $('#erster-text').text("Wer ist dran?");
+        $('#erster-text').text("...");
         $('#richtig-text').text("Falsch!");
         fillNameFields(playerArray9);
 
@@ -155,8 +156,6 @@
         $("body").toggleClass("question-active");
         $("body").toggleClass("question-inactive");
         $("body").toggleClass("answer-inactive");
-
-
 
     });
 
@@ -276,7 +275,6 @@
     }
 
 
-
     /**Blaue Namensfelder werden befüllt**/
     function fillNameFields(playerArray2) {
         i = 0;
@@ -299,23 +297,28 @@
 
 <body>
 
-<div class="container mt-5 ml-5 pl-5">
-    <div class="row mt-5 ml-5">
+<div class="container mt-5 ">
+    <div class="row mt-5 ">
         <div class="col-sm-6">
-            <div class="row">
-                <div class="col-sm-6">
-                    <h3>Wer ist dran? </h3></div>
-                <div class="col-sm-6">
-                    <h3 id="erster-text"> ... </h3>
+            <div class="infobar">
+                <div class="row">
+
+                    <div class="col-sm-6">
+                        <h3>Wer ist dran? </h3></div>
+                    <div class="col-sm-6">
+                        <h3 id="erster-text"> ... </h3>
+                    </div>
                 </div>
             </div>
         </div>
         <div class="col-sm-6">
-            <div class="row">
-                <div class="col-sm-6">
-                    <h3>Die Antwort ist: </h3></div>
-                <div class="col-sm-6">
-                    <h3 id="richtig-text"> ...</h3>
+            <div class="infobar">
+                <div class="row ">
+                    <div class="col-sm-6">
+                        <h3>Das ist: </h3></div>
+                    <div class="col-sm-6">
+                        <h3 id="richtig-text"> ...</h3>
+                    </div>
                 </div>
             </div>
         </div>
@@ -329,7 +332,7 @@
 
 <!--Fragen Tabelle-->
 
-<div class="container mt-5 ml-5 pl-5">
+<div class="container mt-5">
     <table id="playerTable" class="table question-table animated zoomInDown ">
         <thead>
         <tr>
@@ -393,7 +396,7 @@
 </div>
 
 
-<div class="container  mt-5 ml-5 pl-5">
+<div class="container  mt-5 ">
     <div class="questionSpaceBox-css animated zoomInDown ">
         <div class="row">
             <div class="col-sm-12 questionBoxes-css" id="questionSpaceBoxId">
@@ -410,13 +413,16 @@
 <div class="container pt-5 mt-5">
     <div class="answerField">
         <div class="row">
-            <div class="col-lg-1">
+            <div class="col-lg-2">
 
             </div>
-            <div class="col-lg-11" style="font-size: 25px">
-                <div id="answer-text">
+            <div class="col-lg-8 " style="font-size: 25px" >
+                <div class="answerbar" id="answer-text">
                     ...
                 </div>
+            </div>
+            <div class="col-lg-2">
+
             </div>
         </div>
     </div>

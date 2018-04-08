@@ -69,14 +69,14 @@ module.exports = [
     {
         <!-- Hobbies Frage -->
         "id": 7,
-        "text": "Christian lässt gerne laufen: In welcher Sportart trainiert(e) er eine Mannschaft?",
+        "text": "In welcher Sportart trainiert(e) er eine Mannschaft?",
         "pkte": 200, "val": 0, "superquestion": 0,
         "picture": 0,
         "erledigt": 0
     },
     {
         "id": 8,
-        "text": "Auf der Couch hat Christian das sagen! Was war die erste Sci-Fy Serie , Für welche  er sie begeistern konnte?",
+        "text": "Was war die erste Sci-Fy Serie , Für welche  er sie begeistern konnte?",
         "pkte": 200,
         "val": 0,
         "superquestion": 0,
@@ -204,7 +204,7 @@ module.exports = [
     },
     {
         "id": 21,
-        "text": "Welcher Lehrer prägte den Spruch „Geh‘ heim zur Mama auf die Bäume und spiel‘ mit Kokosnüssen?“,
+        "text": "Welcher Lehrer prägte den Spruch 'Geh heim zur Mama auf die Bäume und spiel'   mit Kokosnüssen?",
         "pkte": 500,
         "val": 0,
         "superquestion": 0,
@@ -233,7 +233,7 @@ module.exports = [
     {
         <!--Schätzfrage-->
         "id": 24,
-        "text": "Wie viel Paar Sportschuhe hatten Conny und Christian am Nachmittag des 19. März vor ihrem Schuhregal am Hauseingang stehen?",
+        "text": "Wie viel Paar Sportschuhe hatten Conny und Christian am Nachmittag des 19. März 2018 vor ihrem Schuhregal am Hauseingang stehen?",
         "pkte": 500,
         "val": 0,
         "superquestion": 0,

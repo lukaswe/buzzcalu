@@ -454,18 +454,12 @@ io.on('connection', function (client) {
 
         client.on('giveUp', function () {
 
-            //var  schnellster2 = document.getElementById("schnellster-text").innerText();
-            // socket.emit('showNothing', questionArray, tdId, indx);
 
-
-            io.emit('giveUp', playerArray, answerArray, tdId, indx);
+            io.emit('giveUp', playerArray, answerArray, tdId, indx, questionArray);
             x = 0;
         });
 
         client.on('showTable', function () {
-
-            //var  schnellster2 = document.getElementById("schnellster-text").innerText();
-            // socket.emit('showNothing', questionArray, tdId, indx);
 
 
             io.emit('showTable');
@@ -473,7 +467,6 @@ io.on('connection', function (client) {
 
         client.on('wrongAnswer', function (fastestPlayer) {
             console.log("in wrongAnswer, playerArray[0].nickname:  " + fastestPlayer.id);
-            //schnellster.pkte -= fragenPunkte;
             var boo = false;
 
             playerArray.forEach(function (player) {
