@@ -33,6 +33,7 @@
 
 
     $(document).ready(function () {
+        console.log("id: " + mystorage.getItem('id'));
         if (mystorage.getItem('id') !== null) {
             console.log("reconnection: ", mystorage.getItem('id'));
             var id = mystorage.getItem('id');
@@ -42,12 +43,6 @@
             socket.emit('registerOverview');
 
         }
-        /* if (mystorage.getItem('playerArrayStorage') !== null){
-             console.log("Backto");
-             playerArray = JSON.parse(mystorage.getItem('playerArrayStorage'));
-             fillNameFields(playerArray);
-         //    document.getElementById('grayout').style = "display: none";
-         }else{alert("leer");}*/
         $("body").toggleClass("question-inactive");
         $("body").toggleClass("answer-inactive");
 
@@ -68,25 +63,20 @@
     socket.on('emptyLocalstorageOverview', function () {
         console.log("Localstorage wird gelöscht");
         mystorage.clear();
-        //location.reload();
-        //  socket.emit('register');
     });
 
 
     socket.on('reconnectNotPlayerOverview', function (playerArray, questionArray, tdId, indx) {
         //Array mit Spielern füllen
-        //playerArray = playerArray7;
         console.log('reconnected & playerarray: ' + playerArray[0]);
         console.log('reconnected & questionarray: ' + questionArray[0]);
         //  mystorage.setItem('playerArrayStorage', JSON.stringify(playerArray));
-        //questionStartReconnect(questionArray);
         console.log("tdId:" + tdId + ", indx:" + indx);
         if (tdId !== null) {
             questionStart2(questionArray, tdId, indx);
         }
 
         fillNameFields(playerArray);
-        //window.location.reload();
     });
 
 
@@ -122,6 +112,7 @@
         fillNameFields(playerArray);
         $('#erster-text').text("...");
         $('#richtig-text').text("Richtig!");
+        $("body").toggleClass("answer-inactive");
         emptyLastQuestionInTable(questionArray);
     });
 
@@ -135,6 +126,7 @@
         console.log('prevTdiDi: ' + prevTdId);
         fillNameFields(playerArray);
         $('#erster-text').text("Niemand.");
+        $("body").toggleClass("answer-inactive");
         emptyLastQuestionInTable(questionArray);
     });
 
@@ -252,12 +244,13 @@
     function questionStart2(questionArray, tdId, indx) {
 
         // document.getElementById('questionSpaceBoxId').innerHTML = questionArray[indx].text;
+        $('#werDarf').text(questionArray[indx].wer);
         $('#questionSpaceBoxId').text(questionArray[indx].text);
 
         $("body").toggleClass("question-active");
         console.log("  $(body).toggleClass(question-inactive);");
         $("body").toggleClass("question-inactive");
-        $("body").toggleClass("answer-inactive");
+
 
     }
 
@@ -299,7 +292,7 @@
 
 <div class="container mt-5 ">
     <div class="row mt-5 ">
-        <div class="col-sm-6">
+        <div class="col-sm-4">
             <div class="infobar">
                 <div class="row">
 
@@ -311,13 +304,24 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm-6">
+        <div class="col-sm-4">
             <div class="infobar">
                 <div class="row ">
                     <div class="col-sm-6">
                         <h3>Das ist: </h3></div>
                     <div class="col-sm-6">
                         <h3 id="richtig-text"> ...</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="infobar">
+                <div class="row ">
+                    <div class="col-sm-7">
+                        <h3>Braut oder Bräutigam?</h3></div>
+                    <div class="col-sm-5">
+                        <h3 id="werDarf"> ...</h3>
                     </div>
                 </div>
             </div>
@@ -395,34 +399,32 @@
     </table>
 </div>
 
+<div class="container  mt-5 questionAndAnswerBackground animated zoomInDown">
+    <div class="container  ">
+        <div class="questionSpaceBox-css   animated zoomInDown">
+            <div class="row">
+                <div class="col-sm-12 questionBoxes-css" id="questionSpaceBoxId">
 
-<div class="container  mt-5 ">
-    <div class="questionSpaceBox-css animated zoomInDown ">
-        <div class="row">
-            <div class="col-sm-12 questionBoxes-css" id="questionSpaceBoxId">
+                </div>
 
             </div>
-
-            <div class="col-sm-2">
-            </div>
-
         </div>
     </div>
-</div>
 
-<div class="container pt-5 mt-5">
-    <div class="answerField">
-        <div class="row">
-            <div class="col-lg-2">
+    <div class="container pt-5 mt-5">
+        <div class="answerField animated zoomInDown ">
+            <div class="row">
+                <div class="col-lg-2">
 
-            </div>
-            <div class="col-lg-8 " style="font-size: 25px" >
-                <div class="answerbar" id="answer-text">
-                    ...
                 </div>
-            </div>
-            <div class="col-lg-2">
+                <div class="col-lg-8 " style="font-size: 25px">
+                    <div class="answerbar" id="answer-text">
+                        ...
+                    </div>
+                </div>
+                <div class="col-lg-2">
 
+                </div>
             </div>
         </div>
     </div>
@@ -435,27 +437,27 @@
             <div class="col-sm-2">
 
                 <div class="playerNameBoxes-css" id="player0-name">Mitspieler1</div>
-                <div class="playerNameBoxes2-css" id="player0-pkte">0</div>
+                <div class="playerNameBoxes2-css animated jackInTheBox" id="player0-pkte">0</div>
             </div>
             <div class="col-sm-2">
                 <div class="playerNameBoxes-css" id="player1-name">Mitspieler2</div>
-                <div class="playerNameBoxes2-css" id="player1-pkte">0</div>
+                <div class="playerNameBoxes2-css animated jackInTheBox" id="player1-pkte">0</div>
             </div>
             <div class="col-sm-2">
                 <div class="playerNameBoxes-css" id="player2-name">Mitspieler3</div>
-                <div class="playerNameBoxes2-css" id="player2-pkte">0</div>
+                <div class="playerNameBoxes2-css animated jackInTheBox" id="player2-pkte">0</div>
             </div>
             <div class="col-sm-2">
                 <div class="playerNameBoxes-css" id="player3-name">Mitspieler4</div>
-                <div class="playerNameBoxes2-css" id="player3-pkte">0</div>
+                <div class="playerNameBoxes2-css animated jackInTheBox" id="player3-pkte">0</div>
             </div>
             <div class="col-sm-2">
                 <div class="playerNameBoxes-css" id="player4-name">Mitspieler5</div>
-                <div class="playerNameBoxes2-css" id="player4-pkte">0</div>
+                <div class="playerNameBoxes2-css animated jackInTheBox" id="player4-pkte">0</div>
             </div>
             <div class="col-sm-2">
                 <div class="playerNameBoxes-css" id="player5-name">Mitspieler6</div>
-                <div class="playerNameBoxes2-css" id="player5-pkte">0</div>
+                <div class="playerNameBoxes2-css animated jackInTheBox" id="player5-pkte">0</div>
             </div>
 
         </div>

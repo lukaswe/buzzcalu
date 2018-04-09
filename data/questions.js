@@ -6,7 +6,8 @@ module.exports = [
         "val": 0,
         "superquestion": 0,
         "picture": 0,
-        "erledigt": 0
+        "erledigt": 0,
+        "wer": "beide"
     },
     {
         "id": 1,
@@ -15,7 +16,8 @@ module.exports = [
         "val": 0,
         "superquestion": 0,
         "picture": 0,
-        "erledigt": 0
+        "erledigt": 0,
+        "wer": "beide"
     },
     {
         <!-- Hobbies Frage -->
@@ -25,7 +27,8 @@ module.exports = [
         "val": 0,
         "superquestion": 0,
         "picture": 0,
-        "erledigt": 0
+        "erledigt": 0,
+        "wer": "christian"
     },
     {
         "id": 3,
@@ -34,7 +37,8 @@ module.exports = [
         "val": 0,
         "superquestion": 0,
         "picture": 0,
-        "erledigt": 0
+        "erledigt": 0,
+        "wer": "beide"
     },
     {
         <!--Schätzfrage-->
@@ -44,7 +48,8 @@ module.exports = [
         "val": 0,
         "superquestion": 0,
         "picture": 0,
-        "erledigt": 0
+        "erledigt": 0,
+    "wer": "beide"
     },
 
     {
@@ -54,7 +59,8 @@ module.exports = [
         "val": 0,
         "superquestion": 0,
         "picture": 0,
-        "erledigt": 0
+        "erledigt": 0,
+        "wer": "christian"
     },
     {
         <!-- Schulzeit Frage -->
@@ -64,15 +70,17 @@ module.exports = [
         "val": 0,
         "superquestion": 0,
         "picture": 0,
-        "erledigt": 0
+        "erledigt": 0,
+        "wer": "conny"
     },
     {
         <!-- Hobbies Frage -->
         "id": 7,
-        "text": "In welcher Sportart trainiert(e) er eine Mannschaft?",
+        "text": "In welcher Sportart trainiert(e) Christian eine Mannschaft?",
         "pkte": 200, "val": 0, "superquestion": 0,
         "picture": 0,
-        "erledigt": 0
+        "erledigt": 0,
+        "wer": "conny"
     },
     {
         "id": 8,
@@ -81,7 +89,8 @@ module.exports = [
         "val": 0,
         "superquestion": 0,
         "picture": 0,
-        "erledigt": 0
+        "erledigt": 0,
+        "wer": "beide"
     },
     {
         <!--Schätzfrage-->
@@ -91,17 +100,19 @@ module.exports = [
         "val": 0,
         "superquestion": 0,
         "picture": 0,
-        "erledigt": 0
+        "erledigt": 0,
+        "wer": "christian"
     },
 
     {
         "id": 10,
-        "text": "Wie viele Cousins und Cousinen haben Conny und Christian zusammen in Summe?",
+        "text": "Wie viele Cousinen und Cousins haben Conny und Christian zusammen in Summe?",
         "pkte": 300,
         "val": 0,
         "superquestion": 0,
         "picture": 0,
-        "erledigt": 0
+        "erledigt": 0,
+        "wer": "beide"
     },
     {
         <!-- Schulzeit Frage -->
@@ -111,7 +122,8 @@ module.exports = [
         "val": 0,
         "superquestion": 0,
         "picture": 0,
-        "erledigt": 0
+        "erledigt": 0,
+        "wer": "christian"
     },
     {
         <!-- Hobbies Frage -->
@@ -121,7 +133,8 @@ module.exports = [
         "val": 0,
         "superquestion": 0,
         "picture": 0,
-        "erledigt": 0
+        "erledigt": 0,
+        "wer": "beide"
     },
     {
         "id": 13,
@@ -130,7 +143,8 @@ module.exports = [
         "val": 0,
         "superquestion": 0,
         "picture": 0,
-        "erledigt": 0
+        "erledigt": 0,
+        "wer": "christian"
     },
 
 
@@ -142,7 +156,8 @@ module.exports = [
         "val": 0,
         "superquestion": 0,
         "picture": 0,
-        "erledigt": 0
+        "erledigt": 0,
+        "wer": "conny"
     },
 
     {
@@ -152,7 +167,8 @@ module.exports = [
         "val": 0,
         "superquestion": 0,
         "picture": 0,
-        "erledigt": 0
+        "erledigt": 0,
+        "wer": "beide"
     },
     {
         <!-- Schulzeit Frage -->
@@ -162,7 +178,8 @@ module.exports = [
         "val": 0,
         "superquestion": 0,
         "picture": 0,
-        "erledigt": 0
+        "erledigt": 0,
+        "wer": "conny"
     },
     {
         <!-- Hobbies Frage -->
@@ -172,7 +189,8 @@ module.exports = [
         "val": 0,
         "superquestion": 0,
         "picture": 0,
-        "erledigt": 0
+        "erledigt": 0,
+        "wer": "christian"
     },
     {
         "id": 18,
@@ -181,7 +199,8 @@ module.exports = [
         "val": 0,
         "superquestion": 0,
         "picture": 0,
-        "erledigt": 0
+        "erledigt": 0,
+        "wer": "beide"
     },
     {
         <!--Schätzfrage-->
@@ -191,7 +210,8 @@ module.exports = [
         "val": 0,
         "superquestion": 0,
         "picture": 0,
-        "erledigt": 0
+        "erledigt": 0,
+        "wer": "christian"
     },
     {
         "id": 20,
@@ -200,7 +220,8 @@ module.exports = [
         "val": 0,
         "superquestion": 0,
         "picture": 1,
-        "erledigt": 0
+        "erledigt": 0,
+        "wer": "beide"
     },
     {
         "id": 21,
@@ -209,7 +230,8 @@ module.exports = [
         "val": 0,
         "superquestion": 0,
         "picture": 0,
-        "erledigt": 0
+        "erledigt": 0,
+        "wer": "christian"
     },
     {
         <!-- Hobbies Frage -->
@@ -219,7 +241,8 @@ module.exports = [
         "val": 0,
         "superquestion": 0,
         "picture": 0,
-        "erledigt": 0
+        "erledigt": 0,
+        "wer": "conny"
     },
     {
         "id": 23,
@@ -228,7 +251,8 @@ module.exports = [
         "val": 0,
         "superquestion": 0,
         "picture": 0,
-        "erledigt": 0
+        "erledigt": 0,
+        "wer": "beide"
     },
     {
         <!--Schätzfrage-->
@@ -238,5 +262,6 @@ module.exports = [
         "val": 0,
         "superquestion": 0,
         "picture": 0,
-        "erledigt": 0
+        "erledigt": 0,
+        "wer": "beide"
     }];

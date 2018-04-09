@@ -30,10 +30,18 @@ body {
 
 }
 
+.questionAndAnswerBackground{
+    background: linear-gradient(to left, #656f6f 0%, #abbacc 100%) ;
+    /*background-color: grey;*/
+    padding: 10px;
+
+    /*z-index: -60;*/
+}
+
 .answerbar {
     padding: 10px;
     text-align: center;
-    background: white ; /*#656f6f,#405166*/
+    /*background: white ; !*#656f6f,#405166*!*/
     /*background: linear-gradient(to left, #656f6f 0%, #abbacc 100%) ; !*#656f6f,#405166*!*/
     font-size: 35px;
     /*top:20%;*/
@@ -41,6 +49,9 @@ body {
     /*position: fixed;*/
     /*height: 35%;*/
     z-index: -5;
+    -webkit-box-shadow: 1px 1px 1px 0 rgba(0, 0, 0, 0.3);
+    box-shadow: 1px 1px 1px 0 rgba(0, 0, 0, 0.3);
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
 }
 .erster{
     /*position: relative;*/
@@ -58,7 +69,7 @@ body.question-active .question-table{
     display: none;
 /*visibility: hidden;*/
 }
-body.question-inactive .questionSpaceBox-css{
+body.question-inactive .questionAndAnswerBackground{
     display: none;
     /*visibility: hidden;*/
 }
@@ -77,7 +88,7 @@ body.answer-inactive .answerField{
 /*background-color: #a8afb7 ; !*#656f6f,#405166*!*/
     padding: 30px;
     text-align: center;
-    background: white ; /*#656f6f,#405166*/
+    /*background: white ; !*#656f6f,#405166*!*/
     /*background: linear-gradient(to left, #656f6f 0%, #abbacc 100%) ; !*#656f6f,#405166*!*/
     font-size: 35px;
     top:20%;
@@ -92,9 +103,7 @@ body.answer-inactive .answerField{
     -o-text-overflow: ellipsis;
     text-overflow: ellipsis;
     /* background: #22a5d8;*/
-    -webkit-box-shadow: 1px 1px 1px 0 rgba(0, 0, 0, 0.3);
-    box-shadow: 1px 1px 1px 0 rgba(0, 0, 0, 0.3);
-    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+
 
 }
 

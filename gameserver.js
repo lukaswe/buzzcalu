@@ -178,7 +178,6 @@ io.on('connection', function (client) {
         });
 
         client.on('reconnectNotPlayerOverview', function (id) {
-            console.log("reconnectNotPlayer");
             console.log("reconnectNotPlayer id: " + id);
             console.log("clientArray.length: " + overviewArray.length);
             if (overviewArray.length > 0) {
@@ -188,7 +187,6 @@ io.on('connection', function (client) {
                         console.log('reconnectNotPlayerOverview ist im array');
                         io.emit('reconnectNotPlayerOverview', playerArray, questionArray, tdId, indx);
                     }
-
                 })
             } else {
                 console.log("Client noch nicht registriert.");
