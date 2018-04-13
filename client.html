@@ -23,7 +23,7 @@
         //  socket = io.connect(),
         mystorage = localStorage,
         ich = {},
-
+        test = false,
         currColor;
     //Daten vom Server empfangen bzw
 
@@ -97,7 +97,7 @@
         // document.getElementById("username").disabled = true;
         // document.getElementById("username").style = "visibility:hidden;";
         // document.getElementById("submit-btn").disabled = true;
-          // document.getElementById("subheading").style = "visibility:hidden;";
+        // document.getElementById("subheading").style = "visibility:hidden;";
         // document.getElementById("submit-btn").style = "visibility:hidden;";
         document.getElementById("buzzerBtn").style = "visibility:visible;";
     }
@@ -130,8 +130,29 @@
         });
     });
 
+    socket.on('showTable', function () {
+        $('#buzzerBtn').css('background-color', 'grey');
+        $('#buzzerBtn').prop('disabled', true);
+        $('body').css("background", "linear-gradient(to bottom, #405166 0%, #656f6f 100%)");
+        changeColor('white');
+    });
 
-    socket.on('fastest player', function (player) {
+
+    socket.on('buzzerTest', function () {
+        test = true;
+        $('#buzzerBtn').prop('disabled', false);
+        $('#buzzerBtn').css('background-color', 'red');
+        $('body').css("background", "linear-gradient(to bottom, #405166 0%, #656f6f 100%)");
+        $('#buzz-text').text("Glückwunsch, Du darfst deinen Buzzer testen!");
+        console.log("Glückwunsch, Du darfst deinen Buzzer testen!");
+    });
+    socket.on('testKlappt', function () {
+        $('#buzzerBtn').css('background-color', 'grey');
+        $('#buzzerBtn').prop('disabled', true);
+        $('body').css("background", "linear-gradient(to bottom, #405166 0%, #656f6f 100%)");
+        changeColor('white');
+    });
+    socket.on('fastest player', function (player, test) {
         $('#buzzerBtn').css('background-color', 'grey');
         console.log("meine id in fastest: " + mystorage.getItem('id'));
         $('body').css("background", "linear-gradient(to bottom, #405166 0%, #656f6f 100%)");
@@ -184,6 +205,7 @@
 
     //Buzzer wieder enablen!
     socket.on('showQuestion', function (questionArray5, tdId5, indx5) {
+        test = false;
         $('#buzzerBtn').prop('disabled', false);
         $('#buzzerBtn').css('background-color', 'red');
         $('body').css("background", "linear-gradient(to bottom, #405166 0%, #656f6f 100%)");
@@ -197,13 +219,13 @@
         $('#buzz-text').text("Sei bereit, " + $('#username').val() + "!");
 
     });
-
-    socket.on('showSuperQuestion', function (questionArray5, tdId5, indx5) {
-        $('#buzzerBtn').prop('disabled', false);
-        $('#buzzerBtn').css('background-color', 'red');
-        $('#buzz-text').text("Sei bereit, " + $('#username').val() + "!");
-
-    });
+    //
+    // socket.on('showSuperQuestion', function (questionArray5, tdId5, indx5) {
+    //     $('#buzzerBtn').prop('disabled', false);
+    //     $('#buzzerBtn').css('background-color', 'red');
+    //     $('#buzz-text').text("Sei bereit, " + $('#username').val() + "!");
+    //
+    // });
 
 
     function changeColor(colorName) {
@@ -213,10 +235,18 @@
 
 
     function send_buzz() {
-        console.log("send_buzz Test: " + mystorage.getItem('id'));
-        $('#buzzerBtn').prop('disabled', true);
-        document.getElementById("submit2").style.color = "grey";
-        socket.emit('send_buzz', mystorage.getItem('id'));
+        console.log("test: " + test);
+        if (test) {
+            console.log("test ist: " + test);
+            socket.emit('buzzerKlappt', mystorage.getItem('id'), test);
+        }
+         else if (!test)
+        {
+            console.log("send_buzz Test: " + mystorage.getItem('id'));
+            $('#buzzerBtn').prop('disabled', true);
+            document.getElementById("submit2").style.color = "grey";
+            socket.emit('send_buzz', mystorage.getItem('id'));
+        }
     }
     ;
 
@@ -237,7 +267,7 @@
             <div id="subheading">
                 Bitte Namen eingeben:
             </div>
-            <input id="username" type="text" name="username" placeholder="Username">
+            <input id="username" type="text" name="username" placeholder="Username" maxlength="10">
 
 
             <button id="submit-btn" onclick="save_name()" type="button">

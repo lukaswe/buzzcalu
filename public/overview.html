@@ -15,7 +15,7 @@
     <link href="/styles/overview.css" type="text/css" rel="stylesheet">
     <link href="/styles/animate.css" type="text/css" rel="stylesheet">
     <script src="../libraries/zoomooz-master/jquery.zoomooz.js"></script>
-
+    <script defer src="https://use.fontawesome.com/releases/v5.0.10/js/all.js" integrity="sha384-slN8GvtUJGnv6ca26v8EzVaR9DC58QEwsIk9q1QXdCU8Yu8ck/tL/5szYlBbqmS+" crossorigin="anonymous"></script>
 </head>
 
 <script>
@@ -49,24 +49,25 @@
     });
 
 
-    socket.on('emptyReloadLocalstorage', function () {
-        mystorage.clear();
-        console.log("mystorage wird geleert.");
-
-    });
+    // socket.on('emptyReloadLocalstorage', function () {
+    //     mystorage.clear();
+    //     console.log("mystorage wird geleert.");
+    //
+    // });
 
     socket.on('registerOverview', function (id) {
         console.log('id: ', id);
         mystorage.setItem('id', id);
     });
 
-    socket.on('emptyLocalstorageOverview', function () {
-        console.log("Localstorage wird gelöscht");
-        mystorage.clear();
-    });
+    // socket.on('emptyLocalstorageOverview', function () {
+    //     console.log("Localstorage wird gelöscht");
+    //     mystorage.clear();
+    // });
 
 
-    socket.on('reconnectNotPlayerOverview', function (playerArray, questionArray, tdId, indx) {
+    socket.on('reconnectNotPlayerOverview', function (playerArray9, questionArray, tdId, indx) {
+        playerArray = playerArray9
         //Array mit Spielern füllen
         console.log('reconnected & playerarray: ' + playerArray[0]);
         console.log('reconnected & questionarray: ' + questionArray[0]);
@@ -75,7 +76,7 @@
         if (tdId !== null) {
             questionStart2(questionArray, tdId, indx);
         }
-
+        console.log("playerArray.length: " + playerArray.length);
         fillNameFields(playerArray);
     });
 
@@ -84,7 +85,6 @@
     socket.on('playerList', function (playerObject, playerArray7) {
         //Array mit Spielern füllen
         playerArray = playerArray7;
-        console.log(playerObject.nickname + " just connected!");
         console.log(playerObject.nickname + " just connected!");
         var x = 0;
         playerArray.forEach(function (player) {
@@ -96,7 +96,22 @@
 
 
         mystorage.setItem('playerArrayStorage', JSON.stringify(playerArray));
+        // fillNameFields(playerArray);
+    });
+
+    socket.on('buzzerTest', function (nickname) {
+
+        // showTable();
+    });
+
+    socket.on('buzzerKlappt', function (nickname) {
+        $('#questionSpaceBoxId').text(nickname + " spielt mit!");
+        $("body").toggleClass("question-active");
+        console.log("  $(body).toggleClass(question-inactive);");
+        $("body").toggleClass("question-inactive");
         fillNameFields(playerArray);
+
+
     });
 
 
@@ -144,19 +159,19 @@
     });
 
     socket.on('showTable', function () {
+        showTable()
+    });
+
+    function showTable() {
         $('#richtig-text').text("...");
         $("body").toggleClass("question-active");
         $("body").toggleClass("question-inactive");
         $("body").toggleClass("answer-inactive");
-
-    });
-
+    }
 
     socket.on('backToOverview', function (playerArray6) {
         console.log("Backto");
         playerArray = playerArray6;
-        //   console.log("[tdId]:   " + [tdId]);
-        //   console.log("answerArray[tdId]:   " + answerArray[indx].text);
         answerStart(answerArray, tdId, indx);
         prevTdId = tdId;
         console.log('prevTdiDi: ' + prevTdId);
@@ -231,6 +246,12 @@
         document.getElementById(tdId).innerHTML = "";
 
     });
+    socket.on('winner', function (winnerObj) {
+        console.log("winner: " + winnerObj.nickname);
+        console.log("'#king'+winnerObj.nr: " + '#king'+winnerObj.nr);
+        $('#king'+winnerObj.nr).show();
+
+    });
 
 
     /**Antwort in Tabelle eintragen**/
@@ -271,7 +292,8 @@
     /**Blaue Namensfelder werden befüllt**/
     function fillNameFields(playerArray2) {
         i = 0;
-        console.log("hmmm");
+        console.log("fillNameFields");
+        console.log("playerArray2.length" + playerArray2.length);
         playerArray2.forEach(function (player) {
             $('#player' + i + '-name').text(player.nickname);
             $('#player' + i + '-pkte').text(player.pkte);
@@ -292,7 +314,7 @@
 
 <div class="container mt-5 ">
     <div class="row mt-5 ">
-        <div class="col-sm-4">
+        <div class="col-sm-6">
             <div class="infobar">
                 <div class="row">
 
@@ -304,7 +326,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm-4">
+        <div class="col-sm-6">
             <div class="infobar">
                 <div class="row ">
                     <div class="col-sm-6">
@@ -315,7 +337,10 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm-4">
+    </div>
+    <div class="row mt-1">
+        <!--<div class="col-sm-1"></div>-->
+        <div class="col-sm-12">
             <div class="infobar">
                 <div class="row ">
                     <div class="col-sm-7">
@@ -326,6 +351,7 @@
                 </div>
             </div>
         </div>
+        <!--<div class="col-sm-1"></div>-->
     </div>
 </div>
 
@@ -431,38 +457,39 @@
 </div>
 
 <!-- beigetretene Spieler Anzeige -->
-<div class="playerNameContainer" id=playerNameContainerId>
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-2">
-
-                <div class="playerNameBoxes-css" id="player0-name">Mitspieler1</div>
+<div class="playerNameContainer pl-5 pr-5 " id=playerNameContainerId>
+    <!--<div class="container">-->
+        <div class="row ml-5 mr-5">
+            <div class="col-sm-2 ">
+                <i class="fas fa-chess-king infront animated jackInTheBox fa-7x" id="king0" data-fa-transform="rotate--20 left-6 up-6"></i>
+                <div class="playerNameBoxes-css animated jackInTheBox " id="player0-name">Mitspieler1</div>
                 <div class="playerNameBoxes2-css animated jackInTheBox" id="player0-pkte">0</div>
             </div>
             <div class="col-sm-2">
-                <div class="playerNameBoxes-css" id="player1-name">Mitspieler2</div>
+                <i class="fas fa-chess-king infront animated jackInTheBox fa-7x" id="king1" data-fa-transform="rotate--20 left-12 up-6"></i>
+                <div class="playerNameBoxes-css animated jackInTheBox" id="player1-name">Mitspieler2</div>
                 <div class="playerNameBoxes2-css animated jackInTheBox" id="player1-pkte">0</div>
             </div>
             <div class="col-sm-2">
-                <div class="playerNameBoxes-css" id="player2-name">Mitspieler3</div>
+                <div class="playerNameBoxes-css animated jackInTheBox" id="player2-name">Mitspieler3</div>
                 <div class="playerNameBoxes2-css animated jackInTheBox" id="player2-pkte">0</div>
             </div>
             <div class="col-sm-2">
-                <div class="playerNameBoxes-css" id="player3-name">Mitspieler4</div>
+                <div class="playerNameBoxes-css animated jackInTheBox" id="player3-name">Mitspieler4</div>
                 <div class="playerNameBoxes2-css animated jackInTheBox" id="player3-pkte">0</div>
             </div>
             <div class="col-sm-2">
-                <div class="playerNameBoxes-css" id="player4-name">Mitspieler5</div>
+                <div class="playerNameBoxes-css animated jackInTheBox" id="player4-name">Mitspieler5</div>
                 <div class="playerNameBoxes2-css animated jackInTheBox" id="player4-pkte">0</div>
             </div>
             <div class="col-sm-2">
-                <div class="playerNameBoxes-css" id="player5-name">Mitspieler6</div>
+                <div class="playerNameBoxes-css animated jackInTheBox" id="player5-name">Mitspieler6</div>
                 <div class="playerNameBoxes2-css animated jackInTheBox" id="player5-pkte">0</div>
             </div>
 
         </div>
     </div>
-</div>
+<!--</div>-->
 
 </body>
 </html>

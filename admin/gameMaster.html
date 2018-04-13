@@ -184,6 +184,7 @@
 
 
     $(document).ready(function () {
+        // document.getElementById("start").disabled = true;
         if (mystorage.getItem('id') !== null) {
             console.log("reconnection mit :  " + mystorage.getItem('id'));
             var id = mystorage.getItem('id');
@@ -221,14 +222,6 @@
         }
     });
 
-    /*socket.on('emptyLocalstorageGamemaster', function () {
-        console.log("Localstorage wird gelöscht");
-        mystorage.clear();
-        socket.emit('registerGamemaster');
-
-      //  location.reload();
-      //  socket.emit('register');
-    });*/
 
 
     /**Client-Server Kommunikation**/
@@ -294,6 +287,11 @@
     function showTable(){
         $('#schnellster-text').text("...");
         socket.emit('showTable');
+        $('#buzzerTest').prop('disabled', false);
+        $('#showTable').prop('disabled', true);
+        $('#rightAnswer').prop('disabled', true);
+        $('#wrongAnswer').prop('disabled', true);
+        $('#giveUp').prop('disabled', true);
     }
 
     socket.on('trueAnswer', function (winner, playerArray, answerArray, tdId, indx, questionArray) {
@@ -342,10 +340,7 @@
                     playerButtonTd = document.createElement("button");
 
                 playerButtonTd.onclick = function () {
-                    row.parentElement.removeChild(row);
-                    socket.emit('removePlayer');
-                    // entfernen(player);
-
+                    confirmationWindow();
                 }
 
                 playerNameTd.appendChild(document.createTextNode(player.nickname));
@@ -353,7 +348,7 @@
 
                 //   playerPkteTd.appendChild(document.createTextNode(player.pkte));
                 playerColorTd.appendChild(document.createTextNode(player.color));
-                playerButtonTd.appendChild(document.createTextNode("kick"));
+                playerButtonTd.appendChild(document.createTextNode("winner"));
 
                 row.appendChild(playerNameTd);
                 row.appendChild(playerPkteTd);
@@ -368,6 +363,18 @@
         }
         else {
         }
+    }
+    function confirmationWindow(){
+        console.log("confwindow");
+        $('#btn_confirmation_window').show(); //or show() or css('display','block')
+        $('#btn_confirmation_window button').on('click', function(){
+            var confirm= $(this).attr('value');
+            if (confirm=='true') {
+                socket.emit('winner');
+            } else if (confirm=='false'){
+                $('#btn_confirmation_window').hide()
+            }
+        })
     }
 
 
@@ -398,10 +405,16 @@
         socket.emit('showQuestion', tdId2);
         play();
 
-        document.getElementById("rightAnswer").disabled = true;
-        document.getElementById("wrongAnswer").disabled = true;
-        document.getElementById("giveUp").disabled = false;
-        document.getElementById("showTable").disabled = true;
+        // document.getElementById("rightAnswer").disabled = true;
+        // document.getElementById("wrongAnswer").disabled = true;
+        // document.getElementById("giveUp").disabled = false;
+        // document.getElementById("showTable").disabled = true;
+        $('#buzzerTest').prop('disabled', true);
+        $('#wrongAnswer').prop('disabled', true);
+        $('#rightAnswer').prop('disabled', true);
+        $('#showTable').prop('disabled', true);
+        $('#letsStart').prop('disabled', true);
+        $('#giveUp').prop('disabled', false);
         disableQuestions();
     };
 
@@ -426,6 +439,16 @@
         console.log(" showSuperQuestion ");
     });
 
+    socket.on('buzzerKlappt', function (id) {
+        console.log("buzzer funzt bei id: " + id );
+        $('#buzzerTest').prop('disabled', true);
+        $('#showTable').prop('disabled', false);
+        $('#letsStart').prop('disabled', true);
+        $('#rightAnswer').prop('disabled', true);
+        $('#wrongAnswer').prop('disabled', true);
+        $('#giveUp').prop('disabled', true);
+    });
+
     // Audio Wiedergabe
     function play() {
         var audio = document.getElementById("audio");
@@ -438,6 +461,16 @@
         audio.currentTime = 0;
     }
 
+    function letsStart(){
+        socket.emit('letsStart');
+        $('#letsStart').prop('disabled', true);
+    }
+
+    function buzzerTest(){
+        socket.emit('buzzerTest');
+        // $('#buzzerTest').prop('disabled', true);
+
+    }
 
 </script>
 <body>
@@ -457,7 +490,7 @@
                     <th style="padding-right: 40px">Name</th>
                     <th style="padding-right: 40px">Punktzahl</th>
                     <th style="padding-right: 40px">Farbe</th>
-                    <th style="padding-right: 40px">Kick it</th>
+                    <th style="padding-right: 40px">Winner</th>
 
                     <!--  <th style="padding-right: 25px">xoxo</th>
                       <th style="padding-right: 25px"></th>-->
@@ -479,6 +512,10 @@
 
                 <!-- Placeholder -->
             </table>
+            <div id="btn_confirmation_window" style="display:none">
+                <button id="accept" value="true">accept</button>
+                <button id="go_back" value="false">go back</button>
+            </div>
             <h3> schnellster: </h3>
             <h3 id="schnellster-text"> ... </h3>
         </div>
@@ -489,7 +526,7 @@
               <input id="m" autocomplete="off" /><br>-->
 
             <div class="row">
-                <div class="col-sm-3">
+                <div class="col-sm-4">
                     <!--<div class="answbtns">-->
                     <button class="btn btn-secondary"
                             type="button"
@@ -498,7 +535,7 @@
                     </button>
                     <br>
                 </div>
-                <div class="col-sm-3">
+                <div class="col-sm-4">
                     <button class='btn btn-secondary'
                             type="button"
                             id="wrongAnswer"
@@ -506,24 +543,41 @@
                     </button>
                     <br>
                 </div>
-                <div class="col-sm-3">
+                <div class="col-sm-4">
                     <button class='btn btn-secondary'
                             type="button"
                             id="giveUp"
                             onclick="giveUp()">Give Up
                     </button>
                 </div>
-                <div class="col-sm-3">
+                </div>
+            <div class="row  mt-2">
+                <div class="col-sm-4">
                     <button class='btn btn-secondary'
                             type="button"
                             id="showTable"
                             onclick="showTable()">showTable
                     </button>
                 </div>
+                <div class="col-sm-4">
+                    <button class='btn btn-secondary'
+                            type="button"
+                            id="letsStart"
+                            onclick="letsStart()">Los gehts!
+                    </button>
+                </div>
+                <div class="col-sm-4">
+                    <button class='btn btn-secondary'
+                            type="button"
+                            id="buzzerTest"
+                            onclick="buzzerTest()">Buzzer Test
+                    </button>
+                </div>
             </div>
         </div>
     </div>
 </div>
+
 
 
 <!--Fragen Tabelle-->

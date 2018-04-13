@@ -3,11 +3,11 @@
 
 <meta charset="UTF-8">
 <title>BuzzCaLu spass Screen</title>
-<script src="/socket.io/socket.io.js"></script>
-<script>  //import TimelineMax from 'gsap';
-</script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.2/TweenMax.min.js"></script>
 <script src="libraries/jquery-3.2.1.min.js"></script>
+<link href="styles/client.css" rel="stylesheet">
+<!-- <script src="/socket.io/socket.io.js"></script>-->
+<script src="/socket.io/socket.io.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.2/TweenMax.min.js"></script>
 <script src="libraries/greensock-js/src/uncompressed/TimelineMax.js"
         type="text/javascript"></script>
 <link href="/styles/gameMaster.css" type="text/css" rel="stylesheet">
@@ -24,6 +24,7 @@
         background: linear-gradient(to bottom, #405166 0%, #656f6f 100%);
 
     }
+
     @font-face {
         font-family: 'Fjalla One';
         font-style: normal;
@@ -31,6 +32,7 @@
         src: local('Fjalla One'), local('FjallaOne-Regular'), url(https://fonts.gstatic.com/s/fjallaone/v4/SHXJdWnWW6HDq-6DpcG8PwsYbbCjybiHxArTLjt7FRU.woff2) format('woff2');
         unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF;
     }
+
     /* latin */
     @font-face {
         font-family: 'Fjalla One';
@@ -39,6 +41,7 @@
         src: local('Fjalla One'), local('FjallaOne-Regular'), url(https://fonts.gstatic.com/s/fjallaone/v4/rxxXUYj4oZ6Q5oDJFtEd6gzyDMXhdD8sAj6OAJTFsBI.woff2) format('woff2');
         unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215;
     }
+
     /*   #grad{
        background: linear-gradient(to bottom, #405166 0%,#656f6f 100%);}
        red: #e55643 ;
@@ -48,6 +51,7 @@
     html {
         height: 100%;
     }
+
     .container {
         transform: translate(-50%, -50%);
         top: 50%;
@@ -56,6 +60,7 @@
         position: absolute;
         max-width: 350px;
     }
+
     .button {
         float: left;
         position: relative;
@@ -68,6 +73,7 @@
         visibility: hidden;
         cursor: pointer;
     }
+
     .button2 {
         float: left;
         position: relative;
@@ -80,12 +86,14 @@
         visibility: visible;
         cursor: pointer;
     }
+
     span {
         transform: skew(-10deg);
         display: block;
         float: left;
         text-shadow: #533d4a 1px 1px, #533d4a 2px 2px, #533d4a 3px 3px, #533d4a 4px 4px;
     }
+
     h1 {
         color: #fff;
         text-transform: uppercase;
@@ -95,6 +103,7 @@
         letter-spacing: 2px;
         visibility: hidden;
     }
+
     .title {
         transform: translateX(-50%) rotate(-10deg);
         display: block;
@@ -102,6 +111,7 @@
         left: 50%;
         position: relative;
     }
+
     span {
         /*Neigung*/
         transform: skew(-10deg);
@@ -112,20 +122,26 @@
         min-height: 10px;
         position: relative;
     }
+
     .title:nth-child(1) {
         color: #e55643;
     }
+
     .title :nth-child(2) {
         color: #2b9f5e;
     }
+
     .title:nth-child(4) {
         color: #e55643;
     }
+
     .title:nth-child(8) {
         color: #2b9f5e;;
     }
 </style>
 <script>
+
+    socket = io.connect();
     //Lettering
     (function ($) {
         function injector(t, splitter, klass, after) {
@@ -141,6 +157,7 @@
                     .append(inject)
             }
         }
+
         var methods = {
             init: function () {
                 return this.each(function () {
@@ -174,14 +191,26 @@
             return this;
         };
     })(jQuery);
+
+
+
+
     $(document).ready(function () {
         $(".title").lettering();
         $(".button").lettering();
         $(".button2").lettering();
     }, 2000);
-    var i = 0 ;
-    $(document).ready(function () {
-        window.setTimeout(" animation()", 11300);
+
+
+    var i = 0;
+
+    socket.on('letsStart', function () {
+        console.log("Der Spass beginnt");
+
+        play(); //Musik starten
+    // });
+    // $(document).ready(function () {
+        window.setTimeout(" animation()", 9300);
         window.setTimeout(" animation()", 13500);
         //window.setTimeout(" animation()", 13500);
         window.setTimeout(" animation()", 15500);
@@ -235,6 +264,12 @@
         title1.to(".button", 0.2, {visibility: 'visible', opacity: 1})
         title1.to(".button2", 0.2, {visibility: 'visible', opacity: 1})
     }
+
+    function play(){
+        var audio = document.getElementById("audio");
+        audio.play();}
+
+
 </script>
 <body>
 <section class="container">
@@ -251,9 +286,10 @@
 </section>
 
 
-
-<div class="button3" onclick=" window.location.assign('/overview')">Spiel starten</div>
-<iframe visibility="hidden" width="0" height="0" src=/JeopardyIntro.mp3 frameborder="0" allowfullscreen></iframe>
+<div class="button3" onclick=" window.location.assign('/overview.html')">Spiel starten</div>
+<audio id="audio" src="/JeopardyIntro.mp3" type="audio/mpeg" autostart="false">
+</audio>
+<!--<iframe visibility="hidden" width="0" height="0" src=/JeopardyIntro.mp3 frameborder="0" allowfullscreen></iframe>-->
 <!--<iframe width="560" height="315" src="http://www.youtube.com/embed/BtEkzZoUCpw?autoplay=1&loop=1&playlist=BtEkzZoUCpw" frameborder="0" allowfullscreen></iframe>-->
 
 </body>

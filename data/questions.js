@@ -7,7 +7,7 @@ module.exports = [
         "superquestion": 0,
         "picture": 0,
         "erledigt": 0,
-        "wer": "beide"
+        "wer": "Beide"
     },
     {
         "id": 1,
@@ -17,7 +17,7 @@ module.exports = [
         "superquestion": 0,
         "picture": 0,
         "erledigt": 0,
-        "wer": "beide"
+        "wer": "Beide"
     },
     {
         <!-- Hobbies Frage -->
@@ -28,7 +28,7 @@ module.exports = [
         "superquestion": 0,
         "picture": 0,
         "erledigt": 0,
-        "wer": "christian"
+        "wer": "Bräutigam"
     },
     {
         "id": 3,
@@ -38,7 +38,7 @@ module.exports = [
         "superquestion": 0,
         "picture": 0,
         "erledigt": 0,
-        "wer": "beide"
+        "wer": "Beide"
     },
     {
         <!--Schätzfrage-->
@@ -49,7 +49,7 @@ module.exports = [
         "superquestion": 0,
         "picture": 0,
         "erledigt": 0,
-    "wer": "beide"
+    "wer": "Beide"
     },
 
     {
@@ -60,7 +60,7 @@ module.exports = [
         "superquestion": 0,
         "picture": 0,
         "erledigt": 0,
-        "wer": "christian"
+        "wer": "Bräutigam"
     },
     {
         <!-- Schulzeit Frage -->
@@ -71,7 +71,7 @@ module.exports = [
         "superquestion": 0,
         "picture": 0,
         "erledigt": 0,
-        "wer": "conny"
+        "wer": "Braut"
     },
     {
         <!-- Hobbies Frage -->
@@ -80,7 +80,7 @@ module.exports = [
         "pkte": 200, "val": 0, "superquestion": 0,
         "picture": 0,
         "erledigt": 0,
-        "wer": "conny"
+        "wer": "Braut"
     },
     {
         "id": 8,
@@ -90,7 +90,7 @@ module.exports = [
         "superquestion": 0,
         "picture": 0,
         "erledigt": 0,
-        "wer": "beide"
+        "wer": "Beide"
     },
     {
         <!--Schätzfrage-->
@@ -101,7 +101,7 @@ module.exports = [
         "superquestion": 0,
         "picture": 0,
         "erledigt": 0,
-        "wer": "christian"
+        "wer": "Bräutigam"
     },
 
     {
@@ -112,7 +112,7 @@ module.exports = [
         "superquestion": 0,
         "picture": 0,
         "erledigt": 0,
-        "wer": "beide"
+        "wer": "Beide"
     },
     {
         <!-- Schulzeit Frage -->
@@ -123,7 +123,7 @@ module.exports = [
         "superquestion": 0,
         "picture": 0,
         "erledigt": 0,
-        "wer": "christian"
+        "wer": "Bräutigam"
     },
     {
         <!-- Hobbies Frage -->
@@ -134,7 +134,7 @@ module.exports = [
         "superquestion": 0,
         "picture": 0,
         "erledigt": 0,
-        "wer": "beide"
+        "wer": "Beide"
     },
     {
         "id": 13,
@@ -144,7 +144,7 @@ module.exports = [
         "superquestion": 0,
         "picture": 0,
         "erledigt": 0,
-        "wer": "christian"
+        "wer": "Bräutigam"
     },
 
 
@@ -157,7 +157,7 @@ module.exports = [
         "superquestion": 0,
         "picture": 0,
         "erledigt": 0,
-        "wer": "conny"
+        "wer": "Braut"
     },
 
     {
@@ -168,7 +168,7 @@ module.exports = [
         "superquestion": 0,
         "picture": 0,
         "erledigt": 0,
-        "wer": "beide"
+        "wer": "Beide"
     },
     {
         <!-- Schulzeit Frage -->
@@ -179,7 +179,7 @@ module.exports = [
         "superquestion": 0,
         "picture": 0,
         "erledigt": 0,
-        "wer": "conny"
+        "wer": "Braut"
     },
     {
         <!-- Hobbies Frage -->
@@ -190,7 +190,7 @@ module.exports = [
         "superquestion": 0,
         "picture": 0,
         "erledigt": 0,
-        "wer": "christian"
+        "wer": "Bräutigam"
     },
     {
         "id": 18,
@@ -200,7 +200,7 @@ module.exports = [
         "superquestion": 0,
         "picture": 0,
         "erledigt": 0,
-        "wer": "beide"
+        "wer": "Beide"
     },
     {
         <!--Schätzfrage-->
@@ -211,7 +211,7 @@ module.exports = [
         "superquestion": 0,
         "picture": 0,
         "erledigt": 0,
-        "wer": "christian"
+        "wer": "Bräutigam"
     },
     {
         "id": 20,
@@ -221,7 +221,7 @@ module.exports = [
         "superquestion": 0,
         "picture": 1,
         "erledigt": 0,
-        "wer": "beide"
+        "wer": "Beide"
     },
     {
         "id": 21,
@@ -231,7 +231,7 @@ module.exports = [
         "superquestion": 0,
         "picture": 0,
         "erledigt": 0,
-        "wer": "christian"
+        "wer": "Bräutigam"
     },
     {
         <!-- Hobbies Frage -->
@@ -242,7 +242,7 @@ module.exports = [
         "superquestion": 0,
         "picture": 0,
         "erledigt": 0,
-        "wer": "conny"
+        "wer": "Braut"
     },
     {
         "id": 23,
@@ -252,7 +252,7 @@ module.exports = [
         "superquestion": 0,
         "picture": 0,
         "erledigt": 0,
-        "wer": "beide"
+        "wer": "Beide"
     },
     {
         <!--Schätzfrage-->
@@ -263,5 +263,5 @@ module.exports = [
         "superquestion": 0,
         "picture": 0,
         "erledigt": 0,
-        "wer": "beide"
+        "wer": "Beide"
     }];
