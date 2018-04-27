@@ -34,6 +34,7 @@ var ids = [],
 // var questionArray = [];
 var answerArray = require('./data/answers');
 var questionArray = require('./data/questions');
+var questionArrayLongVersion = require('./data/questionsLongVersion');
 
 
 var router = express.Router();
@@ -176,15 +177,22 @@ io.on('connection', function (client) {
         });
 
         client.on('reconnectNotPlayerOverview', function (id) {
-            console.log("reconnectNotPlayer id: " + id);
-            console.log("clientArray.length: " + overviewArray.length);
+            var validate;
+            console.log("reconnectNotPlayerOverview id: " + id);
+            console.log("overviewArray.length: " + overviewArray.length);
             if (overviewArray.length > 0) {
+
                 overviewArray.forEach(function (clientid) {
                     console.log('client.id: ' + clientid);
                     if (clientid == id) {
+                        validate = true;
                         console.log('reconnectNotPlayerOverview ist im array');
                         console.log("playerArray.length: " + playerArray.length);
-                        io.emit('reconnectNotPlayerOverview', playerArray, questionArray, tdId, indx);
+                        io.emit('reconnectNotPlayerOverview', playerArray, questionArray, tdId, indx, validate);
+                    }else{
+                        console.log("Die ids stimmen nicht überein");
+                        validate = false;
+                        io.emit('reconnectNotPlayerOverview', playerArray, questionArray, tdId, indx, validate);
                     }
                 })
             } else {
@@ -244,6 +252,12 @@ io.on('connection', function (client) {
             gamemasterArray.push(iid);
             console.log("gamemasterArray.length: " + gamemasterArray.length);
             io.emit('registerGamemaster', iid, questionArray);
+            //  io.emit('questionArrayStorage', questionArray);
+
+        });
+        client.on('registerPresenter', function () {
+
+            io.emit('registerPresenter', questionArrayLongVersion, answerArray);
             //  io.emit('questionArrayStorage', questionArray);
 
         });

@@ -1,221 +1,202 @@
-module.exports = [
-    {
-        "id": 0,
-        "text": "Sind Conny und Christian auf die gleiche Konfession getauft?",
-        "pkte": 100,
-        "val": 0,
-        "superquestion": 0,
-        "picture": 0,
-        "erledigt": 0,
-        "wer": "Beide"
-    },
-    {
-        "id": 1,
-        "text": "Wie viele Klassenstufen lagen zwischen Conny und Christian?",
-        "pkte": 100,
-        "val": 0,
-        "superquestion": 0,
-        "picture": 0,
-        "erledigt": 0,
-        "wer": "Beide"
-    },
-    {
-        <!-- Hobbies Frage -->
-        "id": 2,
-        "text": "Welche Firma ermöglichte es Conny, ihr kulinarisches Hobby mit einem Nebenjob zu verbinden?",
-        "pkte": 100,
-        "val": 0,
-        "superquestion": 0,
-        "picture": 0,
-        "erledigt": 0,
-        "wer": "Bräutigam"
-    },
-    {
-        "id": 3,
-        "text": "Bei welcher Art von Veranstaltung lernten sich Conny und Christian kennen?",
-        "pkte": 100,
-        "val": 0,
-        "superquestion": 0,
-        "picture": 0,
-        "erledigt": 0,
-        "wer": "Beide"
-    },
-    {
-        <!--Schätzfrage-->
-        "id": 4,
-        "text": "Wie viele Kinder unter 2 sind heute auf der Hochzeit anwesend?",
-        "pkte": 100,
-        "val": 0,
-        "superquestion": 0,
-        "picture": 0,
-        "erledigt": 0,
-    "wer": "Beide"
-    },
 
-    {
-        "id": 5,
-        "text": "Mit welcher Serie lernte Conny schon in frühen Jahren mit ihrer Schwester Englisch?",
-        "pkte": 200,
-        "val": 0,
-        "superquestion": 0,
-        "picture": 0,
-        "erledigt": 0,
-        "wer": "Bräutigam"
-    },
-    {
-        <!-- Schulzeit Frage -->
-        "id": 6,
-        "text": "Welchen Studiengang hat Christian erfogreich abgeschlossen?",
-        "pkte": 200,
-        "val": 0,
-        "superquestion": 0,
-        "picture": 0,
-        "erledigt": 0,
-        "wer": "Braut"
-    },
-    {
-        <!-- Hobbies Frage -->
-        "id": 7,
-        "text": "In welcher Sportart trainiert(e) Christian eine Mannschaft?",
-        "pkte": 200, "val": 0, "superquestion": 0,
-        "picture": 0,
-        "erledigt": 0,
-        "wer": "Braut"
-    },
-    {
-        "id": 8,
-        "text": "Was war die erste Sci-Fy Serie , Für welche  er sie begeistern konnte?",
-        "pkte": 200,
-        "val": 0,
-        "superquestion": 0,
-        "picture": 0,
-        "erledigt": 0,
-        "wer": "Beide"
-    },
-    {
-        <!--Schätzfrage-->
-        "id": 9,
-        "text": "Wie viele Theaterproduktionen hat Conny an der RS-Dettelbach mitgemacht?",
-        "pkte": 200,
-        "val": 0,
-        "superquestion": 0,
-        "picture": 0,
-        "erledigt": 0,
-        "wer": "Bräutigam"
-    },
+module.exports  = [
+        {
+            "id": 0,
+            "text": "An welcher Gameshow nahm Angela Merkel einst teil?",
+            "pkte": 100,
+            "val": 0,
+            "superquestion": 0,
+            "picture": 1,
+            "erledigt": 0
+        },
+        {
+            <!-- Conny Frage -->
+            "id": 1,
+            "text": "Warum tragen die Herren auf dem Wiener Opernball weiße Fliegen?",
+            "pkte": 100,
+            "val": 0,
+            "superquestion": 0,
+            "picture": 0,
+            "erledigt": 0
+        },
+        {
+            <!-- Christian Frage -->
+            "id": 2,
+            "text": "Wie lautet die Hauptstadt von Frankreich?",
+            "pkte": 100,
+            "val": 0,
+            "superquestion": 0,
+            "picture": 0,
+            "erledigt": 0
+        },
+        {
+            "id": 3,
+            "text": "Welcher Agent steht im Zusammenhang mit der \"Lizenz zum Töten\"",
+            "pkte": 100,
+            "val": 0,
+            "superquestion": 0,
+            "picture": 0,
+            "erledigt": 0
+        },
+        {
+            <!--Schätzfrage-->
+            "id": 4,
+            "text": "Wie viele Flügel haben Fliegen?",
+            "pkte": 100,
+            "val": 0,
+            "superquestion": 0,
+            "picture": 0,
+            "erledigt": 0
+        },
 
-    {
-        "id": 10,
-        "text": "Wie viele Cousinen und Cousins haben Conny und Christian zusammen in Summe?",
-        "pkte": 300,
-        "val": 0,
-        "superquestion": 0,
-        "picture": 0,
-        "erledigt": 0,
-        "wer": "Beide"
-    },
-    {
-        <!-- Schulzeit Frage -->
-        "id": 11,
-        "text": "In welchen Fächern hat Conny einen akademischen Abschluss?",
-        "pkte": 300,
-        "val": 0,
-        "superquestion": 0,
-        "picture": 0,
-        "erledigt": 0,
-        "wer": "Bräutigam"
-    },
-    {
-        <!-- Hobbies Frage -->
-        "id": 12,
-        "text": "Aus welchem Land bekommen die Grundlers regelmäßig Päckchen?",
-        "pkte": 300,
-        "val": 0,
-        "superquestion": 0,
-        "picture": 0,
-        "erledigt": 0,
-        "wer": "Beide"
-    },
-    {
-        "id": 13,
-        "text": "Welche Farbe hatte das Kleid an der Veranstaltung, bei der sich Conny und Christian kennen lernten?",
-        "pkte": 300,
-        "val": 0,
-        "superquestion": 0,
-        "picture": 0,
-        "erledigt": 0,
-        "wer": "Bräutigam"
-    },
+        {
+            "id": 5,
+            "text": "Welches der unten genannten Lebensmittel enthält am meisten Eisen? - Rindfleich, -Spinar, -Schokolade",
+            "pkte": 200,
+            "val": 0,
+            "superquestion": 0,
+            "picture": 0,
+            "erledigt": 0
+        },
+        {
+            <!-- Conny Frage -->
+            "id": 6,
+            "text": "Wer war als Tontechniker für die Ich bin ein Berliner-Rede von John F. Kennedy verantwortlich ?",
+            "pkte": 200,
+            "val": 0,
+            "superquestion": 0,
+            "picture": 0,
+            "erledigt": 0
+        },
+        {
+            <!-- Christian Frage -->
+            "id": 7,
+            "text": "Wodurch \"trocknet\" Sekundenkleber?",
+            "pkte": 200, "val": 0, "superquestion": 0,
+            "picture": 0,
+            "erledigt": 0
+        },
+        {
+            "id": 8,
+            "text": "Warum macht ein Ukrainer namens \"Leonid Stadnik\" keine Diät, obwohl er 210 kg wiegt?",
+            "pkte": 200,
+            "val": 0,
+            "superquestion": 0,
+            "picture": 0,
+            "erledigt": 0
+        },
+        {
+            <!--Schätzfrage-->
+            "id": 9,
+            "text": "In welcher europäischen Stadt gibt es die meisten Brücken?",
+            "pkte": 200,
+            "val": 0,
+            "superquestion": 0,
+            "picture": 0,
+            "erledigt": 0
+        },
+
+        {
+            "id": 10,
+            "text": "Was hat das Münchener Oktoberfest im Gegensatz zu anderen Volksfesten zu bieten?",
+            "pkte": 300,
+            "val": 0,
+            "superquestion": 0,
+            "picture": 0,
+            "erledigt": 0
+        },
+        {
+            <!-- Conny Frage -->
+            "id": 11,
+            "text": "Wovon bekommen wir die meiste radioaktive Strahlung ab?",
+            "pkte": 300,
+            "val": 0,
+            "superquestion": 0,
+            "picture": 0,
+            "erledigt": 0
+        },
+        {
+            <!-- Christian Frage -->
+            "id": 12,
+            "text": "Wie viele der hier anwesenden Hochzeitsgäste waren bereits mit Christian zusammen in der 1. Klasse?",
+            "pkte": 300,
+            "val": 0,
+            "superquestion": 0,
+            "picture": 1,
+            "erledigt": 0
+        },
+        {
+            "id": 13,
+            "text": "Was bekam man beim weltweit ersten Münzautomat für sein Geld?",
+            "pkte": 300,
+            "val": 0,
+            "superquestion": 0,
+            "picture": 0,
+            "erledigt": 0
+        },
 
 
-    {
-        <!--Schätzfrage-->
-        "id": 14,
-        "text": "Welche Schichtdicke kann Christians 3D Drucker minimal drucken?",
-        "pkte": 300,
-        "val": 0,
-        "superquestion": 0,
-        "picture": 0,
-        "erledigt": 0,
-        "wer": "Braut"
-    },
+        {
+            <!--Schätzfrage-->
+            "id": 14,
+            "text": "Warum berichteten im August 2004 weltweit einige Zeitungen darüber, dass eine 13-jährige in China raucht und Passanten um Zigaretten anbettelt?",
+            "pkte": 300,
+            "val": 0,
+            "superquestion": 0,
+            "picture": 0,
+            "erledigt": 0
+        },
 
-    {
-        "id": 15,
-        "text": "Haben Conny und Christian bis zum 4. Grad gemeinsame Verwandte?",
-        "pkte": 400,
-        "val": 0,
-        "superquestion": 0,
-        "picture": 0,
-        "erledigt": 0,
-        "wer": "Beide"
-    },
-    {
-        <!-- Schulzeit Frage -->
-        "id": 16,
-        "text": "Wie viele der hier anwesenden Hochzeitsgäste waren bereits mit Christian zusammen in der 1. Klasse?",
-        "pkte": 400,
-        "val": 0,
-        "superquestion": 0,
-        "picture": 0,
-        "erledigt": 0,
-        "wer": "Braut"
-    },
-    {
-        <!-- Hobbies Frage -->
-        "id": 17,
-        "text": "Wer stand der kleinen Hexe Conny als Rabe Abraxas in Schwarzer Skiunterwäsche und großem Schnabel zur Seite?",
-        "pkte": 400,
-        "val": 0,
-        "superquestion": 0,
-        "picture": 0,
-        "erledigt": 0,
-        "wer": "Bräutigam"
-    },
-    {
-        "id": 18,
-        "text": "Seit wie vielen Monaten sind Conny und Christian inzwischen zusammen? (+/– 1",
-        "pkte": 400,
-        "val": 0,
-        "superquestion": 0,
-        "picture": 0,
-        "erledigt": 0,
-        "wer": "Beide"
-    },
-    {
-        <!--Schätzfrage-->
-        "id": 19,
-        "text": "Wie viele Umdrehungen pro Minute schafft Connys Thermomix?",
-        "pkte": 400,
-        "val": 0,
-        "superquestion": 0,
-        "picture": 0,
-        "erledigt": 0,
-        "wer": "Bräutigam"
-    },
-    {
+        {
+            "id": 15,
+            "text": "Papst Franziskus ist Ehrenmitglied des Fußballvereins ...?",
+            "pkte": 400,
+            "val": 0,
+            "superquestion": 0,
+            "picture": 0,
+            "erledigt": 0
+        },
+        {
+            <!-- Conny Frage -->
+            "id": 16,
+            "text": "1999 sprach man vom Jahr-2000-Problem. Man befürchtete, dass zum Jahrtausendwechsel sämtliche Computer verrückt spielen. Tatsächlich gab es aber ein ganz anderes Jahr-2000-Problem, aber wo?",
+            "pkte": 400,
+            "val": 0,
+            "superquestion": 0,
+            "picture": 0,
+            "erledigt": 0
+        },
+        {
+            <!-- Christian Frage -->
+            "id": 17,
+            "text": "Am 21. Dezember 1992 kam ein Mann aus North Carolina auf mysteriöse Weise ums Leben nachdem sein Telefon klingelte. Was war passiert?",
+            "pkte": 400,
+            "val": 0,
+            "superquestion": 0,
+            "picture": 0,
+            "erledigt": 0
+        },
+        {
+            "id": 18,
+            "text": "Wie hoch ist die Höchstleistung eines durchschnittlichen Pferdes in PS?",
+            "pkte": 400,
+            "val": 0,
+            "superquestion": 0,
+            "picture": 0,
+            "erledigt": 0
+        },
+        {
+            <!--Schätzfrage-->
+            "id": 19,
+            "text": "Seit der deutschen Wiedervereinigung sind gigantische Beträge von West- nach Ostdeutschland geflossen, aber wieviel ist das, wenn man den gesamten Betrag durch die Einwohnerzahl Westdeutschlands teilt? Wieviel hat also quasi jeder einzelne Westdeutsche (bis 2013) in die neuen Bundesländer gezahlt??",
+            "pkte": 400,
+            "val": 0,
+            "superquestion": 0,
+            "picture": 0,
+            "erledigt": 0
+        }, {
         "id": 20,
-        "text": " Luftlinie! Wie weit sind Connys und Christians Elternhäuser auseinander?",
+        "text": " In welchem Jahr Begann der Zweite Weltkrieg?",
         "pkte": 500,
         "val": 0,
         "superquestion": 0,
@@ -225,7 +206,7 @@ module.exports = [
     },
     {
         "id": 21,
-        "text": "Welcher Lehrer prägte den Spruch 'Geh heim zur Mama auf die Bäume und spiel'   mit Kokosnüssen?",
+        "text": "Im Zuge welcher Revolution wurde Ludwig XVI. zum Tode verurteilt und hingerichtet?",
         "pkte": 500,
         "val": 0,
         "superquestion": 0,
@@ -236,7 +217,7 @@ module.exports = [
     {
         <!-- Hobbies Frage -->
         "id": 22,
-        "text": "Wie viele James Bond DVD's besitzt Christian?",
+        "text": "Wer war der erste Bundeskanzler der Bundesrepublik Deutschland??",
         "pkte": 500,
         "val": 0,
         "superquestion": 0,
@@ -246,7 +227,7 @@ module.exports = [
     },
     {
         "id": 23,
-        "text": " Wozu haben Conny und Christian sich bei Ihrem einzigen richtigen Date verabredet?",
+        "text": " In welchem Jahr wurde das World Trade Center zerstört?",
         "pkte": 500,
         "val": 0,
         "superquestion": 0,
@@ -257,11 +238,13 @@ module.exports = [
     {
         <!--Schätzfrage-->
         "id": 24,
-        "text": "Wie viel Paar Sportschuhe hatten Conny und Christian am Nachmittag des 19. März 2018 vor ihrem Schuhregal am Hauseingang stehen?",
+        "text": "WWas kauften die USA im Jahre 1867 vom Russischen Kaiserreich??",
         "pkte": 500,
         "val": 0,
         "superquestion": 0,
         "picture": 0,
         "erledigt": 0,
         "wer": "Beide"
-    }];
+    }
+        ];
+

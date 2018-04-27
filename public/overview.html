@@ -33,11 +33,10 @@
 
 
     $(document).ready(function () {
-        console.log("id: " + mystorage.getItem('id'));
+        console.log(".ready bei .: " + mystorage.getItem('id'));
         if (mystorage.getItem('id') !== null) {
             console.log("reconnection: ", mystorage.getItem('id'));
-            var id = mystorage.getItem('id');
-            socket.emit('reconnectNotPlayerOverview', id);
+            socket.emit('reconnectNotPlayerOverview', mystorage.getItem('id'));
         } else {
             console.log("registerOverview");
             socket.emit('registerOverview');
@@ -49,15 +48,20 @@
     });
 
 
-    // socket.on('emptyReloadLocalstorage', function () {
-    //     mystorage.clear();
-    //     console.log("mystorage wird geleert.");
-    //
-    // });
+    socket.on('emptyLocalstorageOverview', function () {
+        localStorage.clear();
+        mystorage.clear();
+        console.log("id: " + mystorage.getItem('id'));
+        console.log("mystorage wird geleert.");
+        console.log("registerOverview nach Leerung des local storages");
+        socket.emit('registerOverview');
+
+    });
 
     socket.on('registerOverview', function (id) {
         console.log('id: ', id);
         mystorage.setItem('id', id);
+        console.log("im mystorage registeroverview ist die id: " + mystorage.getItem('id'));
     });
 
     // socket.on('emptyLocalstorageOverview', function () {
@@ -66,7 +70,10 @@
     // });
 
 
-    socket.on('reconnectNotPlayerOverview', function (playerArray9, questionArray, tdId, indx) {
+    socket.on('reconnectNotPlayerOverview', function (playerArray9, questionArray, tdId, indx, validate) {
+        if(!validate){
+console.log("fuck");
+        }else{
         playerArray = playerArray9
         //Array mit Spielern füllen
         console.log('reconnected & playerarray: ' + playerArray[0]);
@@ -77,7 +84,7 @@
             questionStart2(questionArray, tdId, indx);
         }
         console.log("playerArray.length: " + playerArray.length);
-        fillNameFields(playerArray);
+        fillNameFields(playerArray9);}
     });
 
 
@@ -96,7 +103,9 @@
 
 
         mystorage.setItem('playerArrayStorage', JSON.stringify(playerArray));
+        fillNameFields(playerArray);
         // fillNameFields(playerArray);
+
     });
 
     socket.on('buzzerTest', function (nickname) {
@@ -159,7 +168,8 @@
     });
 
     socket.on('showTable', function () {
-        showTable()
+        $('#werDarf').text("...");
+        showTable();
     });
 
     function showTable() {
@@ -170,7 +180,7 @@
     }
 
     socket.on('backToOverview', function (playerArray6) {
-        console.log("Backto");
+        // console.log("Backto");
         playerArray = playerArray6;
         answerStart(answerArray, tdId, indx);
         prevTdId = tdId;

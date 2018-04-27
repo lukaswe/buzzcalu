@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
-    <script language="javascript" type="text/javascript" src="js/client.js"></script>
+    <!--<script language="javascript" type="text/javascript" src="js/client.js"></script>-->
 
 </head>
 
@@ -240,8 +240,7 @@
             console.log("test ist: " + test);
             socket.emit('buzzerKlappt', mystorage.getItem('id'), test);
         }
-         else if (!test)
-        {
+        else if (!test) {
             console.log("send_buzz Test: " + mystorage.getItem('id'));
             $('#buzzerBtn').prop('disabled', true);
             document.getElementById("submit2").style.color = "grey";
@@ -257,36 +256,55 @@
 
 <div id="clientsite" class="container">
 
+    <div class="row ml-2 mt-2"->
 
-    <div class="row ">
+        <!--<div id="submit">-->
+        <div class="input-group" id="submit">
+            <span class="input-group-addon" id="subheading"> Bitte Namen eingeben:</span>
+            <!--<span class="input-group-addon" id="basic-addon1">@</span>-->
+            <input id="username" type="text" class="form-control" placeholder="Username, max. 10 Zeichen" maxlength="10"
+                   aria-describedby="basic-addon1">
+            <!--</div>-->
 
-        <div id="submit">
-            <!--    <img id="logo_Jeopardy" src="graphics/gold_buzzcalu.png">-->
-            <!--<img id="logo_Jeopardy" src="https://www.jeopardy.com/Assets/jeopardy/images/global/logo_jeopardy.png">-->
+            <!--<div id="subheading">-->
+            <!--Bitte Namen eingeben:-->
+            <!--</div>-->
+            <!--<input id="username" type="text" name="username" placeholder="Username" maxlength="10">-->
 
-            <div id="subheading">
-                Bitte Namen eingeben:
+
+            <!--<button id="submit-btn" onclick="save_name()" type="button">-->
+            <!--Save Name-->
+            <!--</button>-->
+
+            <div class="btn-group" id="submit-btn" onclick="save_name()" role="group" aria-label="...">
+                <button type="button" class="btn btn-default">Save Name</button>
+                <!--<button type="button" class="btn btn-default">Middle</button>-->
+                <!--<button type="button" class="btn btn-default">Right</button>-->
             </div>
-            <input id="username" type="text" name="username" placeholder="Username" maxlength="10">
 
-
-            <button id="submit-btn" onclick="save_name()" type="button">
-                Save Name
-            </button>
         </div>
     </div>
     <div class="row ml-2 mt-2 ">
-        <div id="submit2" style="visibility:hidden;">
-
+        <!--<div id="submit2" style="visibility:hidden;">-->
+            <div  id="submit2" style="visibility:hidden;" class= "btn-group" role="group" aria-label="...">
+                <h1 id="buzz-text">...</h1>
+                <button class="btn btn-default"
+                        id="buzzerBtn"
+                         onclick="send_buzz()"
+                         type="button" disabled
+                         >Buzz!</button>
+                <!--<button type="button" class="btn btn-default">Middle</button>-->
+                <!--<button type="button" class="btn btn-default">Right</button>-->
+            <!--</div>-->
             <!--<div id="submit2" style="visibility:hidden;">-->
 
-            <h1 id="buzz-text"></h1>
-            <button id="buzzerBtn"
-                    onclick="send_buzz()"
-                    type="button" disabled>
+            <!--<h1 id="buzz-text"></h1>-->
+            <!--<button id="buzzerBtn"-->
+                    <!--onclick="send_buzz()"-->
+                    <!--type="button" disabled>-->
 
-                Buzz!
-            </button>
+                <!--Buzz!-->
+            <!--</button>-->
 
         </div>
     </div>
@@ -322,29 +340,6 @@
 
 
 
-<form action="">
-    <div id="UserInterface">
 
-        <h1 id="subheading">Bitte Namen eingeben</h1>
-
-        <input id="username" autocomplete="off"/>
-        <button type="button" id="submit-btn" onclick="save_name()">Save Name</button>
-    </div>
-
-
-    <div id="buzz-div" style="visibility:hidden;">
-        <h1 id="buzz-text">Be Ready ###</h1>
-        <button type="button"
-                onclick="send_buzz()"
-                id="buzzerBtn">
-
-            Buzz!
-        </button>
-
-    </div>
-    <div>
-
-    </div>
-</form>-->
 </body>
 </html>

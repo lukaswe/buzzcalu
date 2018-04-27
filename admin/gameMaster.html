@@ -285,6 +285,7 @@
     ;
 
     function showTable(){
+        console.log("showtable");
         $('#schnellster-text').text("...");
         socket.emit('showTable');
         $('#buzzerTest').prop('disabled', false);
@@ -292,12 +293,31 @@
         $('#rightAnswer').prop('disabled', true);
         $('#wrongAnswer').prop('disabled', true);
         $('#giveUp').prop('disabled', true);
+        // showq();
+    }
+
+    function showq(){
+        var i = 0;
+        while (i<=24){
+            console.log("question: "+i);
+            $('#question'+i).hide();
+            i++
+        }
+    }
+    function hideq(){
+        var i = 0;
+        while (i<=24){
+            console.log("question: "+i);
+            $('#question'+i).hide();
+            i++
+        }
     }
 
     socket.on('trueAnswer', function (winner, playerArray, answerArray, tdId, indx, questionArray) {
         schnellster = winner;
         start(playerArray);
         questionStart(questionArray, answerArray);
+        // showq();
     });
 
     socket.on('giveUp', function (playerArray, answerArray, tdId, indx, questionArray) {
@@ -305,7 +325,10 @@
         //schnellster = playa;
         start(playerArray);
         questionStart(questionArray, answerArray);
+     //
+        //   showq();
     });
+
 
     socket.on('wrongAnswer', function (player, playerArray9, tdId, indx) {
         playerArray = playerArray9;
@@ -415,7 +438,7 @@
         $('#showTable').prop('disabled', true);
         $('#letsStart').prop('disabled', true);
         $('#giveUp').prop('disabled', false);
-        disableQuestions();
+        // disableQuestions();
     };
 
     function disableQuestions() {
