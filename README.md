@@ -6,14 +6,21 @@ BuzzCaLu will be an online web-application for playing a quiz-game with several 
 
 ## Devices
 Each device has one of the following roles.
+
 ### Overview Screen
 The Overview Screen is supposed to be visible to every player.
 
 ### Game Master Screen
-There can be only one device showing the Game Master Screen. The Game Master Screen enables interaction with the system for selecting the next category
+There can be only one device showing the Game Master Screen. The Game Master Screen enables interaction with the system for selecting the next category.
 
-### Player's Screen
+### Player's Screen (Client)
 The Player's Screen only enables each player for easy interaction i.e. Buzzering, when one wants to anser the question.
+
+### Presenter
+Screen with more Information, for a tablet, the gamepresenter holds to introoduce the questions.
+
+## Spass intro
+we use gsap timelinemax for a fun intro, meanwhile the gamemaster can set up the devices.
 
 ## Gameplay
 
@@ -29,7 +36,8 @@ On the first Buzz-Event, the overview screen shows the the name of the fastest p
 If the Player answered correctly and the Game Master indicates that to the system, the player gets the points added. If not, the points get substracted and the buzzer-round is opened again. As soon as the question is answered correctly, the game moves on to the category tabel and the game master can select the next question.
 
 ## Technology
-We want to use node.js and socket.io for enabling all devices for real time communication.
+We use node.js and socket.io for enabling all devices for real time communication.
+And Bootstrap and Jquery.
 
 Let's go!
 Caro & Lukas
