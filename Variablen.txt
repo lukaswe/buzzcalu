@@ -1,9 +1,0 @@
-playerArray[nicknameObj
-.id
-.nickname
-.color
-]
-
-color: #e55643 rot
-#e55643 hellrot
-#2b9f5e  grün

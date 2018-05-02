@@ -18,25 +18,19 @@
 
 
 <script>
-    var obj = {},
-        socket = io.connect(),
-        //  socket = io.connect(),
+    var socket = io.connect(),
         mystorage = localStorage,
         ich = {},
         test = false,
         currColor;
-    //Daten vom Server empfangen bzw
 
 
     $(document).ready(function () {
 
         console.log("ready(function)", mystorage.getItem('id'));
         if (mystorage.getItem('id') !== null) {
-            console.log('und überhautp: ' + mystorage.getItem('id'));
-            console.log("reconnnnect: ");
-            //    socket.emit('reconnect');
+            console.log('reconnect mit id: ' + mystorage.getItem('id'));
             reconnect();
-            // socket.emit('reconnect', obj);
         } else {
             console.log("neu");
         }
@@ -56,33 +50,20 @@
     function reconnect() {
         buttonVisibility();
         $('#subheading').text("Du bist bereits als: " + mystorage.getItem('playerName') + " eingeloggt, also sei bereit, " + mystorage.getItem('playerName') + "!");
-        var id2 = mystorage.getItem('id');
-        console.log("reconnect ID: " + id2);
-        //  console.log("PlayerObject: " + playerObject.nickname + ", " + playerObject.id + ", " + playerObject.color + ", " + playerObject.pkte);
-
-        socket.emit('reconnectPlayer', id2);
+        socket.emit('reconnectPlayer', mystorage.getItem('id'));
     }
 
     function save_name() {
 
         if (mystorage.getItem('nickname') != null) {
-            //  reconnect();
-            console.log("ist schon");
+            console.log("Client ist schon registriert.");
         } else {
-
             buttonVisibility();
-
             mystorage.setItem('playerName', $('#username').val());
             var id = Math.random();
             console.log('id: ' + id);
             mystorage.setItem('id', id);
-            //  console.log("obej: " + obj.id);
-            //console.log("mystoragegetitem: "+mystorage.getItem('obj'));
-
-
-            socket.emit('createPlayer', $('#username').val(), id); //Former 'set nickname'
-            //    });
-            // var myJSON = JSON.stringify(obj);
+            socket.emit('createPlayer', $('#username').val(), id);
         }
 
     };
@@ -93,12 +74,6 @@
         $('#username').hide();
         $('#submit-btn').prop('disabled', true);
         $('#submit-btn').hide();
-        // $('#buzzerBtn').show();
-        // document.getElementById("username").disabled = true;
-        // document.getElementById("username").style = "visibility:hidden;";
-        // document.getElementById("submit-btn").disabled = true;
-        // document.getElementById("subheading").style = "visibility:hidden;";
-        // document.getElementById("submit-btn").style = "visibility:hidden;";
         document.getElementById("buzzerBtn").style = "visibility:visible;";
     }
 
@@ -106,24 +81,15 @@
     socket.on('emptyLocalstorage', function () {
         console.log("Localstorage wird gelöscht");
         mystorage.clear();
-        //  keyName: Name des Eintrags
-        // keyValue: string mit zu speicherndem Eintrag
         location.reload();
-        //document.getElementById("buzzerBtn").style = "visibility:visible;";
-        //$('#subheading').text("Sei bereit, " + obj.nickname + "!");
-
     });
 
     socket.on('playerList', function (playerObject, playerArray) {
         playerArray.forEach(function (playa) {
             if (mystorage.getItem('playerName') == playa.nickname) {
-                // mystorage.setItem('id', playerObject.id); //speichern eines Eintrags mit 2 Werten
-
-                //      document.getElementById("buzzerBtn").style = "visibility:visible;";
                 $('#subheading').text("Sei bereit, " + playerObject.nickname + "!");
 
             } else {
-                console.log("war schon");
                 document.getElementById("buzzerBtn").style = "visibility:visible;";
                 $('#subheading').text("Sei bereit, " + mystorage.getItem('playerName') + "!");
             }
@@ -157,9 +123,6 @@
         console.log("meine id in fastest: " + mystorage.getItem('id'));
         $('body').css("background", "linear-gradient(to bottom, #405166 0%, #656f6f 100%)");
         console.log("Der fastest player lautet: " + player.nickname);
-        console.log("Der fastest player id lautet: " + player.id);
-        //BuzzerBtn ausgrauen, um ihn nur einmal drücken zu können.
-
 
         console.log("ich.nickname: " + mystorage.getItem('playerName'));
         if (mystorage.getItem('playerName') == player.nickname) {
@@ -171,7 +134,6 @@
         else {
             $('#buzz-text').text("Zu Langsam, " + player.nickname + " ist dran!");
             $('body').css('background', 'red');
-            console.log("Zu Langsam,");
             changeColor('grey');
         }
     });
@@ -198,12 +160,10 @@
         $('#buzzerBtn').prop('disabled', false);
         $('#buzzerBtn').css('background-color', 'red');
         $('body').css("background", "linear-gradient(to bottom, #405166 0%, #656f6f 100%)");
-        //Buzzer wieder disablen
         changeColor('white');
 
     });
 
-    //Buzzer wieder enablen!
     socket.on('showQuestion', function (questionArray5, tdId5, indx5) {
         test = false;
         $('#buzzerBtn').prop('disabled', false);
@@ -246,8 +206,7 @@
             document.getElementById("submit2").style.color = "grey";
             socket.emit('send_buzz', mystorage.getItem('id'));
         }
-    }
-    ;
+    };
 
 
 </script>
@@ -255,91 +214,28 @@
 <body>
 
 <div id="clientsite" class="container">
-
-    <div class="row ml-2 mt-2"->
-
-        <!--<div id="submit">-->
+    <div class="row ml-2 mt-2 col-sm-12" ->
         <div class="input-group" id="submit">
             <span class="input-group-addon" id="subheading"> Bitte Namen eingeben:</span>
-            <!--<span class="input-group-addon" id="basic-addon1">@</span>-->
             <input id="username" type="text" class="form-control" placeholder="Username, max. 10 Zeichen" maxlength="10"
                    aria-describedby="basic-addon1">
-            <!--</div>-->
-
-            <!--<div id="subheading">-->
-            <!--Bitte Namen eingeben:-->
-            <!--</div>-->
-            <!--<input id="username" type="text" name="username" placeholder="Username" maxlength="10">-->
-
-
-            <!--<button id="submit-btn" onclick="save_name()" type="button">-->
-            <!--Save Name-->
-            <!--</button>-->
-
             <div class="btn-group" id="submit-btn" onclick="save_name()" role="group" aria-label="...">
                 <button type="button" class="btn btn-default">Save Name</button>
-                <!--<button type="button" class="btn btn-default">Middle</button>-->
-                <!--<button type="button" class="btn btn-default">Right</button>-->
             </div>
-
         </div>
     </div>
-    <div class="row ml-2 mt-2 ">
-        <!--<div id="submit2" style="visibility:hidden;">-->
-            <div  id="submit2" style="visibility:hidden;" class= "btn-group" role="group" aria-label="...">
-                <h1 id="buzz-text">...</h1>
-                <button class="btn btn-default"
-                        id="buzzerBtn"
-                         onclick="send_buzz()"
-                         type="button" disabled
-                         >Buzz!</button>
-                <!--<button type="button" class="btn btn-default">Middle</button>-->
-                <!--<button type="button" class="btn btn-default">Right</button>-->
-            <!--</div>-->
-            <!--<div id="submit2" style="visibility:hidden;">-->
-
-            <!--<h1 id="buzz-text"></h1>-->
-            <!--<button id="buzzerBtn"-->
-                    <!--onclick="send_buzz()"-->
-                    <!--type="button" disabled>-->
-
-                <!--Buzz!-->
-            <!--</button>-->
-
+    <div class="row ml-2 mt-2 col-sm-12">
+        <div id="submit2" style="visibility:hidden;" class="btn-group" role="group" aria-label="...">
+            <h1 id="buzz-text">...</h1>
+            <button class="btn btn-default "
+                    id="buzzerBtn"
+                    onclick="send_buzz()"
+                    type="button" disabled
+            >Buzz!
+            </button>
         </div>
     </div>
 </div>
-<!--
-
-
-<div id="UserInterface">
-<p id="subheading">
-    Bitte Namen eingeben:
-</p>
-<input id="username" type="text" name="username" placeholder="Username">
-<br/>
-
-<div id="submit">
-    <button id="submit-btn" onclick="save_name()" type="button">
-        Save Name
-    </button>
-</div>
-
-</div>
-
-<div id="submit2" >
-    <h1 id="buzz-text">Be Ready ###</h1>
-    <button id="buzzerBtn"
-            onclick="send_buzz()"
-            type="button" disabled>
-
-        Buzz!
-    </button>
-
-</div>
-
-
-
 
 </body>
 </html>
