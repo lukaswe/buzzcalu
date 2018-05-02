@@ -4,7 +4,7 @@ module.exports = [
         "Es waren 2",
         "Tupperware", // Hobbies Frage
         "Auf einer Hochzeit",
-        "Zwei",
+        "Vier?",
 
         //200
         "Friends",

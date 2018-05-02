@@ -1,46 +1,39 @@
 /**
  * Created by Caro on 07.09.17.
  */
-var express = require('express');
-var app = express();
+var express = require('express'),
+    app = express(),
 
-var basicAuth = require('basic-auth-connect');
-
-var server = require('http').Server(app);
-var io = require('socket.io')(server);
-/*
-var app = require('express')();
-var http = require('http').Server(app);
-var io = require('socket.io')(http);
-*/
-
-var x = 0;
-var z = 0;
-var erster;
-var playerArray = [],
-    gamemasterArray = [],
-    overviewArray = [];
-var ids = [],
-    currentQuestionObj,
-    fastestPlayer = {},
+    basicAuth = require('basic-auth-connect'),
+    server = require('http').Server(app),
+    io = require('socket.io')(server),
     fs = require('fs'),
     path = require('path'),
+
+    x = 0,
+    z = 0,
+    erster,
+    playerArray = [],
+    gamemasterArray = [],
+    overviewArray = [],
+    currentQuestionObj,
+    fastestPlayer = {},
+
     playerObject = {},
     readStream = fs.createReadStream(path.resolve(__dirname, './pictures/1klasse.jpg'), {
         encoding: 'binary'
     }), chunks = [], delay = 0;
 
 
-// var questionArray = [];
-var answerArray = require('./data/answers');
-var questionArray = require('./data/questions');
-var questionArrayLongVersion = require('./data/questionsLongVersion');
+/**  Questions & Answer Fill-in  **/
+var answerArray = require('./data/answers3'),
+    questionArray = require('./data/questions3'),
+    questionArrayLongVersion = require('./data/questionsLongVersion');
 
-
+/**  Password Check for Admin site  **/
 var router = express.Router();
 router.use(basicAuth('admin', 'test1234'));
 router.use(express.static('admin'));
-
 app.use(express.static('public'));
 app.use(express.static('js'));
 app.use('/admin/', router);
@@ -140,6 +133,9 @@ app.get('/pictures/1klasse.jpg', function (req, res) {
     res.sendFile(__dirname + '/pictures/1klasse.jpg');
 });
 
+app.get('/pictures/brautpaar.jpeg', function (req, res) {
+    res.sendFile(__dirname + '/pictures/brautpaar.jpeg');
+});
 //var socket = io();
 
 //sessionSockets.on('connection', function (err, socket, session) {

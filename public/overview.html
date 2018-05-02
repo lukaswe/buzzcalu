@@ -13,317 +13,16 @@
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
     <link href="/styles/overview.css" type="text/css" rel="stylesheet">
+    <link href="/js/overview.js" type="text/javascript" rel="stylesheet">
     <link href="/styles/animate.css" type="text/css" rel="stylesheet">
     <script src="../libraries/zoomooz-master/jquery.zoomooz.js"></script>
     <script defer src="https://use.fontawesome.com/releases/v5.0.10/js/all.js" integrity="sha384-slN8GvtUJGnv6ca26v8EzVaR9DC58QEwsIk9q1QXdCU8Yu8ck/tL/5szYlBbqmS+" crossorigin="anonymous"></script>
 </head>
 
-<script>
-
-    var socket = io(),
-        playerArray = [],
-        questionArrayOv = [],
-        i = 1,
-        j = 0,
-        tdId = 0,
-        indx = 0,
-        prevTdId = 0,
-        imgChunks = [],
-        mystorage = localStorage;
-
-
-    $(document).ready(function () {
-        console.log(".ready bei .: " + mystorage.getItem('id'));
-        if (mystorage.getItem('id') !== null) {
-            console.log("reconnection: ", mystorage.getItem('id'));
-            socket.emit('reconnectNotPlayerOverview', mystorage.getItem('id'));
-        } else {
-            console.log("registerOverview");
-            socket.emit('registerOverview');
-
-        }
-        $("body").toggleClass("question-inactive");
-        $("body").toggleClass("answer-inactive");
-
-    });
-
-
-    socket.on('emptyLocalstorageOverview', function () {
-        localStorage.clear();
-        mystorage.clear();
-        console.log("id: " + mystorage.getItem('id'));
-        console.log("mystorage wird geleert.");
-        console.log("registerOverview nach Leerung des local storages");
-        socket.emit('registerOverview');
-
-    });
-
-    socket.on('registerOverview', function (id) {
-        console.log('id: ', id);
-        mystorage.setItem('id', id);
-        console.log("im mystorage registeroverview ist die id: " + mystorage.getItem('id'));
-    });
-
-    // socket.on('emptyLocalstorageOverview', function () {
-    //     console.log("Localstorage wird gelöscht");
-    //     mystorage.clear();
-    // });
-
-
-    socket.on('reconnectNotPlayerOverview', function (playerArray9, questionArray, tdId, indx, validate) {
-        if(!validate){
-console.log("fuck");
-        }else{
-        playerArray = playerArray9
-        //Array mit Spielern füllen
-        console.log('reconnected & playerarray: ' + playerArray[0]);
-        console.log('reconnected & questionarray: ' + questionArray[0]);
-        //  mystorage.setItem('playerArrayStorage', JSON.stringify(playerArray));
-        console.log("tdId:" + tdId + ", indx:" + indx);
-        if (tdId !== null) {
-            questionStart2(questionArray, tdId, indx);
-        }
-        console.log("playerArray.length: " + playerArray.length);
-        fillNameFields(playerArray9);}
-    });
-
-
-    //Clients verbinden sich //Blaue Felder füllemn :)
-    socket.on('playerList', function (playerObject, playerArray7) {
-        //Array mit Spielern füllen
-        playerArray = playerArray7;
-        console.log(playerObject.nickname + " just connected!");
-        var x = 0;
-        playerArray.forEach(function (player) {
-            mystorage.setItem('playerArrayStorage[x]', JSON.stringify(player));
-
-            console.log("jsonstring: " + mystorage.getItem('playerArrayStorage[x]'));
-            x++;
-        });
-
-
-        mystorage.setItem('playerArrayStorage', JSON.stringify(playerArray));
-        fillNameFields(playerArray);
-        // fillNameFields(playerArray);
-
-    });
-
-    socket.on('buzzerTest', function (nickname) {
-
-        // showTable();
-    });
-
-    socket.on('buzzerKlappt', function (nickname) {
-        $('#questionSpaceBoxId').text(nickname + " spielt mit!");
-        $("body").toggleClass("question-active");
-        console.log("  $(body).toggleClass(question-inactive);");
-        $("body").toggleClass("question-inactive");
-        fillNameFields(playerArray);
-
-
-    });
-
-
-    socket.on('trueAnswer', function (player, playerArray5, answerArray, tdId, indx, questionArray) {
-        var img = document.getElementById('img-stream2');
-        playerArray = playerArray5;
-        //   console.log("[tdId]:   " + [tdId]);
-        //   console.log("answerArray[tdId]:   " + answerArray[indx].text);
-        // img.setAttribute('src', ""); Falls doch foto, wieder uncommenten
-        answerStart(answerArray, tdId, indx);
-        prevTdId = tdId;
-        console.log('prevTdiDi: ' + prevTdId);
-        fillNameFields(playerArray);
-        $('#erster-text').text("...");
-        $('#richtig-text').text("Richtig!");
-        $("body").toggleClass("answer-inactive");
-        emptyLastQuestionInTable(questionArray);
-    });
-
-
-    socket.on('giveUp', function (playerArray5, answerArray, tdId, indx, questionArray) {
-        playerArray = playerArray5;
-        //   console.log("[tdId]:   " + [tdId]);
-        //   console.log("answerArray[tdId]:   " + answerArray[indx].text);
-        answerStart(answerArray, tdId, indx);
-        prevTdId = tdId;
-        console.log('prevTdiDi: ' + prevTdId);
-        fillNameFields(playerArray);
-        $('#erster-text').text("Niemand.");
-        $("body").toggleClass("answer-inactive");
-        emptyLastQuestionInTable(questionArray);
-    });
-
-
-    socket.on('wrongAnswer', function (player, playerArray9, tdId, indx) {
-        playerArray = playerArray9;
-        //playerArray.forEach(function (player) {
-        //   if (schnellster.nickname == player.nickname) {
-        //       console.log("player.pkte: " + player.pkte);
-        //  player.pkte = schnellster.pkte;
-        $('#erster-text').text("...");
-        $('#richtig-text').text("Falsch!");
-        fillNameFields(playerArray9);
-
-    });
-
-    socket.on('showTable', function () {
-        $('#werDarf').text("...");
-        showTable();
-    });
-
-    function showTable() {
-        $('#richtig-text').text("...");
-        $("body").toggleClass("question-active");
-        $("body").toggleClass("question-inactive");
-        $("body").toggleClass("answer-inactive");
-    }
-
-    socket.on('backToOverview', function (playerArray6) {
-        // console.log("Backto");
-        playerArray = playerArray6;
-        answerStart(answerArray, tdId, indx);
-        prevTdId = tdId;
-        console.log('prevTdiDi: ' + prevTdId);
-        fillNameFields(playerArray);
-
-        // document.getElementById('grayout').style = "display: none";
-    });
-
-    socket.on('fastest player', function (player) {
-        //document.getElementById("erster-text").innerHTML = player;
-        $('#erster-text').text(player.nickname);
-        playerArray.forEach(function (player2) {
-            console.log("player2.nickname" + player2.nickname);
-            if (player2.id == player.id) {
-                console.log("das geht jetzt mal " + player2.id + " = " + player.id);
-                //  document.getElementById("player" + player2.id + "-name").style = "visibility: hidden;";
-            }
-        });
-
-    });
-
-
-    socket.on('showQuestion', function (questionArray, tdId2, indx2) {
-        console.log("tdId2: " + tdId2);
-
-        $('#richtig-text').text("...");
-        $('#answer-text').text("...");
-        questionStart2(questionArray, tdId2, indx2);
-    });
-
-
-    //var que;
-    socket.on('showSuperQuestion', function (questionArray, tdId2, indx2) {
-
-        que = '#question' + indx2;
-        // blink('#question'+indx2);
-        console.log("$(que:)" + que);
-        blink($(que));
-
-        tdId = tdId2;
-        indx = indx2;
-        console.log("superQuestion");
-        //console.log("qA: " + questionArray[indx].text);
-        //console.log("this.questionArray.val" + questionArray[indx].val);
-        questionStart2(questionArray, tdId, indx);
-    });
-
-    /**BildübertragunG**/
-    socket.on('showPicture', function (questionArray, tdId2, indx2, chunk) {
-        var img = document.getElementById('img-stream2');
-        imgChunks.push(chunk);
-        console.log("Image loading");
-        img.setAttribute('src', 'data:image/jpeg;base64,' + window.btoa(imgChunks));
-        /* que = '#question' + indx2;
-         console.log("$(que:)" + que);
-
-         tdId = tdId2;
-         indx = indx2;
-         if (prevTdId != 0) {
-             document.getElementById(prevTdId).innerHTML = '';
-         }*/
-        console.log("showPicture!!!");
-        questionStart2(questionArray, tdId2, indx2);
-        //<img src="/pictures/1klasse.jpg" alt="1.Klasse" />
-        // window.location.assign('/picturing')
-    });
-
-    socket.on('showNothing', function (questionArray, tdId, indx) {
-        console.log("qA: " + questionArray[indx].text + " , " + questionArray[indx].val);
-        console.log("this.questionArray.val" + questionArray[indx].val);
-        //  questionStart2(questionArray, tdId, indx);
-        document.getElementById(tdId).innerHTML = "";
-
-    });
-    socket.on('winner', function (winnerObj) {
-        console.log("winner: " + winnerObj.nickname);
-        console.log("'#king'+winnerObj.nr: " + '#king'+winnerObj.nr);
-        $('#king'+winnerObj.nr).show();
-
-    });
-
-
-    /**Antwort in Tabelle eintragen**/
-    function answerStart(answerArray, tdId, indx) {
-        // document.getElementById('questionSpaceBoxId').innerHTML = answerArray[indx];
-        $('#answer-text').text(answerArray[indx]);
-
-    }
-
-    /** Frage in Tabelle eintragen **/
-    function questionStart2(questionArray, tdId, indx) {
-
-        // document.getElementById('questionSpaceBoxId').innerHTML = questionArray[indx].text;
-        $('#werDarf').text(questionArray[indx].wer);
-        $('#questionSpaceBoxId').text(questionArray[indx].text);
-
-        $("body").toggleClass("question-active");
-        console.log("  $(body).toggleClass(question-inactive);");
-        $("body").toggleClass("question-inactive");
-
-
-    }
-
-    function emptyLastQuestionInTable(questionArray) {
-        /** letztes Fragenfeld leeren**/
-        questionArray.forEach(function (question) {
-            if (question.erledigt === 1) {
-                console.log(question.text + "erledigt mit nummer: " + question.id + 'Diese Frage ist schon beantwortet: ');
-                // $('#question' + question.id.text(""));
-                document.getElementById('question' + question.id).innerHTML = '';
-            }
-
-            // document.getElementById('question'+question.id).innerHTML = question.text;
-        });
-    }
-
-
-    /**Blaue Namensfelder werden befüllt**/
-    function fillNameFields(playerArray2) {
-        i = 0;
-        console.log("fillNameFields");
-        console.log("playerArray2.length" + playerArray2.length);
-        playerArray2.forEach(function (player) {
-            $('#player' + i + '-name').text(player.nickname);
-            $('#player' + i + '-pkte').text(player.pkte);
-
-            document.getElementById("player" + i + "-name").style = "visibility:visible";
-            // document.getElementById("player" + i + "-name").style.backgroundColor = player.color;
-
-            i += 1;
-        });
-
-    }
-
-
-</script>
-
-
 <body>
 
-<div class="container mt-5 ">
-    <div class="row mt-5 ">
+<div class="container mt-3 ">
+    <div class="row mt-2 ">
         <div class="col-sm-6">
             <div class="infobar">
                 <div class="row">
@@ -349,7 +48,6 @@ console.log("fuck");
         </div>
     </div>
     <div class="row mt-1">
-        <!--<div class="col-sm-1"></div>-->
         <div class="col-sm-12">
             <div class="infobar">
                 <div class="row ">
@@ -361,7 +59,6 @@ console.log("fuck");
                 </div>
             </div>
         </div>
-        <!--<div class="col-sm-1"></div>-->
     </div>
 </div>
 
@@ -372,7 +69,7 @@ console.log("fuck");
 
 <!--Fragen Tabelle-->
 
-<div class="container mt-5">
+<div class="container mt-4">
     <table id="playerTable" class="table question-table animated zoomInDown ">
         <thead>
         <tr>

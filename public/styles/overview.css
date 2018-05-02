@@ -3,6 +3,9 @@ body {
     font-family: 'Fjalla One', sans-serif;
     height: 100vh;
     background: linear-gradient(to bottom, #405166 0%, #656f6f 100%) no-repeat center center fixed;
+    /*background-image: url("/pictures/brautpaar.jpeg");*/
+    /*background-repeat:no-repeat;*/
+    /*background-position:50% 20%;*/
     position: fixed;
     width: 100%;
 }
@@ -105,7 +108,7 @@ body.answer-inactive .answerField{
     /*left:10%;*/
 
     /*position: fixed;*/
-    height: 35%;
+    height: 30%;
     z-index: -5;
     /*-webkit-box-shadow: 1px 1px 1px 0 rgba(0, 0, 0, 0.3);*/
     /*box-shadow: 1px 1px 1px 0 rgba(0, 0, 0, 0.3);*/
@@ -304,6 +307,7 @@ td {
     color: white;
     border: 1px solid #000000;
     text-decoration: bold;
+
     background: #000066;
     /* For browsers that do not support gradients */
     background: -webkit-linear-gradient(left top, #0000CC, #000066);
